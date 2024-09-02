@@ -35,29 +35,28 @@ namespace Runtime.Managers
         public void SelectAndPlaceItem(GameObject item)
         {
             selectedItemGameObject = item;
-            PlaceGem();
+            PlaceItem();
         }
 
 
-        public void PlaceGem()
+        public void PlaceItem()
         {
             selectedItemType = selectedItemGameObject.GetComponent<Item>().itemType;
             
             
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < slots.Length - 1; i++)
             {
                 if (slots[i].itemType == selectedItemType &&  slots[i +1].itemType != ItemType.None)
                 {
                     isHaveSameType = true;
                     var x = items[i + 1];
                     GetEmptySlot(x);
-                    items.Insert(i + 1, selectedItemType);
                     
+                    items.Insert(i + 1, selectedItemType);
                     slots[i+1].ChangeSprite(GetSprite(selectedItemType));
                     slots[i+1].itemType = selectedItemType;
                     break;
                 }
-                
             }
 
             if (!isHaveSameType)
@@ -86,7 +85,6 @@ namespace Runtime.Managers
 
         private void CheckMatches()
         {
-
             for (int i = 0; i < slots.Length - 2; i++)
             {
                 if (slots[i].itemType == slots[i + 1].itemType && slots[i].itemType == slots[i + 2].itemType)
@@ -95,17 +93,63 @@ namespace Runtime.Managers
                     slots[i].ChangeSprite(GetSprite(ItemType.None));
                     slots[i].itemType = ItemType.None;
                     items.RemoveAt(i);
+                    
                     slots[i + 1].ChangeSprite(GetSprite(ItemType.None));
                     slots[i + 1].itemType = ItemType.None;
                     items.RemoveAt(i + 1);
+                    
                     slots[i + 2].ChangeSprite(GetSprite(ItemType.None));
                     slots[i + 2].itemType = ItemType.None;
                     items.RemoveAt(i + 2);
+
+                    ShiftAllItemsLeft();
+                    break;
                 }
             }
-
         }
-        
+
+        private void ShiftAllItemsLeft()
+        {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i].itemType == ItemType.None)
+                {
+                    for (int j = i + 1; j < slots.Length; j++)
+                    {
+                        if (slots[j].itemType != ItemType.None)
+                        {
+                            slots[i].ChangeSprite(GetSprite(slots[j].itemType));
+                            slots[i].itemType = slots[j].itemType;
+                            slots[j].ChangeSprite(GetSprite(ItemType.None));
+                            slots[j].itemType = ItemType.None;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ShiftAllItemsRight()
+        {
+            for (int i = slots.Length - 1; i >= 0; i--)
+            {
+                if (slots[i].itemType == ItemType.None)
+                {
+                    for (int j = i - 1; j >= 0; j--)
+                    {
+                        if (slots[j].itemType != ItemType.None)
+                        {
+                            slots[i].ChangeSprite(GetSprite(slots[j].itemType));
+                            slots[i].itemType = slots[j].itemType;
+                            slots[j].ChangeSprite(GetSprite(ItemType.None));
+                            slots[j].itemType = ItemType.None;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         public Sprite GetSprite(ItemType itemType)
         {
             foreach (var item in spriteData.itemSpriteData)

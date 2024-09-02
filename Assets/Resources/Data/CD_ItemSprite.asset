@@ -12,3 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70c5366babaa4aff8b5e2926e8bc5c96, type: 3}
   m_Name: CD_ItemSprite
   m_EditorClassIdentifier: 
+  itemSpriteData:
+  - itemType: 0
+    itemSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - itemType: 1
+    itemSprite: {fileID: 21300000, guid: ecfabe940c7341f49a71af361dae15a7, type: 3}
+  - itemType: 2
+    itemSprite: {fileID: 21300000, guid: 7d18b94ec89e3b042a8e97ac19794986, type: 3}
