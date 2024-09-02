@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Runtime.Enums;
+using Runtime.Managers;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -58,6 +59,8 @@ public class Item : MonoBehaviour
             if (isClickable)
             {
                 UpdateColorSelected();
+                ;
+               
             }
             else
             {
@@ -71,6 +74,7 @@ public class Item : MonoBehaviour
         if (isClickable)
         {
             Debug.Log("Meyveye tıklandı: " + gameObject.name);
+            GridManager.Instance.SelectGem(gameObject);
         }
         else
         {

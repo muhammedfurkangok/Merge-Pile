@@ -2,23 +2,35 @@ using System.Collections.Generic;
 using Runtime.Data.UnityObject;
 using Runtime.Entities;
 using Runtime.Enums;
+using Runtime.Extensions;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Runtime.Managers
 {
-    public class GridManager : MonoBehaviour
+    public class GridManager : SingletonMonoBehaviour<GridManager>
     {
         public Slot[] slots;
         public CD_ItemSprite spriteData;
         public GameObject selectedGem;
         private ItemType selectedItemType;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            
+        }
+
         private void Start()
         {
             InitializeSlots();
         }
 
+        public void SelectGem(GameObject gem)
+        {
+            selectedGem = gem;
+            PlaceGem();
+
+        }
         public void InitializeSlots()
         {
             foreach (var slot in slots)
@@ -41,7 +53,7 @@ namespace Runtime.Managers
                     break;
                 }
             }
-
+            
             CheckMatches();
         }
 
@@ -93,3 +105,4 @@ namespace Runtime.Managers
         }
     }
 }
+
