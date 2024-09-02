@@ -1,0 +1,12 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/contentModel.xml
+/.idea.Picky-Pile.iml
+/projectSettingsUpdater.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# GitHub Copilot persisted chat sessions
+/copilot/chatSessions

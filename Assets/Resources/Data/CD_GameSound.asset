@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7c632132e34e72bc997042514d1026, type: 3}
+  m_Name: CD_GameSound
+  m_EditorClassIdentifier: 
+  gameSoundData:
+  - gameSoundType: 0
+    audioClip: {fileID: 8300000, guid: cc45ada01827c1640ae779fa33985cc6, type: 3}
+    hasExternalAudioSource: 0
+    hasRandomPitch: 0
+    hasGlissando: 0
+  - gameSoundType: 1
+    audioClip: {fileID: 8300000, guid: 4ce51a2cc599cd745abb09f1cd2d6a6f, type: 3}
+    hasExternalAudioSource: 0
+    hasRandomPitch: 0
+    hasGlissando: 0
+  - gameSoundType: 2
+    audioClip: {fileID: 8300000, guid: 267803e07da3cd74d917b30a378d53aa, type: 3}
+    hasExternalAudioSource: 0
+    hasRandomPitch: 0
+    hasGlissando: 0
+  - gameSoundType: 3
+    audioClip: {fileID: 8300000, guid: 849617740620b84419de9dae4471b886, type: 3}
+    hasExternalAudioSource: 1
+    hasRandomPitch: 0
+    hasGlissando: 1
+  - gameSoundType: 4
+    audioClip: {fileID: 8300000, guid: 97986b2e8817f094e847c0f9cdee2fd1, type: 3}
+    hasExternalAudioSource: 0
+    hasRandomPitch: 0
+    hasGlissando: 0
