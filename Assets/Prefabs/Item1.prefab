@@ -152,3 +152,4 @@ MonoBehaviour:
   itemLayer:
     serializedVersion: 2
     m_Bits: 8
+  itemType: 1

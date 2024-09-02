@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Runtime.Enums;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Item : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class Item : MonoBehaviour
     private Renderer objectRenderer;
     private Color originalColor;
     private Color selectedColor = Color.gray;
+    public ItemType itemType;
 
     private void Start()
     {
