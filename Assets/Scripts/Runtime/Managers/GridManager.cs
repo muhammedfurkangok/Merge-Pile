@@ -10,15 +10,26 @@ namespace Runtime.Managers
 {
     public class GridManager : SingletonMonoBehaviour<GridManager>
     {
-        public Slot[] slots;
-        public List<ItemType> items;
-        public CD_ItemSprite spriteData;
-        public GameObject selectedItemGameObject;
-        private ItemType selectedItemType;
-        
-        private bool isHaveSameType;
+        #region Self Variables
 
+        #region Public Variables
 
+            public Slot[] slots;
+            public List<ItemType> items;
+            public CD_ItemSprite spriteData;
+            public GameObject selectedItemGameObject;
+
+        #endregion
+
+        #region Private Variables
+
+            private ItemType selectedItemType;
+            private bool isHaveSameType;
+
+        #endregion
+       
+        #endregion
+       
         private void Start()
         {
             InitializeSlots();
@@ -44,17 +55,40 @@ namespace Runtime.Managers
             selectedItemType = selectedItemGameObject.GetComponent<Item>().itemType;
             
             
-            for (int i = 0; i < slots.Length - 1; i++)
+            for (int i = 0; i < slots.Length - 1 ; i++)
             {
-                if (slots[i].itemType == selectedItemType &&  slots[i +1].itemType != ItemType.None)
+                if (slots[i].itemType == selectedItemType &&  slots[i + 1].itemType != ItemType.None)
                 {
                     isHaveSameType = true;
-                    var x = items[i + 1];
-                    GetEmptySlot(x);
                     
-                    items.Insert(i + 1, selectedItemType);
-                    slots[i+1].ChangeSprite(GetSprite(selectedItemType));
-                    slots[i+1].itemType = selectedItemType;
+                    if (slots[i + 1].itemType == selectedItemType)
+                    {
+                           
+                        
+                            slots[i].ChangeSprite(GetSprite(ItemType.None));
+                            slots[i].itemType = ItemType.None;
+                            items.RemoveAt(i);
+                            
+                            slots[i + 1].ChangeSprite(GetSprite(ItemType.None));
+                            slots[i + 1].itemType = ItemType.None;
+                            items.RemoveAt(i + 1);
+                            
+                            slots[i + 2].ChangeSprite(GetSprite(ItemType.None));
+                            slots[i + 2].itemType = ItemType.None;
+                            items.RemoveAt(i + 2);
+                            
+                            ShiftItemsRightByGivenIndex(i);
+                            break;   
+                    }
+                    else
+                    {
+                        var x = items[i + 1];
+                        GetEmptySlot(x);
+                        items.Insert(i + 1, selectedItemType);
+                        slots[i + 1].ChangeSprite(GetSprite(selectedItemType));
+                        slots[i + 1].itemType = selectedItemType;  
+                    }
+                    
                     break;
                 }
             }
@@ -66,7 +100,7 @@ namespace Runtime.Managers
             }
             
             isHaveSameType = false;
-            CheckMatches();
+           
         }
 
         private void GetEmptySlot(ItemType itemType)
@@ -82,31 +116,6 @@ namespace Runtime.Managers
             }
         }
 
-
-        private void CheckMatches()
-        {
-            for (int i = 0; i < slots.Length - 2; i++)
-            {
-                if (slots[i].itemType == slots[i + 1].itemType && slots[i].itemType == slots[i + 2].itemType)
-                {
-
-                    slots[i].ChangeSprite(GetSprite(ItemType.None));
-                    slots[i].itemType = ItemType.None;
-                    items.RemoveAt(i);
-                    
-                    slots[i + 1].ChangeSprite(GetSprite(ItemType.None));
-                    slots[i + 1].itemType = ItemType.None;
-                    items.RemoveAt(i + 1);
-                    
-                    slots[i + 2].ChangeSprite(GetSprite(ItemType.None));
-                    slots[i + 2].itemType = ItemType.None;
-                    items.RemoveAt(i + 2);
-
-                    ShiftAllItemsLeft();
-                    break;
-                }
-            }
-        }
 
         private void ShiftAllItemsLeft()
         {
@@ -129,26 +138,21 @@ namespace Runtime.Managers
             }
         }
 
-        private void ShiftAllItemsRight()
+        private void ShiftItemsRightByGivenIndex(int index)
         {
-            for (int i = slots.Length - 1; i >= 0; i--)
+            for (int j = index; j < slots.Length; j++)
             {
-                if (slots[i].itemType == ItemType.None)
+                if (slots[j].itemType != ItemType.None)
                 {
-                    for (int j = i - 1; j >= 0; j--)
-                    {
-                        if (slots[j].itemType != ItemType.None)
-                        {
-                            slots[i].ChangeSprite(GetSprite(slots[j].itemType));
-                            slots[i].itemType = slots[j].itemType;
-                            slots[j].ChangeSprite(GetSprite(ItemType.None));
-                            slots[j].itemType = ItemType.None;
-                            break;
-                        }
-                    }
+                    slots[index].ChangeSprite(GetSprite(slots[j].itemType));
+                    slots[index].itemType = slots[j].itemType;
+                    slots[j].ChangeSprite(GetSprite(ItemType.None));
+                    slots[j].itemType = ItemType.None;
+                    break;
                 }
             }
         }
+        
 
         public Sprite GetSprite(ItemType itemType)
         {
