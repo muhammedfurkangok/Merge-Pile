@@ -4,7 +4,6 @@ using Runtime.Entities;
 using Runtime.Enums;
 using Runtime.Extensions;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Runtime.Managers
 {
@@ -14,8 +13,7 @@ namespace Runtime.Managers
 
         #region Public Variables
 
-            public Slot[] slots;
-            public List<ItemType> items;
+            public List<Slot> slots;
             public CD_ItemSprite spriteData;
             public GameObject selectedItemGameObject;
 
@@ -34,6 +32,8 @@ namespace Runtime.Managers
         {
             InitializeSlots();
         }
+
+     
         public void InitializeSlots()
         {
             foreach (var slot in slots)
@@ -43,87 +43,106 @@ namespace Runtime.Managers
             }
         }
 
+    
         public void SelectAndPlaceItem(GameObject item)
         {
             selectedItemGameObject = item;
             PlaceItem();
         }
 
-
+        
         public void PlaceItem()
         {
             selectedItemType = selectedItemGameObject.GetComponent<Item>().itemType;
-            
-            
-            for (int i = 0; i < slots.Length - 1 ; i++)
+
+            for (int i = 0; i < slots.Count - 1; i++)
             {
-                if (slots[i].itemType == selectedItemType &&  slots[i + 1].itemType != ItemType.None)
+               
+                if (slots[i].itemType == selectedItemType && slots[i + 1].itemType != ItemType.None)
                 {
                     isHaveSameType = true;
-                    
+
+                   
                     if (slots[i + 1].itemType == selectedItemType)
                     {
-                           
+                       
+                            InsertItemAtIndex( i + 2, selectedItemType);
+                            ClearSlots(i, i + 1, i + 2);
+                            ShiftAllItemsLeft();
                         
-                            slots[i].ChangeSprite(GetSprite(ItemType.None));
-                            slots[i].itemType = ItemType.None;
-                            items.RemoveAt(i);
-                            
-                            slots[i + 1].ChangeSprite(GetSprite(ItemType.None));
-                            slots[i + 1].itemType = ItemType.None;
-                            items.RemoveAt(i + 1);
-                            
-                            slots[i + 2].ChangeSprite(GetSprite(ItemType.None));
-                            slots[i + 2].itemType = ItemType.None;
-                            items.RemoveAt(i + 2);
-                            
-                            ShiftItemsRightByGivenIndex(i);
-                            break;   
                     }
                     else
-                    {
-                        var x = items[i + 1];
-                        GetEmptySlot(x);
-                        items.Insert(i + 1, selectedItemType);
-                        slots[i + 1].ChangeSprite(GetSprite(selectedItemType));
-                        slots[i + 1].itemType = selectedItemType;  
+                    { 
+                        InsertItemAtIndex(i + 1, selectedItemType);
                     }
-                    
                     break;
                 }
             }
 
             if (!isHaveSameType)
             {
-                items.Add(selectedItemGameObject.GetComponent<Item>().itemType);
-                GetEmptySlot(selectedItemType);
+                
+                var emptySlot = GetEmptySlot();
+                if (emptySlot != null)
+                {
+                    slots[emptySlot.Value].ChangeSprite(GetSprite(selectedItemType));
+                    slots[emptySlot.Value].itemType = selectedItemType;
+                }
             }
             
             isHaveSameType = false;
-           
         }
 
-        private void GetEmptySlot(ItemType itemType)
+      
+        public void InsertItemAtIndex(int index, ItemType newItemType)
         {
-            for (int i = 0; i < slots.Length; i++)
+           
+            if (slots[slots.Count - 1].itemType != ItemType.None)
+            {
+                Debug.LogError("Son slot dolu, araya ekleme yapılamaz!");
+                return;
+            }
+
+          
+            ShiftItemsRightByGivenIndex(index);
+
+          
+            slots[index].ChangeSprite(GetSprite(newItemType));
+            slots[index].itemType = newItemType;
+
+        }
+
+       
+        private int? GetEmptySlot()
+        {
+            for (int i = 0; i < slots.Count; i++)
             {
                 if (slots[i].itemType == ItemType.None)
                 {
-                    slots[i].ChangeSprite(GetSprite(itemType));
-                    slots[i].itemType = itemType;
-                    break;
+                    return i;
                 }
+            }
+            return null;
+        }
+
+       
+        private void ClearSlots(params int[] indices)
+        {
+            foreach (var index in indices)
+            {
+                slots[index].ChangeSprite(GetSprite(ItemType.None));
+                slots[index].itemType = ItemType.None;
             }
         }
 
-
+    
         private void ShiftAllItemsLeft()
         {
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < slots.Count; i++)
             {
                 if (slots[i].itemType == ItemType.None)
                 {
-                    for (int j = i + 1; j < slots.Length; j++)
+                    for (int j = i + 1; j < slots.Count; j++)
                     {
                         if (slots[j].itemType != ItemType.None)
                         {
@@ -138,21 +157,27 @@ namespace Runtime.Managers
             }
         }
 
-        private void ShiftItemsRightByGivenIndex(int index)
+       
+        public void ShiftItemsRightByGivenIndex(int index)
         {
-            for (int j = index; j < slots.Length; j++)
+            if (slots[slots.Count - 1].itemType != ItemType.None)
             {
-                if (slots[j].itemType != ItemType.None)
+                return;
+            }
+
+            for (int i = slots.Count - 1; i > index; i--)
+            {
+                if (slots[i - 1].itemType != ItemType.None)
                 {
-                    slots[index].ChangeSprite(GetSprite(slots[j].itemType));
-                    slots[index].itemType = slots[j].itemType;
-                    slots[j].ChangeSprite(GetSprite(ItemType.None));
-                    slots[j].itemType = ItemType.None;
-                    break;
+                    slots[i].ChangeSprite(GetSprite(slots[i - 1].itemType));
+                    slots[i].itemType = slots[i - 1].itemType;
+
+                    // Önceki slotu temizle
+                    slots[i - 1].ChangeSprite(GetSprite(ItemType.None));
+                    slots[i - 1].itemType = ItemType.None;
                 }
             }
         }
-        
 
         public Sprite GetSprite(ItemType itemType)
         {
