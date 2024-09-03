@@ -2,6 +2,7 @@ using DG.Tweening;
 using Runtime.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 {
@@ -9,11 +10,28 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     private Tween moveTween;
     
 
-    [SerializeField] private GameObject playerLeft;
-    [SerializeField] private GameObject playerRight;
-    [SerializeField] private GameObject playerBack;
+    [SerializeField] private GameObject playerLeftElbow;
+    [SerializeField] private GameObject playerRightElbow;
+    [SerializeField] private GameObject playerBackElbow;
+  
+    
+    [SerializeField] private GameObject playerLeftArm;
+    [SerializeField] private GameObject playerRightArm;
+    [SerializeField] private GameObject playerBackArm;
     
     [SerializeField] private GameObject playerBody;
+    
+    private Transform playerLefElbowtDefaultTransform;
+    private Transform playerRightElbowDefaultTransform;
+    private Transform playerBackElbowDefaultTransform;
+    
+    private Transform playerBodyDefaultTransform;
+
+
+    public Ease holdEase;
+    public Ease dropEase;
+    public Ease scoreEase;
+    public Ease idleEase;
 
 
     public void MovePlayerByGivenPosition(Vector3 position,Item item)
@@ -52,13 +70,23 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     {
         Sequence sequence = DOTween.Sequence();
 
-        sequence.Append(playerLeft.transform.DOLocalRotate(new Vector3(0,0,-45),0.25f));
-        sequence.Join(playerRight.transform.DOLocalRotate(new Vector3(0,0,45),0.25f));
-        sequence.Join(playerBack.transform.DOLocalRotate(new Vector3(30,0,0),0.25f));
-        
+        sequence.Append(playerLeftElbow.transform.DOLocalRotate(new Vector3(0,0,-45),0.25f)).SetEase(holdEase);;
+        sequence.Join(playerRightElbow.transform.DOLocalRotate(new Vector3(0,0,45),0.25f)).SetEase(holdEase);;
+        sequence.Join(playerBackElbow.transform.DOLocalRotate(new Vector3(30,0,0),0.25f)).SetEase(holdEase);;
+       
         return sequence;
     }
-    
+
+    public Tween PlayerOnWayAnim()
+    {
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.Append(playerLeftElbow.transform.DOLocalRotate(new Vector3(0,0,-45),0.25f)).SetEase(holdEase);;
+        sequence.Join(playerRightElbow.transform.DOLocalRotate(new Vector3(0,0,45),0.25f)).SetEase(holdEase);;
+        sequence.Join(playerBackElbow.transform.DOLocalRotate(new Vector3(30,0,0),0.25f)).SetEase(holdEase);;
+       
+        return sequence;
+    }
     public Tween PlayerDropAnim()
     {
         Sequence sequence = DOTween.Sequence();
