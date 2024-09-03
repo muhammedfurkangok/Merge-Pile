@@ -100,6 +100,7 @@ namespace Runtime.Managers
             }
 
             isHaveSameType = false;
+            CheckLoseCondition();
         }
 
 
@@ -108,7 +109,6 @@ namespace Runtime.Managers
 
             if (slots[slots.Count - 1].itemType != ItemType.None)
             {
-                Debug.LogError("Son slot dolu, araya ekleme yapılamaz!");
                 return;
             }
 
@@ -204,7 +204,7 @@ namespace Runtime.Managers
 
         public GameObject GetNextGameObjectByItemType(ItemType itemType)
         {
-            // İlgili itemType'ın sıralamasını bul
+        
             for (int i = 0; i < spriteData.itemSpriteData.Length; i++)
             {
                 if (spriteData.itemSpriteData[i].itemType == itemType)
@@ -216,20 +216,34 @@ namespace Runtime.Managers
                     if (nextIndex < spriteData.itemSpriteData.Length)
                     {
                         return spriteData.itemSpriteData[nextIndex]
-                            .itemPrefab; // GameObject burada item'in sahip olduğu nesneyi temsil ediyor
+                            .itemPrefab; 
                     }
                     else
                     {
-                        Debug.LogWarning("Liste sınırlarını aştınız, bir sonraki eleman yok.");
                         return null;
                     }
                 }
             }
 
-            Debug.LogWarning("Verilen ItemType listede bulunamadı.");
             return null;
-
-
+        }
+        
+        public void CheckLoseCondition()
+        {
+            int x = 0;
+            
+            for (int i = 0; i < slots.Count; i++)
+            {
+                if (slots[i].itemType != ItemType.None)
+                {
+                    x++;
+                }
+            }
+            
+            if (x == 7)
+            {
+                 GameManager.Instance.SetGameStateLevelFail();
+            }
         }
     }
 }

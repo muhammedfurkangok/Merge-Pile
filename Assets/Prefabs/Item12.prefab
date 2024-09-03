@@ -431,9 +431,9 @@ GameObject:
   - component: {fileID: 764391543872328658}
   - component: {fileID: 898216705670293087}
   - component: {fileID: 8021096321406597792}
-  - component: {fileID: 7365898954780394196}
   - component: {fileID: 6503569688158576485}
   - component: {fileID: 8756597026740749415}
+  - component: {fileID: 5966346578106314708}
   m_Layer: 3
   m_Name: Item12
   m_TagString: Untagged
@@ -512,27 +512,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &7365898954780394196
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7883847125255199655}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &6503569688158576485
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -574,11 +553,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isClickable: 1
   raycastHeight: 5
-  raycastCount: 6
+  raycastCount: 8
   itemLayer:
     serializedVersion: 2
     m_Bits: 8
   itemType: 12
+--- !u!65 &5966346578106314708
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7883847125255199655}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9222548849971174466
 GameObject:
   m_ObjectHideFlags: 0

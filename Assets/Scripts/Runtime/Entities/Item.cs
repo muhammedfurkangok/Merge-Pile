@@ -4,7 +4,6 @@ using DG.Tweening;
 using Runtime.Enums;
 using Runtime.Managers;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Item : MonoBehaviour
 {
@@ -15,7 +14,7 @@ public class Item : MonoBehaviour
     
     private Renderer objectRenderer;
     private Color originalColor;
-    private Color selectedColor = Color.gray;
+    private Color selectedColor = Color.white;
     public ItemType itemType;
 
     private void Start()
@@ -32,12 +31,11 @@ public class Item : MonoBehaviour
     public void CheckClickable()
     {
         bool wasClickable = isClickable;  
-        isClickable = true;
+        isClickable = true; 
 
         float raycastInterval = transform.localScale.x / (raycastCount - 1); 
         Vector3 startRayPosition = transform.position + Vector3.up * raycastHeight;
 
-       
         for (int i = 0; i < raycastCount; i++)
         {
             Vector3 rayStart = startRayPosition + Vector3.right * (i * raycastInterval - transform.localScale.x / 2);
@@ -48,19 +46,17 @@ public class Item : MonoBehaviour
                 if (hit.collider.gameObject != gameObject)
                 {
                     isClickable = false;
-                    break;
+                    break; 
                 }
             }
         }
 
-        
+       
         if (isClickable != wasClickable)
         {
             if (isClickable)
             {
-                UpdateColorSelected();
-                ;
-               
+                UpdateColorSelected(); 
             }
             else
             {
@@ -73,23 +69,35 @@ public class Item : MonoBehaviour
     {
         if (isClickable)
         {
-            Debug.Log("Meyveye tıklandı: " + gameObject.name);
             SlotManager.Instance.SelectAndPlaceItem(gameObject);
         }
         else
         {
-            Debug.Log("Bu meyveye tıklanamaz: " + gameObject.name);
+            Debug.Log("Not Clickable");
         }
     }
     
     public void UpdateColorNotSelected()
     {
-        objectRenderer.material.DOColor(selectedColor, 0.5f); 
+
+        foreach (Transform child in transform)
+        {
+            Renderer childRenderer = child.GetComponent<Renderer>();
+            if (childRenderer != null)
+            {
+                childRenderer.material.DOColor(selectedColor, 0.1f);
+            }
+        }
     }
-    
+
     public void UpdateColorSelected()
     {
-        objectRenderer.material.DOColor(originalColor, 0.5f); 
+
+        foreach (Transform child in transform)
+        {
+            Renderer childRenderer = child.GetComponent<Renderer>();
+            childRenderer.material.DOColor(originalColor, 0.5f);
+        }
     }
 
     private void OnDrawGizmosSelected()
