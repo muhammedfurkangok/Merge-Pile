@@ -1,14 +1,13 @@
+using Runtime.Extensions;
 using UnityEngine;
 
 namespace Runtime.Managers
 {
-    public class ItemManager : MonoBehaviour
+    public class ItemManager : SingletonMonoBehaviour<ItemManager>
     {
-        [SerializeField] private GameObject ;
-        
-        private void SpawnGameObjectGivenPosition(GameObject gameObject, Vector3 position)
+        public void SpawnGameObjectGivenPosition(GameObject _gameObject , Vector3 position)
         {
-            Instantiate(gameObject, position, Quaternion.identity);
+            Instantiate(_gameObject, position, Quaternion.identity);
         }
     }
 }

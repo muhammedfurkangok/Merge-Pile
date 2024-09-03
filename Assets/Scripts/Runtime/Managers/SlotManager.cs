@@ -13,27 +13,28 @@ namespace Runtime.Managers
 
         #region Public Variables
 
-            public List<Slot> slots;
-            public CD_ItemSprite spriteData;
-            public GameObject selectedItemGameObject;
+        public List<Slot> slots;
+        public Transform[] slotTransforms;
+        public CD_ItemSprite spriteData;
+        public GameObject selectedItemGameObject;
 
         #endregion
 
         #region Private Variables
 
-            private ItemType selectedItemType;
-            private bool isHaveSameType;
+        private ItemType selectedItemType;
+        private bool isHaveSameType;
 
         #endregion
-       
+
         #endregion
-       
+
         private void Start()
         {
             InitializeSlots();
         }
 
-     
+
         public void InitializeSlots()
         {
             foreach (var slot in slots)
@@ -43,46 +44,53 @@ namespace Runtime.Managers
             }
         }
 
-    
+
         public void SelectAndPlaceItem(GameObject item)
         {
             selectedItemGameObject = item;
             PlaceItem();
         }
 
-        
+
         public void PlaceItem()
         {
             selectedItemType = selectedItemGameObject.GetComponent<Item>().itemType;
 
             for (int i = 0; i < slots.Count - 1; i++)
             {
-               
+
                 if (slots[i].itemType == selectedItemType && slots[i + 1].itemType != ItemType.None)
                 {
                     isHaveSameType = true;
 
-                   
+
                     if (slots[i + 1].itemType == selectedItemType)
                     {
-                       
-                            InsertItemAtIndex( i + 2, selectedItemType);
-                            ClearSlots(i, i + 1, i + 2);
-                            GetGameObjectByItemType(slots[i + 2].itemType);
-                            ShiftAllItemsLeft();
-                        
+
+                        InsertItemAtIndex(i + 2, selectedItemType);
+                        ClearSlots(i, i + 1, i + 2);
+
+                        float randomValue = Random.Range(1, -1) > 0 ? 0.5f : -0.5f;
+
+                        var matchedGameObject = GetNextGameObjectByItemType(selectedItemType);
+                        var randomPosition = slotTransforms[i + 1].transform.position + new Vector3(0, 0, randomValue);
+                        ItemManager.Instance.SpawnGameObjectGivenPosition(matchedGameObject, randomPosition);
+
+                        ShiftAllItemsLeft();
+
                     }
                     else
-                    { 
+                    {
                         InsertItemAtIndex(i + 1, selectedItemType);
                     }
+
                     break;
                 }
             }
 
             if (!isHaveSameType)
             {
-                
+
                 var emptySlot = GetEmptySlot();
                 if (emptySlot != null)
                 {
@@ -90,30 +98,30 @@ namespace Runtime.Managers
                     slots[emptySlot.Value].itemType = selectedItemType;
                 }
             }
-            
+
             isHaveSameType = false;
         }
 
-      
+
         public void InsertItemAtIndex(int index, ItemType newItemType)
         {
-           
+
             if (slots[slots.Count - 1].itemType != ItemType.None)
             {
                 Debug.LogError("Son slot dolu, araya ekleme yapılamaz!");
                 return;
             }
 
-          
+
             ShiftItemsRightByGivenIndex(index);
 
-          
+
             slots[index].ChangeSprite(GetSprite(newItemType));
             slots[index].itemType = newItemType;
 
         }
 
-       
+
         private int? GetEmptySlot()
         {
             for (int i = 0; i < slots.Count; i++)
@@ -123,10 +131,11 @@ namespace Runtime.Managers
                     return i;
                 }
             }
+
             return null;
         }
 
-       
+
         private void ClearSlots(params int[] indices)
         {
             foreach (var index in indices)
@@ -136,7 +145,7 @@ namespace Runtime.Managers
             }
         }
 
-    
+
         private void ShiftAllItemsLeft()
         {
             for (int i = 0; i < slots.Count; i++)
@@ -158,7 +167,7 @@ namespace Runtime.Managers
             }
         }
 
-       
+
         public void ShiftItemsRightByGivenIndex(int index)
         {
             if (slots[slots.Count - 1].itemType != ItemType.None)
@@ -173,7 +182,7 @@ namespace Runtime.Managers
                     slots[i].ChangeSprite(GetSprite(slots[i - 1].itemType));
                     slots[i].itemType = slots[i - 1].itemType;
 
-                    
+
                     slots[i - 1].ChangeSprite(GetSprite(ItemType.None));
                     slots[i - 1].itemType = ItemType.None;
                 }
@@ -189,21 +198,38 @@ namespace Runtime.Managers
                     return item.itemSprite;
                 }
             }
+
             return null;
         }
 
-        public GameObject GetGameObjectByItemType(ItemType itemType)
+        public GameObject GetNextGameObjectByItemType(ItemType itemType)
         {
-            foreach ( var item in spriteData.itemSpriteData)
+            // İlgili itemType'ın sıralamasını bul
+            for (int i = 0; i < spriteData.itemSpriteData.Length; i++)
             {
-                if (item.itemType == itemType)
+                if (spriteData.itemSpriteData[i].itemType == itemType)
                 {
-                    return item.itemPrefab;
+
+                    int nextIndex = i + 1;
+
+
+                    if (nextIndex < spriteData.itemSpriteData.Length)
+                    {
+                        return spriteData.itemSpriteData[nextIndex]
+                            .itemPrefab; // GameObject burada item'in sahip olduğu nesneyi temsil ediyor
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Liste sınırlarını aştınız, bir sonraki eleman yok.");
+                        return null;
+                    }
                 }
             }
 
+            Debug.LogWarning("Verilen ItemType listede bulunamadı.");
             return null;
+
+
         }
-        
     }
 }
