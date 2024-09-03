@@ -1,26 +1,29 @@
 using Runtime.Enums;
+using Runtime.Extensions;
 using Runtime.Managers;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class InputManager : SingletonMonoBehaviour<InputManager>
 {
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private float sphereCastRadius;
 
-    private bool isInputBlocked;
+    private bool isInputDisable ;
     
     void Update()
     {
-        CheckInputBlock();
-        if(!isInputBlocked) GetInput();
+        if(!isInputDisable) GetInput();
     }
 
-    private void CheckInputBlock()
+    
+    public void EnableInput()
     {
-        if (GameManager.Instance.GameStates != GameStates.Gameplay)
-            isInputBlocked = true;
-        else 
-            isInputBlocked = false;
+        isInputDisable = false;
+    }
+
+    public void DisableInput()
+    {
+        isInputDisable = true;
     }
 
     private void GetInput()
@@ -39,13 +42,11 @@ public class InputManager : MonoBehaviour
                   
                     Vector3 topPosition = renderer.bounds.center + new Vector3(0, renderer.bounds.extents.y, 0);
         
-                   
-        
-                   
-                    hit.transform.GetComponent<Item>().OnSelected();
+                    PlayerManager.Instance.MovePlayerByGivenPosition(topPosition,hit.transform.GetComponent<Item>());
                 }
             }
 
         }
     }
+    
 }
