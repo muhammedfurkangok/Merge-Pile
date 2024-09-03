@@ -578,7 +578,7 @@ MonoBehaviour:
   itemLayer:
     serializedVersion: 2
     m_Bits: 8
-  itemType: 2
+  itemType: 3
 --- !u!1 &9222548849971174466
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Runtime.Managers
 {
-    public class GridManager : SingletonMonoBehaviour<GridManager>
+    public class SlotManager : SingletonMonoBehaviour<SlotManager>
     {
         #region Self Variables
 
@@ -68,6 +68,7 @@ namespace Runtime.Managers
                        
                             InsertItemAtIndex( i + 2, selectedItemType);
                             ClearSlots(i, i + 1, i + 2);
+                            GetGameObjectByItemType(slots[i + 2].itemType);
                             ShiftAllItemsLeft();
                         
                     }
@@ -172,7 +173,7 @@ namespace Runtime.Managers
                     slots[i].ChangeSprite(GetSprite(slots[i - 1].itemType));
                     slots[i].itemType = slots[i - 1].itemType;
 
-                    // Önceki slotu temizle
+                    
                     slots[i - 1].ChangeSprite(GetSprite(ItemType.None));
                     slots[i - 1].itemType = ItemType.None;
                 }
@@ -190,5 +191,19 @@ namespace Runtime.Managers
             }
             return null;
         }
+
+        public GameObject GetGameObjectByItemType(ItemType itemType)
+        {
+            foreach ( var item in spriteData.itemSpriteData)
+            {
+                if (item.itemType == itemType)
+                {
+                    return item.itemPrefab;
+                }
+            }
+
+            return null;
+        }
+        
     }
 }

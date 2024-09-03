@@ -8,6 +8,7 @@ namespace Runtime.Data.ValueObject
     public struct ItemSpriteData
     {
         public ItemType itemType;
+        public GameObject itemPrefab;
         public Sprite itemSprite;
     }
 }

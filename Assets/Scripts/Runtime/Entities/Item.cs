@@ -74,7 +74,7 @@ public class Item : MonoBehaviour
         if (isClickable)
         {
             Debug.Log("Meyveye tıklandı: " + gameObject.name);
-            GridManager.Instance.SelectAndPlaceItem(gameObject);
+            SlotManager.Instance.SelectAndPlaceItem(gameObject);
         }
         else
         {
