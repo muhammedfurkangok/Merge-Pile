@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Runtime.Data.ValueObject
 {
     [System.Serializable]   
-    public struct ItemSpriteData
+    public struct ItemData
     {
-        public ItemType itemType;
+        public string key;
         public GameObject itemPrefab;
     }
 }

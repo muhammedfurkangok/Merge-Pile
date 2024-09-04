@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using DG.Tweening;
+using Runtime.Data.UnityObject;
 using Runtime.Entities;
 using Runtime.Extensions;
 using UnityEngine;
@@ -9,6 +11,10 @@ namespace Runtime.Managers
     public class ItemManager : SingletonMonoBehaviour<ItemManager>
     {
         public List<Item> items = new List<Item>();
+        public CD_ItemData itemObjects;
+
+        [SerializeField] private Transform[] slotTransform;
+      
         private Item tipItem;
   
 
@@ -52,6 +58,33 @@ namespace Runtime.Managers
         public void DeleteCubeInTheList(Item item)
         {
             items.Remove(item);
+        }
+
+        public GameObject GetItemByKey(string key)
+        {
+            foreach (var item in itemObjects.itemData) {
+                if (item.key == key)
+                    return item.itemPrefab;
+            }
+
+            return null;
+        }
+        
+        public void InstantiateBlockByGivenKey(string key, int instantiatePositionIndex)
+        {
+            var item = GetItemByKey(key);
+            if (item == null)
+                return;
+
+            var RandomPos = Random.Range(1,-1) > 0 ? 0.3f : -0.3f ;
+            
+            var obj = Instantiate(item, slotTransform[instantiatePositionIndex].position + new Vector3(0,0,RandomPos), Quaternion.identity);
+            obj.transform.localScale = Vector3.zero;
+            DOTween.Sequence( )
+                .Append(obj.transform.DOScale(new Vector3(0.65f,0.65f,0.65f), 0.5f))
+                .Join(obj.transform.DOPunchScale( new Vector3(1.5f,1.5f,1.5f), 0.3f, 1, 0)).SetEase( Ease.OutBack);
+                
+            
         }
     }
 }

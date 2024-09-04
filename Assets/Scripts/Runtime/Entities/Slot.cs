@@ -1,5 +1,7 @@
+using System;
 using DG.Tweening;
 using Runtime.Enums;
+using Runtime.Managers;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -55,6 +57,33 @@ namespace Runtime.Entities
                   Destroy(active.gameObject);
                   active = null;
               });
+          }
+          
+          public void ScoreAnim(float interval, Action callback = null)
+          {
+              if (!active) return;
+              
+              var temp = active;
+              active = null;
+              isAnimating = true;
+
+             
+              if(SlotManager.Instance.GetEmptySlotCount() <= 0 & ItemManager.Instance.ActiveCubeCount() <= 0)
+              {
+                  //levelDone;
+              }
+
+              DOTween.Sequence()
+                  .AppendInterval(0.25f)
+                  .Append(temp.transform.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack))
+                  .AppendCallback(() => {
+                      
+                      isAnimating = false;
+                  })
+                  .AppendInterval(0.25f)
+                  .OnComplete(() => {
+                      callback?.Invoke();
+                  });
           }
        
     }
