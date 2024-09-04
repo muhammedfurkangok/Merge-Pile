@@ -1,315 +1,220 @@
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
-using Runtime.Data.UnityObject;
-using Runtime.Entities;
-using Runtime.Enums;
-using Runtime.Extensions;
 using Sirenix.OdinInspector;
-using UnityEngine;
+using Runtime.Entities;
+using Runtime.Extensions;
+using Runtime.Managers;
 
-namespace Runtime.Managers
-{
-    public class SlotManager : SingletonMonoBehaviour<SlotManager>
+public class SlotManager : SingletonMonoBehaviour<SlotManager> {
+    public List<Slot> slots;
+
+
+    public void Place(ItemRef itemRef) {
+        var hasAvailable = HasAvailableSlot();
+
+        if (!hasAvailable) {
+            return;
+        }
+
+        var slotIndex = FindSlotByKey(itemRef.key);
+
+        if (slotIndex + 1 >= slots.Count) {
+            return;
+        }
+        
+        if (slotIndex < 0)
+        {
+            var slot = GetAvailableSlot();
+            if (slot == null)
+                return;
+
+            slot.Place(itemRef);
+        }
+        else
+        {
+            var slot = slots[slotIndex + 1];
+            if (slot == null)
+                return;
+
+            ShiftSlots(slotIndex + 1);
+            slot.Place(itemRef);
+            DOVirtual.DelayedCall(.2f, () => {
+                CheckBlocks();
+            });
+        }
+
+        DOVirtual.DelayedCall(.75f, () => {
+            if(GetEmptySlotCount() <= 0) {
+                // EventManager.TriggerEvent("OnOutOfSpace");
+            }
+        });
+    }
+
+    public Slot GetAvailableSlot() {
+        foreach (var slot in slots) {
+            if (slot.Unlocked && slot.IsAvailable()) {
+                return slot;
+            }
+        }
+
+        return null;
+    }
+
+    public bool HasAvailableSlot()
+    { 
+        return slots[slots.Count - 1].active == null;
+    } 
+        
+   
+
+    public int FindSlotByKey(string key) {
+        return slots.FindLastIndex(s => s.active != null && s.active.key == key);
+    }
+
+    public void ShiftSlots(int index) {
+        if (!HasAvailableSlot())
+            return;
+
+        for (int i = slots.Count - 1; i > index; i--) {
+            slots[i].Place(slots[i - 1].active, false);
+        }
+
+        slots[index].active = null;
+    }
+
+    public bool IsAllSlotsFilled() {
+        foreach (var slot in slots) {
+            if (slot.Unlocked && !slot.IsAvailable()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void ClearAllSlots() {
+        foreach (var slot in slots) {
+            slot.Clear();
+        }
+    }
+
+    public void CheckBlocks()
     {
-        #region Self Variables
-
-        #region Public Variables
-
-        public List<Slot> slots;
-        public Transform[] slotTransforms;
-        public CD_ItemSprite spriteData;
-        public GameObject selectedItemGameObject;
-
-        #endregion
-
-        #region Private Variables
-
-        private ItemType selectedItemType;
-        private bool isHaveSameType;
-
-        #endregion
-
-        #endregion
-
-        private void Start()
+        for (int i = 2; i < slots.Count; i++)
         {
-            InitializeSlots();
-            //Camera.main.ScreenToWorldPoint(slots[0].handlerSlotImage.transform.position);
-        }
+            var success = CheckBlocks(i);
 
-        public void InitializeSlots()
-        {
-            foreach (var slot in slots)
+            if (success)
             {
-                slot.itemType = ItemType.None;
+                i += 3;
             }
         }
-        
-        public List<Item> currentItems = new List<Item>();
-        public List<GameObject> currentItemGOs = new List<GameObject>();
-        public List<ItemType> currentItemsType = new List<ItemType>();
-        public void SelectAndPlaceItem(GameObject item)
+    }
+
+    public bool CheckBlocks(int index)
+    {
+        if (index < 2)
+            return false;
+ 
+        if (slots[index].active == null || slots[index - 1].active == null || slots[index - 2].active == null)
+            return false;
+
+        var cube1 = slots[index].active;
+        var cube2 = slots[index - 1].active;
+        var cube3 = slots[index - 2].active;
+
+        if (cube1.key == cube2.key && cube2.key == cube3.key)
         {
-            // selectedItemGameObject = item;
+             slots[index].AnimateStar(.5f, Sort);
+             slots[index - 1].AnimateStar(.25f);
+             slots[index - 2].AnimateStar(.0f);
             
-            PlaceItem(item);
+            // audioManager.PlayAudio(audioManager.successSound);
+
+
+            if(ItemManager.Instance.ActiveCubeCount() <= 0) 
+            {
+                DOVirtual.DelayedCall(.5f, () => {
+                    // EventManager.TriggerEvent("OnGameFinished");
+                });
+            }
+
+            return true;
         }
 
+        return false;
+    }
 
-        public void PlaceItem(GameObject itemGO)
+    public void Sort()
+    {
+        for (int i = 0; i < slots.Count; i++)
         {
-            var item = itemGO.GetComponent<Item>();
-            //selectedItemType = selectedItemGameObject.GetComponent<Item>().itemType;
-            
-            var similarItemLastIndex = currentItems.Select(x => x.itemType).ToList().LastIndexOf(item.itemType);
-
-            if (similarItemLastIndex > -1)
+            if (slots[i].active == null)
             {
-                InsertItemAtIndex(similarItemLastIndex + 1, item.itemType);
-                currentItems.Insert(similarItemLastIndex + 1, item);
-
-                ShiftItemsRightByGivenIndex(similarItemLastIndex + 1);
-            }
-            else
-            {
-                InsertItemAtIndex(currentItems.Count, item.itemType);
-            }
-
-            CheckMatchCondition();
-            
-            ////////////////////////////////////////////////
-            for (int i = 0; i < slots.Count - 1; i++)
-            {
-
-                if (slots[i].itemType == selectedItemType && slots[i + 1].itemType != ItemType.None)
+                for (int j = i + 1; j < slots.Count; j++)
                 {
-                    isHaveSameType = true;
-
-
-                    if (slots[i + 1].itemType == selectedItemType)
+                    if (slots[j].active != null)
                     {
-
-                        InsertItemAtIndex(i + 2, selectedItemType);
-                        ClearSlots(i, i + 1, i + 2);
-
-                        float randomValue = Random.Range(1, -1) > 0 ? 0.5f : -0.5f;
-
-                        var matchedGameObject = GetNextGameObjectByItemType(selectedItemType);
-                        var randomPosition = slotTransforms[i + 1].transform.position + new Vector3(0, 0, randomValue);
-                        ItemManager.Instance.SpawnGameObjectGivenPosition(matchedGameObject, randomPosition);
-
-                        ShiftAllItemsLeft();
-
-                    }
-                    else
-                    {
-                        InsertItemAtIndex(i + 1, selectedItemType);
-                    }
-
-                    break;
-                }
-            }
-
-            if (!isHaveSameType)
-            {
-
-                var emptySlot = GetEmptySlot();
-                if (emptySlot != null)
-                {
-                    slots[emptySlot.Value].ChangeSprite(GetSprite(selectedItemType));
-                    slots[emptySlot.Value].itemType = selectedItemType;
-                }
-            }
-
-            isHaveSameType = false;
-            CheckLoseCondition();
-        }
-
-        public void CheckMatchCondition()
-        {
-            var distinctItems = slots.Distinct();
-            
-            foreach (var item in distinctItems)
-            {
-                if (item.itemType != ItemType.None)
-                {
-                    var count = slots.Count(x => x.itemType == item.itemType);
-                    if (count >= 3)
-                    {
-                        var indices = new List<int>();
-                        for (int i = 0; i < slots.Count; i++)
-                        {
-                            if (slots[i].itemType == item.itemType)
-                            {
-                                indices.Add(i);
-                            }
-                        }
-
-                        ClearSlots(indices.ToArray());
-                        ShiftAllItemsLeft();
+                        slots[i].Place(slots[j].active, false);
+                        slots[j].active = null;
+                        break;
                     }
                 }
             }
         }
+    }
 
-        public void InsertItemAtIndex(int index, ItemType newItemType)
+    public ItemRef GetLastCube()
+    {
+        ItemRef lastSlotCube = null;
+        for (int i = slots.Count - 1; i >= 0; i--)
         {
-
-            if (slots[slots.Count - 1].itemType != ItemType.None)
+            if (slots[i].active != null)
             {
-                return;
+                lastSlotCube = slots[i].active;
+                slots[i].active = null;
+                break;
             }
-
-
-            ShiftItemsRightByGivenIndex(index);
-
-
-            slots[index].ChangeSprite(GetSprite(newItemType));
-            slots[index].itemType = newItemType;
-
         }
+        return lastSlotCube;        
+    }
 
-
-        private int? GetEmptySlot()
+    [Button]
+    public int GetEmptySlotCount()
+    {
+        var emptySlotCount = 0;
+        foreach (var slot in slots)
         {
-            for (int i = 0; i < slots.Count; i++)
+            if (slot.active == null)
             {
-                if (slots[i].itemType == ItemType.None)
+                emptySlotCount++;
+            }
+        }
+        return emptySlotCount;
+    }
+    
+    [Button]
+    public Dictionary<string, int> GetCubeKeys()
+    {
+        Dictionary<string, int> keys = new Dictionary<string, int>();
+        
+        for (int i = 0; i < slots.Count; i++)
+        {
+            var key = "";
+            if(slots[i].active != null)
+            {
+                key = slots[i].active.key;
+                if (keys.ContainsKey(key))
                 {
-                    return i;
+                    keys[key]++;
                 }
-            }
-
-            return null;
-        }
-
-        private void ShiftAllItemsLeft()
-        {
-            for (int i = 0; i < currentItems.Count; i++)
-            {
-                currentItems[i].transform.DOMove(slots[i].handlerSlotImage.transform.position, 0.5f);
-            }
-            ///////////////
-            for (int i = 0; i < slots.Count; i++)
-            {
-                if (slots[i].itemType == ItemType.None)
+                else
                 {
-                    for (int j = i + 1; j < slots.Count; j++)
-                    {
-                        if (slots[j].itemType != ItemType.None)
-                        {
-                           
-                            slots[i].itemType = slots[j].itemType;
-                            slots[j].itemType = ItemType.None;
-
-                            MoveSpriteToGivenIndicies( j, i).OnComplete( () =>
-                            {
-                                slots[i].ChangeSprite(GetSprite(slots[j].itemType));
-                                slots[j].ChangeSprite(GetSprite(slots[j].itemType));
-                            });
-
-
-
-                            break;
-                        }
-                    }
+                    keys[key] = 1;
                 }
             }
         }
 
-
-        public void ShiftItemsRightByGivenIndex(int index)
-        {
-            if (slots[slots.Count - 1].itemType != ItemType.None)
-            {
-                return;
-            }
-
-            for (int i = slots.Count - 1; i > index; i--)
-            {
-                    slots[i].itemType = slots[i - 1].itemType;
-                    slots[i - 1].itemType = ItemType.None;
-
-                    slots[i].ChangeSprite(GetSprite(slots[i - 1].itemType));
-                    slots[i - 1].ChangeSprite(null);
-                    
-                    MoveSpriteToGivenIndicies( i - 1, i);
-            }
-        }
-
-       
-        [Button]
-        public Tween MoveSpriteToGivenIndicies(int index1, int index2)
-        {
-            return slots[index1].handlerSlotImage.transform
-                .DOMove(slots[index2].handlerSlotImage.transform.position, 0.5f);
-        }
-        
-        private void ClearSlots(params int[] indices)
-        {
-            foreach (var index in indices)
-            {
-                slots[index].ChangeSprite(null);
-                slots[index].itemType = ItemType.None;
-            }
-        }
-        
-        public Sprite GetSprite(ItemType itemType)
-        {
-            foreach (var item in spriteData.itemSpriteData)
-            {
-                if (item.itemType == itemType)
-                {
-                    return item.itemSprite;
-                }
-            }
-            return null;
-        }
-        
-        public GameObject GetNextGameObjectByItemType(ItemType itemType)
-        {
-        
-            for (int i = 0; i < spriteData.itemSpriteData.Length; i++)
-            {
-                if (spriteData.itemSpriteData[i].itemType == itemType)
-                {
-
-                    int nextIndex = i + 1;
-
-
-                    if (nextIndex < spriteData.itemSpriteData.Length)
-                    {
-                        return spriteData.itemSpriteData[nextIndex]
-                            .itemPrefab; 
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-
-            return null;
-        }
-        
-        public void CheckLoseCondition()
-        {
-            int x = 0;
-            
-            for (int i = 0; i < slots.Count; i++)
-            {
-                if (slots[i].itemType != ItemType.None)
-                {
-                    x++;
-                }
-            }
-            
-            if (x == 7)
-            {
-                GameManager.Instance.SetGameStateLevelFail();
-            }
-        }
-
+        return keys;     
     }
 }

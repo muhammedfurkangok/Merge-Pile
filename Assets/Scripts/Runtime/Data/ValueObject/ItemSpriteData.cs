@@ -9,6 +9,5 @@ namespace Runtime.Data.ValueObject
     {
         public ItemType itemType;
         public GameObject itemPrefab;
-        public Sprite itemSprite;
     }
 }

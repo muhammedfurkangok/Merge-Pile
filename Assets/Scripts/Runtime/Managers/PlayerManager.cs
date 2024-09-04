@@ -1,5 +1,7 @@
 using DG.Tweening;
+using Runtime.Entities;
 using Runtime.Extensions;
+using Runtime.Managers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -46,7 +48,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         sequence.Append(transform.DOMove(baseTransform, 0.25f).SetEase(Ease.Linear));
         
         sequence.OnComplete(() => { 
-            item.OnSelected();
+            // item.OnSelected();
             InputManager.Instance.EnableInput();
        
         });

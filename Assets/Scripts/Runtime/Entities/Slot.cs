@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Runtime.Enums;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -8,17 +9,14 @@ namespace Runtime.Entities
     [System.Serializable]
     public class Slot : MonoBehaviour
     {
-           public CubeRef active;
+          public ItemRef active;
           public Transform refTransform;
-          public Transform star;
-      
           public bool Unlocked => unlocked;
           public bool isAvailable => active == null;
-      
           [SerializeField] private bool unlocked = true;
           private bool isAnimating = false;
       
-          public void Place(CubeRef cubeRef, bool scaleAnim = true)
+          public void Place(ItemRef cubeRef, bool scaleAnim = true)
           {
               active = cubeRef;
       
