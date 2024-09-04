@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
+using DG.Tweening;
 using Runtime.Data.UnityObject;
 using Runtime.Entities;
 using Runtime.Enums;
 using Runtime.Extensions;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Runtime.Managers
@@ -32,30 +35,50 @@ namespace Runtime.Managers
         private void Start()
         {
             InitializeSlots();
+            //Camera.main.ScreenToWorldPoint(slots[0].handlerSlotImage.transform.position);
         }
-
 
         public void InitializeSlots()
         {
             foreach (var slot in slots)
             {
-                slot.ChangeSprite(GetSprite(ItemType.None));
                 slot.itemType = ItemType.None;
             }
         }
-
-
+        
+        public List<Item> currentItems = new List<Item>();
+        public List<GameObject> currentItemGOs = new List<GameObject>();
+        public List<ItemType> currentItemsType = new List<ItemType>();
         public void SelectAndPlaceItem(GameObject item)
         {
-            selectedItemGameObject = item;
-            PlaceItem();
+            // selectedItemGameObject = item;
+            
+            PlaceItem(item);
         }
 
 
-        public void PlaceItem()
+        public void PlaceItem(GameObject itemGO)
         {
-            selectedItemType = selectedItemGameObject.GetComponent<Item>().itemType;
+            var item = itemGO.GetComponent<Item>();
+            //selectedItemType = selectedItemGameObject.GetComponent<Item>().itemType;
+            
+            var similarItemLastIndex = currentItems.Select(x => x.itemType).ToList().LastIndexOf(item.itemType);
 
+            if (similarItemLastIndex > -1)
+            {
+                InsertItemAtIndex(similarItemLastIndex + 1, item.itemType);
+                currentItems.Insert(similarItemLastIndex + 1, item);
+
+                ShiftItemsRightByGivenIndex(similarItemLastIndex + 1);
+            }
+            else
+            {
+                InsertItemAtIndex(currentItems.Count, item.itemType);
+            }
+
+            CheckMatchCondition();
+            
+            ////////////////////////////////////////////////
             for (int i = 0; i < slots.Count - 1; i++)
             {
 
@@ -103,6 +126,32 @@ namespace Runtime.Managers
             CheckLoseCondition();
         }
 
+        public void CheckMatchCondition()
+        {
+            var distinctItems = slots.Distinct();
+            
+            foreach (var item in distinctItems)
+            {
+                if (item.itemType != ItemType.None)
+                {
+                    var count = slots.Count(x => x.itemType == item.itemType);
+                    if (count >= 3)
+                    {
+                        var indices = new List<int>();
+                        for (int i = 0; i < slots.Count; i++)
+                        {
+                            if (slots[i].itemType == item.itemType)
+                            {
+                                indices.Add(i);
+                            }
+                        }
+
+                        ClearSlots(indices.ToArray());
+                        ShiftAllItemsLeft();
+                    }
+                }
+            }
+        }
 
         public void InsertItemAtIndex(int index, ItemType newItemType)
         {
@@ -135,19 +184,13 @@ namespace Runtime.Managers
             return null;
         }
 
-
-        private void ClearSlots(params int[] indices)
-        {
-            foreach (var index in indices)
-            {
-                slots[index].ChangeSprite(GetSprite(ItemType.None));
-                slots[index].itemType = ItemType.None;
-            }
-        }
-
-
         private void ShiftAllItemsLeft()
         {
+            for (int i = 0; i < currentItems.Count; i++)
+            {
+                currentItems[i].transform.DOMove(slots[i].handlerSlotImage.transform.position, 0.5f);
+            }
+            ///////////////
             for (int i = 0; i < slots.Count; i++)
             {
                 if (slots[i].itemType == ItemType.None)
@@ -156,10 +199,18 @@ namespace Runtime.Managers
                     {
                         if (slots[j].itemType != ItemType.None)
                         {
-                            slots[i].ChangeSprite(GetSprite(slots[j].itemType));
+                           
                             slots[i].itemType = slots[j].itemType;
-                            slots[j].ChangeSprite(GetSprite(ItemType.None));
                             slots[j].itemType = ItemType.None;
+
+                            MoveSpriteToGivenIndicies( j, i).OnComplete( () =>
+                            {
+                                slots[i].ChangeSprite(GetSprite(slots[j].itemType));
+                                slots[j].ChangeSprite(GetSprite(slots[j].itemType));
+                            });
+
+
+
                             break;
                         }
                     }
@@ -177,18 +228,33 @@ namespace Runtime.Managers
 
             for (int i = slots.Count - 1; i > index; i--)
             {
-                if (slots[i - 1].itemType != ItemType.None)
-                {
-                    slots[i].ChangeSprite(GetSprite(slots[i - 1].itemType));
                     slots[i].itemType = slots[i - 1].itemType;
-
-
-                    slots[i - 1].ChangeSprite(GetSprite(ItemType.None));
                     slots[i - 1].itemType = ItemType.None;
-                }
+
+                    slots[i].ChangeSprite(GetSprite(slots[i - 1].itemType));
+                    slots[i - 1].ChangeSprite(null);
+                    
+                    MoveSpriteToGivenIndicies( i - 1, i);
             }
         }
 
+       
+        [Button]
+        public Tween MoveSpriteToGivenIndicies(int index1, int index2)
+        {
+            return slots[index1].handlerSlotImage.transform
+                .DOMove(slots[index2].handlerSlotImage.transform.position, 0.5f);
+        }
+        
+        private void ClearSlots(params int[] indices)
+        {
+            foreach (var index in indices)
+            {
+                slots[index].ChangeSprite(null);
+                slots[index].itemType = ItemType.None;
+            }
+        }
+        
         public Sprite GetSprite(ItemType itemType)
         {
             foreach (var item in spriteData.itemSpriteData)
@@ -198,10 +264,9 @@ namespace Runtime.Managers
                     return item.itemSprite;
                 }
             }
-
             return null;
         }
-
+        
         public GameObject GetNextGameObjectByItemType(ItemType itemType)
         {
         
@@ -242,8 +307,9 @@ namespace Runtime.Managers
             
             if (x == 7)
             {
-                 GameManager.Instance.SetGameStateLevelFail();
+                GameManager.Instance.SetGameStateLevelFail();
             }
         }
+
     }
 }
