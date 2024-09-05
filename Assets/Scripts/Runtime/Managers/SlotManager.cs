@@ -46,7 +46,7 @@ namespace Runtime.Managers
 
                 ShiftSlots(slotIndex + 1);
                 slot.Place(itemRef);
-                DOVirtual.DelayedCall(.2f, () => {
+                DOVirtual.DelayedCall(.45f, () => {
                     CheckBlocks();
                 });
             }
@@ -106,7 +106,7 @@ namespace Runtime.Managers
             }
         }
 
-        public async void CheckBlocks()
+        public  void CheckBlocks()
         {
             for (int i = 2; i < slots.Count; i++)
             {
@@ -137,13 +137,20 @@ namespace Runtime.Managers
                 slots[index - 1].ScoreAnim(.25f,slots[index - 1].transform.position);
                 slots[index - 2].ScoreAnim(.0f,slots[index - 1].transform.position);
                       
-                DOVirtual.DelayedCall(0.5f, () => {
+                DOVirtual.DelayedCall(0.25f, () => {
                     var obj = ItemManager.Instance.InstantiateBlockByGivenKey(cube2.key, index - 1);
                     var objRb = obj.GetComponent<Rigidbody>();
                     objRb.isKinematic = true;
                     obj.transform.SetLayerRecursive(LayerMask.NameToLayer("Merge"));
-                    DOVirtual.DelayedCall( 0.35f, () => {
+                    DOVirtual.DelayedCall( 0.15f, () => {
                         objRb.isKinematic = false;
+                        
+                        // var randomForce = new Vector3(0, Random.Range(3f, 5f),0);
+                        // objRb.AddForce(randomForce, ForceMode.Impulse);
+
+                        var randomTorque = new Vector3(Random.Range(-20f, 20f), Random.Range(-20f, 20f), Random.Range(-20f, 20f));
+                        objRb.AddTorque(randomTorque);
+                        
                     });
                     DOVirtual.DelayedCall( 0.9f, () => {
                         obj.transform.SetLayerRecursive(LayerMask.NameToLayer("Item"));

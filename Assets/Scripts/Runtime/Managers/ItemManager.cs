@@ -81,14 +81,17 @@ namespace Runtime.Managers
             if (item == null)
                 return null;
 
-            var RandomPos = Random.Range(1,-1) > 0 ? 0.3f : -0.3f ;
+            var Rand = Random.Range(1, -1);
+            var ObjPosition =Rand > 0 ? new Vector3(0,0.08f,0.3f) : new Vector3(0,0.05f,-0.3f);
             
-            var obj = Instantiate(item, slotTransform[instantiatePositionIndex].position + new Vector3(0,0,RandomPos), Quaternion.identity);
-            obj.transform.localScale = Vector3.zero;
-            DOTween.Sequence( )
-                .AppendInterval(0.25f)
-                .Append(obj.transform.DOScale(new Vector3(0.65f,0.65f,0.65f), 0.5f))
-                .Join(obj.transform.DOPunchScale( new Vector3(1.5f,1.5f,1.5f), 0.3f, 1, 0)).SetEase( Ease.OutBack);
+            var obj = Instantiate(item, slotTransform[instantiatePositionIndex].position + ObjPosition, Quaternion.identity);
+            obj.transform.rotation = Quaternion.Euler(-15, -3, 0);
+            obj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+            
+            DOTween.Sequence()
+                .Append(obj.transform.DOScale(new Vector3(0.7f, 0.55f, 0.7f), 0.15f).SetEase(Ease.OutQuad))  // Squish etkisi
+                .Append(obj.transform.DOScale(new Vector3(0.65f, 0.65f, 0.65f), 0.3f).SetEase(Ease.OutBack)); // Normal boyuta dönüş
+               
 
             return obj;
         }

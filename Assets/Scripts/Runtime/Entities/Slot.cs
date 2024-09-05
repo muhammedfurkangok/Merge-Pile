@@ -76,13 +76,15 @@ namespace Runtime.Entities
 
               DOTween.Sequence()
                   .Append(temp.transform.DOMove(transfrom, 0.25f).SetEase(Ease.InBack))
-                  .Append(temp.transform.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack))
+                  .Append(temp.transform.DOScale(new Vector3(2,2,2), 0.25f).SetEase(Ease.OutBack))
                   .AppendCallback(() => {
-                      
+                      Destroy(temp.gameObject);
                       isAnimating = false;
                   })
-                  .AppendInterval(0.25f)
+                  .AppendInterval(0.5f)
+                  
                   .OnComplete(() => {
+                    
                       callback?.Invoke();
                   });
           }

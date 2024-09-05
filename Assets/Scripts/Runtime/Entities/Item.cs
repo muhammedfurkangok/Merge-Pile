@@ -8,20 +8,35 @@ using UnityEngine.Serialization;
 namespace Runtime.Entities
 {
     public class Item : MonoBehaviour
-    { 
-    public string key = "";
-    public GameObject cubeRefPrefab;
+    {
 
-    private Vector3 startingPosition;
-    private Tween tween;
-    private Collider collider;
-    public MeshRenderer itemRenderer;
+        #region Self Variables
 
-    public bool Tapped => !collider.enabled;
+        #region Public Variables
 
-    public Outlinable outlinable;
-    public bool success = false;
-    private bool isMoving = false;
+            public string key = "";
+            public GameObject cubeRefPrefab;
+            public MeshRenderer itemRenderer;
+            public bool Tapped => !collider.enabled;
+            public Outlinable outlinable;
+            public bool success = false;
+        
+        #endregion
+
+        #region Private Variables
+
+        private Tween tween;
+        private Collider collider;
+        private Vector3 startingPosition;   
+        private bool isMoving = false;
+        private Color originalColor;
+        
+        #endregion
+
+        #endregion
+   
+
+
 
     private void Awake()
     {
@@ -96,7 +111,28 @@ namespace Runtime.Entities
     {
         itemRenderer.material = material;
     }
-
+   public void UpdateColorNotSelected()
+   {
+   
+       foreach (Transform child in transform)
+       {
+           Renderer childRenderer = child.GetComponent<Renderer>();
+           if (childRenderer != null)
+           {
+               // childRenderer.material.DOColor(selectedColor, 0.1f);
+           }
+       }
+   }
+   
+   public void UpdateColorSelected()
+   {
+   
+       foreach (Transform child in transform)
+       {
+           Renderer childRenderer = child.GetComponent<Renderer>();
+           childRenderer.material.DOColor(originalColor, 0.5f);
+       }
+    }
 #if UNITY_EDITOR
     private void OnValidate()
     {
@@ -173,28 +209,6 @@ namespace Runtime.Entities
         //     }
         // }
         //
-        // public void UpdateColorNotSelected()
-        // {
-        //
-        //     foreach (Transform child in transform)
-        //     {
-        //         Renderer childRenderer = child.GetComponent<Renderer>();
-        //         if (childRenderer != null)
-        //         {
-        //             childRenderer.material.DOColor(selectedColor, 0.1f);
-        //         }
-        //     }
-        // }
-        //
-        // public void UpdateColorSelected()
-        // {
-        //
-        //     foreach (Transform child in transform)
-        //     {
-        //         Renderer childRenderer = child.GetComponent<Renderer>();
-        //         childRenderer.material.DOColor(originalColor, 0.5f);
-        //     }
-        // }
         //
         // private void OnDrawGizmosSelected()
         // {
