@@ -147,9 +147,9 @@ namespace Runtime.Managers
                         
                         // var randomForce = new Vector3(0, Random.Range(3f, 5f),0);
                         // objRb.AddForce(randomForce, ForceMode.Impulse);
-
-                        var randomTorque = new Vector3(Random.Range(-20f, 20f), Random.Range(-20f, 20f), Random.Range(-20f, 20f));
-                        objRb.AddTorque(randomTorque);
+                        //
+                        // var randomTorque = new Vector3(Random.Range(-20f, 20f), Random.Range(-20f, 20f), Random.Range(-20f, 20f));
+                        // objRb.AddTorque(randomTorque);
                         
                     });
                     DOVirtual.DelayedCall( 0.9f, () => {

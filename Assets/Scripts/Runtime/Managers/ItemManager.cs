@@ -11,14 +11,25 @@ namespace Runtime.Managers
 {
     public class ItemManager : SingletonMonoBehaviour<ItemManager>
     {
+        #region Self Variables
+
         public List<Item> items = new List<Item>();
         public CD_ItemData itemObjects;
-
+        
         [SerializeField] private Transform[] slotTransform;
-      
+        [SerializeField] private GameObject frontSideItemsParent;
+        [SerializeField] private GameObject backSideItemsParent;
+        
         private Item tipItem;
         
-        public static UnityEvent ItemInstantiated;
+        
+
+        #endregion
+        
+
+      
+        
+        
   
 
         private void Start()
@@ -67,13 +78,20 @@ namespace Runtime.Managers
 
         public GameObject GetItemByKey(string key)
         {
-            foreach (var item in itemObjects.itemData) {
+            for (int i = 0; i < itemObjects.itemData.Length; i++)
+            {
+                var item = itemObjects.itemData[i];
                 if (item.key == key)
-                    return item.itemPrefab;
+                {
+                    int nextIndex = (i + 1) % itemObjects.itemData.Length;
+            
+                    return itemObjects.itemData[nextIndex].itemPrefab;
+                }
             }
 
             return null;
         }
+
         
         public GameObject InstantiateBlockByGivenKey(string key, int instantiatePositionIndex)
         {
@@ -84,13 +102,20 @@ namespace Runtime.Managers
             var Rand = Random.Range(1, -1);
             var ObjPosition =Rand > 0 ? new Vector3(0,0.08f,0.3f) : new Vector3(0,0.05f,-0.3f);
             
+            
             var obj = Instantiate(item, slotTransform[instantiatePositionIndex].position + ObjPosition, Quaternion.identity);
+
+            if (Rand > 0)
+                obj.transform.SetParent(backSideItemsParent.transform);
+            else
+                obj.transform.SetParent(frontSideItemsParent.transform);
+            
             obj.transform.rotation = Quaternion.Euler(-15, -3, 0);
             obj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
             
             DOTween.Sequence()
-                .Append(obj.transform.DOScale(new Vector3(0.7f, 0.55f, 0.7f), 0.15f).SetEase(Ease.OutQuad))  // Squish etkisi
-                .Append(obj.transform.DOScale(new Vector3(0.65f, 0.65f, 0.65f), 0.3f).SetEase(Ease.OutBack)); // Normal boyuta dönüş
+                .Append(obj.transform.DOScale(new Vector3(0.7f, 0.45f, 0.7f), 0.15f).SetEase(Ease.OutQuad))
+                .Append(obj.transform.DOScale(new Vector3(0.65f, 0.65f, 0.65f), 0.3f).SetEase(Ease.OutBack)); 
                
 
             return obj;
