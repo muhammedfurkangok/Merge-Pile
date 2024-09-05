@@ -27,11 +27,6 @@ namespace Runtime.Managers
         #endregion
         
 
-      
-        
-        
-  
-
         private void Start()
         {
             items = new List<Item>(FindObjectsOfType<Item>());

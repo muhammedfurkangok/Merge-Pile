@@ -1,5 +1,6 @@
 using DG.Tweening;
 using EPOOutline;
+using Runtime.Extensions;
 using Runtime.Managers;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -25,6 +26,7 @@ namespace Runtime.Entities
         public int raycastCount = 6; 
         
         public LayerMask itemLayer;
+        public bool canClickable;
             
         
         #endregion
@@ -38,7 +40,6 @@ namespace Runtime.Entities
         private Color originalColor;
         private Color selectedColor = Color.white;
        
-        private bool isClickable;
         
         #endregion
 
@@ -55,27 +56,27 @@ namespace Runtime.Entities
 
     void FixedUpdate()
     {
-        // Tıklanabilirlik durumunu kontrol ediyoruz.
         bool canBeClicked = CheckClickable();
-
-        // Renk güncellemeyi yapıyoruz.
+        
+        
         UpdateColorBasedOnClickable(canBeClicked);
     }
     
     public void UpdateColorBasedOnClickable(bool isClickable)
     {
+        canClickable = isClickable;
         if (isClickable)
         {
-            UpdateColorSelected(); // Seçilebilir renk.
+            UpdateColorSelected(); 
         }
         else
         {
-            UpdateColorNotSelected(); // Seçilemez renk.
+            UpdateColorNotSelected(); 
         }
     }
     public bool CheckClickable()
     {
-        bool isCurrentlyClickable = true; // Varsayılan olarak tıklanabilir kabul ediyoruz.
+        bool isCurrentlyClickable = true; 
 
         float raycastInterval = transform.localScale.x / (raycastCount - 1); 
         Vector3 startRayPosition = transform.position; 
@@ -84,20 +85,19 @@ namespace Runtime.Entities
         {
             Vector3 rayStart = startRayPosition + Vector3.right * (i * raycastInterval - transform.localScale.x / 2);
             RaycastHit hit;
-
-            // Yukarıya doğru raycast gönderiyoruz.
+            
             if (Physics.Raycast(rayStart, Vector3.up, out hit, raycastHeight, itemLayer))
             {
-                // Eğer raycast bir objeye çarparsa ve o obje bu obje değilse, tıklanamaz olarak işaretle.
+               
                 if (hit.collider.gameObject != gameObject)
                 {
                     isCurrentlyClickable = false;
-                    break; // İlk bulduğumuzda çıkıyoruz.
+                    break; 
                 }
             }
         }
 
-        return isCurrentlyClickable; // Sonuç olarak tıklanabilir mi değil mi döndürülüyor.
+        return isCurrentlyClickable;
     }
     
     public void Activate(float delay = 0)
@@ -150,7 +150,7 @@ namespace Runtime.Entities
         
         public void OnClick()
         {
-            if (isMoving)
+            if (isMoving) 
                 return;
 
             if (!SlotManager.Instance.HasAvailableSlot())
@@ -162,12 +162,19 @@ namespace Runtime.Entities
 
 
             var itemRef = Instantiate(cubeRefPrefab, transform.position, Quaternion.identity);
+            itemRef.transform.SetLayerRecursive(LayerMask.NameToLayer("Item"));
             var itemRefScript = itemRef.GetComponent<ItemRef>();
             itemRefScript.key = key;
             itemRefScript.SetColor(itemRenderer.material);
             itemRefScript.SetScale(transform.localScale);
             itemRefScript.cubeBlock = gameObject;
-            SlotManager.Instance.Place(itemRefScript);
+            gameObject.transform.DOMove(itemRefScript.transform.position, 0.5f).OnComplete(() =>
+            {
+                itemRef.transform.SetParent(null);
+                itemRefScript.transform.SetLayerRecursive(LayerMask.NameToLayer("Slot"));
+                SlotManager.Instance.Place(itemRefScript);
+            });
+           
         
             transform.localScale = Vector3.zero;
 

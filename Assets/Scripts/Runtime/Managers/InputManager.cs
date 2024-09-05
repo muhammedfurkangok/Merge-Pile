@@ -36,12 +36,14 @@ namespace Runtime.Managers
           
                 if (Physics.SphereCast(ray, sphereCastRadius, out hit, Mathf.Infinity, layerMask))
                 {
-                    var childRenderer = hit.transform.GetComponentInChildren<Renderer>();
-                    var Item = hit.transform.GetComponent<Item>();
-                    Renderer renderer = childRenderer;
-                    Vector3 topPosition = renderer.bounds.center + new Vector3(0, renderer.bounds.extents.y, 0);
-                    PlayerManager.Instance.MovePlayerByGivenPosition(topPosition,Item);
-                 
+                    if (hit.transform.GetComponent<Item>().canClickable)
+                    {
+                        var childRenderer = hit.transform.GetComponentInChildren<Renderer>();
+                        var Item = hit.transform.GetComponent<Item>();
+                        Renderer renderer = childRenderer;
+                        Vector3 topPosition = renderer.bounds.center + new Vector3(0, renderer.bounds.extents.y, 0);
+                        PlayerManager.Instance.MovePlayerByGivenPosition(topPosition,Item);
+                    }
                 }
 
             }
