@@ -67,7 +67,6 @@ namespace Runtime.Entities
         SlotManager.Instance.Place(itemRefScript);
         
         transform.localScale = Vector3.zero;
-        gameObject.SetActive(false);
 
         // audioManager.PlayAudio(audioManager.clickSound);
     }

@@ -145,12 +145,9 @@ namespace Runtime.Managers
                     DOVirtual.DelayedCall( 0.15f, () => {
                         objRb.isKinematic = false;
                         
-                        // var randomForce = new Vector3(0, Random.Range(3f, 5f),0);
-                        // objRb.AddForce(randomForce, ForceMode.Impulse);
-                        //
-                        // var randomTorque = new Vector3(Random.Range(-20f, 20f), Random.Range(-20f, 20f), Random.Range(-20f, 20f));
-                        // objRb.AddTorque(randomTorque);
-                        
+                        var randomTorque = new Vector3(Random.Range(-2f, 2f), Random.Range(-1f, 1f), 0);
+                        objRb.AddTorque(randomTorque, ForceMode.Impulse);
+
                     });
                     DOVirtual.DelayedCall( 0.9f, () => {
                         obj.transform.SetLayerRecursive(LayerMask.NameToLayer("Item"));
