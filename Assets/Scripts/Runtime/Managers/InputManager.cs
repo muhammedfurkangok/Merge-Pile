@@ -41,7 +41,6 @@ namespace Runtime.Managers
                     Renderer renderer = childRenderer;
                     Vector3 topPosition = renderer.bounds.center + new Vector3(0, renderer.bounds.extents.y, 0);
                     PlayerManager.Instance.MovePlayerByGivenPosition(topPosition,Item);
-                    Item.OnClick();
                  
                 }
 

@@ -14,12 +14,18 @@ namespace Runtime.Entities
 
         #region Public Variables
 
-            public string key = "";
-            public GameObject cubeRefPrefab;
-            public MeshRenderer itemRenderer;
-            public bool Tapped => !collider.enabled;
-            public Outlinable outlinable;
-            public bool success = false;
+        public string key = "";
+        public GameObject cubeRefPrefab;
+        public MeshRenderer itemRenderer;
+        public bool Tapped => !collider.enabled;
+        public Outlinable outlinable;
+        public bool success = false;
+        
+        public float raycastHeight = 5f; 
+        public int raycastCount = 6; 
+        
+        public LayerMask itemLayer;
+            
         
         #endregion
 
@@ -30,47 +36,70 @@ namespace Runtime.Entities
         private Vector3 startingPosition;   
         private bool isMoving = false;
         private Color originalColor;
+        private Color selectedColor = Color.white;
+       
+        private bool isClickable;
         
         #endregion
 
         #endregion
-   
-
 
 
     private void Awake()
     {
         startingPosition = transform.position;
 
+        originalColor = itemRenderer.sharedMaterial.color;
         collider = GetComponent<Collider>();
     }
 
-    public void OnClick()
+    void FixedUpdate()
     {
-        if (isMoving)
-            return;
+        // Tıklanabilirlik durumunu kontrol ediyoruz.
+        bool canBeClicked = CheckClickable();
 
-        if (!SlotManager.Instance.HasAvailableSlot())
+        // Renk güncellemeyi yapıyoruz.
+        UpdateColorBasedOnClickable(canBeClicked);
+    }
+    
+    public void UpdateColorBasedOnClickable(bool isClickable)
+    {
+        if (isClickable)
         {
-            return;
+            UpdateColorSelected(); // Seçilebilir renk.
+        }
+        else
+        {
+            UpdateColorNotSelected(); // Seçilemez renk.
+        }
+    }
+    public bool CheckClickable()
+    {
+        bool isCurrentlyClickable = true; // Varsayılan olarak tıklanabilir kabul ediyoruz.
+
+        float raycastInterval = transform.localScale.x / (raycastCount - 1); 
+        Vector3 startRayPosition = transform.position; 
+
+        for (int i = 0; i < raycastCount; i++)
+        {
+            Vector3 rayStart = startRayPosition + Vector3.right * (i * raycastInterval - transform.localScale.x / 2);
+            RaycastHit hit;
+
+            // Yukarıya doğru raycast gönderiyoruz.
+            if (Physics.Raycast(rayStart, Vector3.up, out hit, raycastHeight, itemLayer))
+            {
+                // Eğer raycast bir objeye çarparsa ve o obje bu obje değilse, tıklanamaz olarak işaretle.
+                if (hit.collider.gameObject != gameObject)
+                {
+                    isCurrentlyClickable = false;
+                    break; // İlk bulduğumuzda çıkıyoruz.
+                }
+            }
         }
 
-        collider.enabled = false;
-
-
-        var itemRef = Instantiate(cubeRefPrefab, transform.position, Quaternion.identity);
-        var itemRefScript = itemRef.GetComponent<ItemRef>();
-        itemRefScript.key = key;
-        itemRefScript.SetColor(itemRenderer.material);
-        itemRefScript.SetScale(transform.localScale);
-        itemRefScript.cubeBlock = gameObject;
-        SlotManager.Instance.Place(itemRefScript);
-        
-        transform.localScale = Vector3.zero;
-
-        // audioManager.PlayAudio(audioManager.clickSound);
+        return isCurrentlyClickable; // Sonuç olarak tıklanabilir mi değil mi döndürülüyor.
     }
-
+    
     public void Activate(float delay = 0)
     {
         isMoving = true;
@@ -106,120 +135,56 @@ namespace Runtime.Entities
             ).SetLoops(-1);
     }
 
-    public void SetColor(Material material)
-    {
-        itemRenderer.material = material;
-    }
-   public void UpdateColorNotSelected()
-   {
-   
-       foreach (Transform child in transform)
+        [Button]
+       public void UpdateColorNotSelected()
        {
-           Renderer childRenderer = child.GetComponent<Renderer>();
-           if (childRenderer != null)
-           {
-               // childRenderer.material.DOColor(selectedColor, 0.1f);
-           }
+        Renderer childRenderer = transform.GetComponentInChildren<Renderer>();
+        childRenderer.material.DOColor( selectedColor, 0.5f);
        }
-   }
-   
-   public void UpdateColorSelected()
-   {
-   
-       foreach (Transform child in transform)
+       [Button]
+       public void UpdateColorSelected()
        {
-           Renderer childRenderer = child.GetComponent<Renderer>();
-           childRenderer.material.DOColor(originalColor, 0.5f);
-       }
-    }
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
+          Renderer childRenderer = transform.GetComponentInChildren<Renderer>();
+          childRenderer.material.DOColor( originalColor, 0.5f);
+        }
+        
+        public void OnClick()
+        {
+            if (isMoving)
+                return;
 
-    }
-#endif
-        // public bool isClickable = true; 
-        // public float raycastHeight = 5f; 
-        // public int raycastCount = 6; 
-        // public LayerMask itemLayer;
-        //
-        // private Renderer objectRenderer;
-        // private Color originalColor;
-        // private Color selectedColor = Color.white;
-        // public ItemType itemType;
-        //
-        // private void Start()
-        // {
-        //     objectRenderer = GetComponent<Renderer>();
-        //     originalColor = objectRenderer.sharedMaterial.color;
-        // }
-        //
-        // private void FixedUpdate()
-        // {
-        //     CheckClickable();
-        // }
-        //
-        // public void CheckClickable()
-        // {
-        //     bool wasClickable = isClickable;  
-        //     isClickable = true; 
-        //
-        //     float raycastInterval = transform.localScale.x / (raycastCount - 1); 
-        //     Vector3 startRayPosition = transform.position + Vector3.up * raycastHeight;
-        //
-        //     for (int i = 0; i < raycastCount; i++)
-        //     {
-        //         Vector3 rayStart = startRayPosition + Vector3.right * (i * raycastInterval - transform.localScale.x / 2);
-        //         RaycastHit hit;
-        //
-        //         if (Physics.Raycast(rayStart, Vector3.down, out hit, raycastHeight, itemLayer))
-        //         {
-        //             if (hit.collider.gameObject != gameObject)
-        //             {
-        //                 isClickable = false;
-        //                 break; 
-        //             }
-        //         }
-        //     }
-        //
-        //
-        //     if (isClickable != wasClickable)
-        //     {
-        //         if (isClickable)
-        //         {
-        //             UpdateColorSelected(); 
-        //         }
-        //         else
-        //         {
-        //             UpdateColorNotSelected();
-        //         }
-        //     }
-        // }
-        //
-        // public void OnSelected()
-        // {
-        //     if (isClickable)
-        //     {
-        //         SlotManager.Instance.SelectAndPlaceItem(gameObject);
-        //     }
-        //     else
-        //     {
-        //         Debug.Log("Not Clickable");
-        //     }
-        // }
-        //
-        //
-        // private void OnDrawGizmosSelected()
-        // {
-        //     Gizmos.color = Color.red;
-        //     float raycastInterval = transform.localScale.x / (raycastCount - 1);
-        //     Vector3 startRayPosition = transform.position + Vector3.up * raycastHeight;
-        //
-        //     for (int i = 0; i < raycastCount; i++)
-        //     {
-        //         Vector3 rayStart = startRayPosition + Vector3.right * (i * raycastInterval - transform.localScale.x / 2);
-        //         Gizmos.DrawRay(rayStart, Vector3.down * raycastHeight);
-        //     }
-        // }
+            if (!SlotManager.Instance.HasAvailableSlot())
+            {
+                return;
+            }
+
+            collider.enabled = false;
+
+
+            var itemRef = Instantiate(cubeRefPrefab, transform.position, Quaternion.identity);
+            var itemRefScript = itemRef.GetComponent<ItemRef>();
+            itemRefScript.key = key;
+            itemRefScript.SetColor(itemRenderer.material);
+            itemRefScript.SetScale(transform.localScale);
+            itemRefScript.cubeBlock = gameObject;
+            SlotManager.Instance.Place(itemRefScript);
+        
+            transform.localScale = Vector3.zero;
+
+            // audioManager.PlayAudio(audioManager.clickSound);
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            float raycastInterval = transform.localScale.x / (raycastCount - 1);
+            Vector3 startRayPosition = transform.position + Vector3.up * raycastHeight;
+        
+            for (int i = 0; i < raycastCount; i++)
+            {
+                Vector3 rayStart = startRayPosition + Vector3.right * (i * raycastInterval - transform.localScale.x / 2);
+                Gizmos.DrawRay(rayStart, Vector3.down * raycastHeight);
+            }
+        }
     }
 }

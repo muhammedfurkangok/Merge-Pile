@@ -145,7 +145,8 @@ namespace Runtime.Managers
                     DOVirtual.DelayedCall( 0.15f, () => {
                         objRb.isKinematic = false;
                         
-                        var randomTorque = new Vector3(Random.Range(-2f, 2f), Random.Range(-1f, 1f), 0);
+                        var randomTorque = new Vector3(Random.Range(-0.5f, 0.5f), 0, 0);
+
                         objRb.AddTorque(randomTorque, ForceMode.Impulse);
 
                     });

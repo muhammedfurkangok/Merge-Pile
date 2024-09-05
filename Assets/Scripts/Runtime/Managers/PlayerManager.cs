@@ -43,12 +43,14 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         InputManager.Instance.DisableInput();
         Sequence sequence = DOTween.Sequence();
 
-        sequence.Append(transform.DOMove(position, 0.25f).SetEase(Ease.Linear));
-        sequence.Append(PlayerIdleAnim());
-        sequence.Append(transform.DOMove(baseTransform, 0.25f).SetEase(Ease.Linear));
+        sequence.Append(transform.DOMove(position, 0.15f).SetEase(Ease.Linear));
+        sequence.Join(PlayerHoldAnim());
+        sequence.Append(transform.DOMove(baseTransform, 0.15f).SetEase(Ease.Linear));
         
-        sequence.OnComplete(() => { 
-            // item.OnSelected();
+        sequence.OnComplete(() =>
+        {
+            PlayerDefaultAnim();
+            item.OnClick();
             InputManager.Instance.EnableInput();
        
         });
@@ -57,13 +59,17 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         
     }
 
-
-    public Tween PlayerIdleAnim()
+    [Button]
+    public Tween PlayerDefaultAnim()
     {
         Sequence sequence = DOTween.Sequence();
         
-        
-
+        sequence.Append(playerLeftElbow.transform.DOLocalRotate(new Vector3(0, 0, -0), 0.3f))
+            .SetEase(Ease.OutElastic);  
+        sequence.Join(playerRightElbow.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f))
+            .SetEase(Ease.OutElastic);
+        sequence.Join(playerBackElbow.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f))
+            .SetEase(Ease.OutElastic);
         return sequence;
     }
 
@@ -72,13 +78,24 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     {
         Sequence sequence = DOTween.Sequence();
 
-        sequence.Append(playerLeftElbow.transform.DOLocalRotate(new Vector3(0,0,-45),0.25f)).SetEase(holdEase);;
-        sequence.Join(playerRightElbow.transform.DOLocalRotate(new Vector3(0,0,45),0.25f)).SetEase(holdEase);;
-        sequence.Join(playerBackElbow.transform.DOLocalRotate(new Vector3(30,0,0),0.25f)).SetEase(holdEase);;
-       
+        
+        sequence.Append(playerLeftElbow.transform.DOLocalRotate(new Vector3(0, 0, -20), 0.15f))
+            .SetEase(Ease.OutBack);  
+        sequence.Join(playerRightElbow.transform.DOLocalRotate(new Vector3(0, 0, 20), 0.15f))
+            .SetEase(Ease.OutBack);
+
+     
+        sequence.Append(playerLeftElbow.transform.DOLocalRotate(new Vector3(0, 0, -45), 0.3f))
+            .SetEase(Ease.OutElastic);  
+        sequence.Join(playerRightElbow.transform.DOLocalRotate(new Vector3(0, 0, 45), 0.3f))
+            .SetEase(Ease.OutElastic);
+        sequence.Join(playerBackElbow.transform.DOLocalRotate(new Vector3(30, 0, 0), 0.3f))
+            .SetEase(Ease.OutElastic);
+
         return sequence;
     }
 
+    [Button]
     public Tween PlayerOnWayAnim()
     {
         Sequence sequence = DOTween.Sequence();
@@ -89,13 +106,14 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
        
         return sequence;
     }
+    [Button]
     public Tween PlayerDropAnim()
     {
         Sequence sequence = DOTween.Sequence();
 
         return sequence;
     }
-
+    [Button]
     public Tween PlayerScoreAnim()
     {
         Sequence sequence = DOTween.Sequence();
