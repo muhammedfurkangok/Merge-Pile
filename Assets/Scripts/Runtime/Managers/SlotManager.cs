@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Runtime.Entities;
 using Runtime.Extensions;
@@ -8,7 +9,9 @@ using UnityEngine.UI;
 
 namespace Runtime.Managers
 {
-    public class SlotManager : SingletonMonoBehaviour<SlotManager> {
+    public class SlotManager : SingletonMonoBehaviour<SlotManager> 
+    {
+        
         public List<Slot> slots;
         public Item item;
 
@@ -103,7 +106,7 @@ namespace Runtime.Managers
             }
         }
 
-        public void CheckBlocks()
+        public async void CheckBlocks()
         {
             for (int i = 2; i < slots.Count; i++)
             {
@@ -130,11 +133,22 @@ namespace Runtime.Managers
 
             if (cube1.key == cube2.key && cube2.key == cube3.key)
             {
-                slots[index].ScoreAnim(.5f, Sort);
-                slots[index - 1].ScoreAnim(.25f);
-                slots[index - 2].ScoreAnim(.0f);
-                
-                 ItemManager.Instance.InstantiateBlockByGivenKey( cube2.key, index - 1);
+                slots[index].ScoreAnim(.5f,slots[index - 1].transform.position, Sort);
+                slots[index - 1].ScoreAnim(.25f,slots[index - 1].transform.position);
+                slots[index - 2].ScoreAnim(.0f,slots[index - 1].transform.position);
+                      
+                DOVirtual.DelayedCall(0.5f, () => {
+                    var obj = ItemManager.Instance.InstantiateBlockByGivenKey(cube2.key, index - 1);
+                    var objRb = obj.GetComponent<Rigidbody>();
+                    objRb.isKinematic = true;
+                    obj.transform.SetLayerRecursive(LayerMask.NameToLayer("Merge"));
+                    DOVirtual.DelayedCall( 0.35f, () => {
+                        objRb.isKinematic = false;
+                    });
+                    DOVirtual.DelayedCall( 0.9f, () => {
+                        obj.transform.SetLayerRecursive(LayerMask.NameToLayer("Item"));
+                    });
+                });
                
             
                 // audioManager.PlayAudio(audioManager.successSound);

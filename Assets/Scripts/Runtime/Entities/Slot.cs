@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 namespace Runtime.Entities
 {
-    [System.Serializable]
     public class Slot : MonoBehaviour
     {
           public ItemRef active;
@@ -17,6 +16,8 @@ namespace Runtime.Entities
           public bool isAvailable => active == null;
           [SerializeField] private bool unlocked = true;
           private bool isAnimating = false;
+          
+          
       
           public void Place(ItemRef cubeRef, bool scaleAnim = true)
           {
@@ -59,7 +60,7 @@ namespace Runtime.Entities
               });
           }
           
-          public void ScoreAnim(float interval, Action callback = null)
+          public void ScoreAnim(float interval, Vector3 transfrom, Action callback = null)
           {
               if (!active) return;
               
@@ -74,7 +75,7 @@ namespace Runtime.Entities
               }
 
               DOTween.Sequence()
-                  .AppendInterval(0.25f)
+                  .Append(temp.transform.DOMove(transfrom, 0.25f).SetEase(Ease.InBack))
                   .Append(temp.transform.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack))
                   .AppendCallback(() => {
                       
