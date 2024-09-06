@@ -133,11 +133,14 @@ namespace Runtime.Managers
 
             if (cube1.key == cube2.key && cube2.key == cube3.key)
             {
-                slots[index].ScoreAnim(.5f,slots[index - 1].transform.position, Sort);
+              
+                slots[index].ScoreAnim(.5f,slots[index - 1].transform.position);    
                 slots[index - 1].ScoreAnim(.25f,slots[index - 1].transform.position);
                 slots[index - 2].ScoreAnim(.0f,slots[index - 1].transform.position);
-                      
+                
+                Sort();
                 DOVirtual.DelayedCall(0.25f, () => {
+                    Sort();
                     var obj = ItemManager.Instance.InstantiateBlockByGivenKey(cube2.key, index - 1);
                     var objRb = obj.GetComponent<Rigidbody>();
                     objRb.isKinematic = true;
