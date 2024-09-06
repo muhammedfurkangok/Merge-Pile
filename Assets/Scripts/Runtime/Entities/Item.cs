@@ -164,7 +164,7 @@ namespace Runtime.Entities
             var itemRefScript = itemRef.GetComponent<ItemRef>();
             itemRefScript.key = key;
             itemRef.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-            itemRefScript.SetColor(itemRenderer.material);
+            itemRefScript.SetColor(ItemManager.Instance.GetColorByKey(key));
             itemRefScript.cubeBlock = gameObject;
             collider.enabled = false;
             gameObject.SetActive(false);

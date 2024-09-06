@@ -126,7 +126,7 @@ namespace Runtime.Managers
 
         public bool CheckBlocks(int index)
         {
-            Sort();
+            
             if (index < 2)
                 return false;
            
@@ -139,8 +139,8 @@ namespace Runtime.Managers
 
             if (cube1.key == cube2.key && cube2.key == cube3.key)
             {
-                SoundManager.Instance.StopGlissando();
-                slots[index].ScoreAnim(.5f,slots[index - 1].transform.position,Sort);    
+                
+                slots[index].ScoreAnim(.25f,slots[index - 1].transform.position,Sort);    
                 slots[index - 1].ScoreAnim(.25f,slots[index - 1].transform.position);
                 slots[index - 2].ScoreAnim(.0f,slots[index - 1].transform.position);
                 

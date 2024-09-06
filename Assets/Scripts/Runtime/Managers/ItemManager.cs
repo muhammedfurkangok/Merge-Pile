@@ -115,5 +115,19 @@ namespace Runtime.Managers
 
             return obj;
         }
+
+        public Material GetColorByKey(string key)
+        {
+            for (int i = 0; i < itemObjects.itemData.Length; i++)
+            {
+                var item = itemObjects.itemData[i];
+                if (item.key == key)
+                {
+                    return item.itemMaterial;
+                }
+            }
+
+            return null;
+        }
     }
 }

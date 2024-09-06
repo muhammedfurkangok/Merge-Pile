@@ -9,5 +9,6 @@ namespace Runtime.Data.ValueObject
     {
         public string key;
         public GameObject itemPrefab;
+        public Material itemMaterial;
     }
 }
