@@ -35,6 +35,8 @@ namespace Runtime.Managers
         public Ease scoreEase;
         public Ease idleEase;
 
+        public Ease Ease;
+
 
         public void MovePlayerByGivenPosition(Vector3 position,Item item)
         {
@@ -42,15 +44,14 @@ namespace Runtime.Managers
             moveTween?.Kill();
             InputManager.Instance.DisableInput();
             Sequence sequence = DOTween.Sequence();
-
-            sequence.Append(transform.DOMove(position, 0.2f).SetEase(Ease.Linear));
-            sequence.Join(PlayerHoldAnim());
+            
+            sequence.Append(transform.DOMoveX(position.x, 0.1f).SetSpeedBased().SetEase(Ease));
+            sequence.Append(transform.DOMove(position, 0.25f).SetEase(Ease));
             sequence.AppendCallback(() => item.transform.SetParent(transform));
             sequence.Append(transform.DOMove(baseTransform, 0.2f).SetEase(Ease.Linear));
         
             sequence.OnComplete(() =>
             {
-                PlayerDefaultAnim();
                 DOVirtual.DelayedCall(0.1f, () =>
                 {
                     item.OnClick();
