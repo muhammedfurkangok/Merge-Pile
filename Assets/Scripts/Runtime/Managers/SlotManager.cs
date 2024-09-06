@@ -126,9 +126,10 @@ namespace Runtime.Managers
 
         public bool CheckBlocks(int index)
         {
+            Sort();
             if (index < 2)
                 return false;
- 
+           
             if (slots[index].active == null || slots[index - 1].active == null || slots[index - 2].active == null)
                 return false;
 
@@ -138,16 +139,16 @@ namespace Runtime.Managers
 
             if (cube1.key == cube2.key && cube2.key == cube3.key)
             {
-              
-                slots[index].ScoreAnim(.5f,slots[index - 1].transform.position);    
+                SoundManager.Instance.StopGlissando();
+                slots[index].ScoreAnim(.5f,slots[index - 1].transform.position,Sort);    
                 slots[index - 1].ScoreAnim(.25f,slots[index - 1].transform.position);
                 slots[index - 2].ScoreAnim(.0f,slots[index - 1].transform.position);
                 
                 //destroy 3 of them
                 
-                Sort();
+               
                 DOVirtual.DelayedCall(0.25f, () => {
-                    Sort();
+                    
                     var obj = ItemManager.Instance.InstantiateBlockByGivenKey(cube2.key, index - 1);
                     var objRb = obj.GetComponent<Rigidbody>();
                     objRb.isKinematic = true;

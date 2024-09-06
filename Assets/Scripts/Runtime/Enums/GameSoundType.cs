@@ -6,6 +6,7 @@ namespace Runtime.Enums
         LevelFail,
         ButtonClick,
         Touch,
+        Slot,
         GetCoin,
     }
 }

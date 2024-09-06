@@ -1,6 +1,7 @@
 using DG.Tweening;
 using FIMSpace.FTail;
 using Runtime.Entities;
+using Runtime.Enums;
 using Runtime.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -65,8 +66,12 @@ namespace Runtime.Managers
             });
             
             sequence.Append(transform.DOMoveX(position.x, 0.1f).SetSpeedBased().SetEase(Ease));
+            sequence.AppendCallback( () =>
+            {
+                SoundManager.Instance.PlaySound(GameSoundType.Touch);
+            });
             sequence.Append(transform.DOMove(position, 0.25f).SetEase(Ease));
-            
+          
             sequence.AppendCallback(() => item.transform.SetParent(transform));
             sequence.AppendCallback(() => item.transform.DOScale(new Vector3(0.4f,0.4f,0.4f), 0.25f).SetEase(Ease));
             
@@ -76,6 +81,7 @@ namespace Runtime.Managers
             {
                 DOVirtual.DelayedCall(0.025f, () =>
                 {
+                    
                     item.OnClick();
                 });
                 InputManager.Instance.EnableInput();
@@ -101,52 +107,12 @@ namespace Runtime.Managers
             return sequence;
         }
 
-        [Button]
-        public Tween PlayerHoldAnim()
-        {
-            Sequence sequence = DOTween.Sequence();
-
         
-            sequence.Append(playerLeftElbow.transform.DOLocalRotate(new Vector3(0, 0, -20), 0.15f))
-                .SetEase(Ease.OutBack);  
-            sequence.Join(playerRightElbow.transform.DOLocalRotate(new Vector3(0, 0, 20), 0.15f))
-                .SetEase(Ease.OutBack);
-
-     
-            sequence.Append(playerLeftElbow.transform.DOLocalRotate(new Vector3(0, 0, -45), 0.3f))
-                .SetEase(Ease.OutElastic);  
-            sequence.Join(playerRightElbow.transform.DOLocalRotate(new Vector3(0, 0, 45), 0.3f))
-                .SetEase(Ease.OutElastic);
-            sequence.Join(playerBackElbow.transform.DOLocalRotate(new Vector3(30, 0, 0), 0.3f))
-                .SetEase(Ease.OutElastic);
-
-            return sequence;
-        }
-
-        [Button]
-        public Tween PlayerOnWayAnim()
-        {
-            Sequence sequence = DOTween.Sequence();
-
-            sequence.Append(playerLeftElbow.transform.DOLocalRotate(new Vector3(0,0,-45),0.25f)).SetEase(holdEase);;
-            sequence.Join(playerRightElbow.transform.DOLocalRotate(new Vector3(0,0,45),0.25f)).SetEase(holdEase);;
-            sequence.Join(playerBackElbow.transform.DOLocalRotate(new Vector3(30,0,0),0.25f)).SetEase(holdEase);;
-       
-            return sequence;
-        }
-        [Button]
+        
         public Tween PlayerDropAnim()
         {
-            Sequence sequence = DOTween.Sequence();
-
-            return sequence;
+            return null;
         }
-        [Button]
-        public Tween PlayerScoreAnim()
-        {
-            Sequence sequence = DOTween.Sequence();
 
-            return sequence;
-        }
     }
 }

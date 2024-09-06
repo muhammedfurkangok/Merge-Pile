@@ -1,5 +1,6 @@
 using DG.Tweening;
 using EPOOutline;
+using Runtime.Enums;
 using Runtime.Extensions;
 using Runtime.Managers;
 using Sirenix.OdinInspector;
@@ -158,7 +159,7 @@ namespace Runtime.Entities
                 return;
             }
             
-          
+            
             var itemRef = Instantiate(cubeRefPrefab, transform.position, transform.rotation);
             var itemRefScript = itemRef.GetComponent<ItemRef>();
             itemRefScript.key = key;
@@ -172,7 +173,7 @@ namespace Runtime.Entities
            
                
 
-            // audioManager.PlayAudio(audioManager.clickSound);
+          SoundManager.Instance.PlaySound(GameSoundType.Slot);
         }
 
         private void OnDrawGizmosSelected()

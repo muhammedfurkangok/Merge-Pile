@@ -22,7 +22,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     [Header("Glissando Settings")]
     [SerializeField] private float glissandoPitchRange = 2f;
-    [SerializeField] private float glissandoDuration = 1f;
+    [SerializeField] private float glissandoDuration = 0.3f;
     [SerializeField] private float glissandoDefaultPitch = 1f;
     [SerializeField] private Coroutine glissandoCoroutine;
 
@@ -75,5 +75,14 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         }
 
         glissandoAudioSource.pitch = glissandoDefaultPitch;
+    }
+    
+    public void StopGlissando()
+    {
+        if (glissandoCoroutine != null)
+        {
+            StopCoroutine(glissandoCoroutine);
+            glissandoAudioSource.pitch = glissandoDefaultPitch;
+        }
     }
 }
