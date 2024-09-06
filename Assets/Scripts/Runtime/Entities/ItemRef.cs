@@ -26,6 +26,11 @@ namespace Runtime.Entities
         { 
             this.scale = scale;
         }
+        
+        public void DoScale(Vector3 scale)
+        {
+            cubeBlock.transform.DOScale(scale, 0.4f).SetEase(Ease.InBack);
+        }
 
         public Tween LocalMoveTo(Vector3 pos)
         {

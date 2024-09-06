@@ -29,13 +29,18 @@ namespace Runtime.Managers
             if (slotIndex + 1 >= slots.Count) {
                 return;
             }
+
+            
+            itemRef.transform.SetLayerRecursive(LayerMask.NameToLayer("Slot"));
         
             if (slotIndex < 0)
             {
                 var slot = GetAvailableSlot();
+                
+                
                 if (slot == null)
                     return;
-
+                
                 slot.Place(itemRef);
             }
             else
@@ -138,6 +143,8 @@ namespace Runtime.Managers
                 slots[index - 1].ScoreAnim(.25f,slots[index - 1].transform.position);
                 slots[index - 2].ScoreAnim(.0f,slots[index - 1].transform.position);
                 
+                //destroy 3 of them
+                
                 Sort();
                 DOVirtual.DelayedCall(0.25f, () => {
                     Sort();
@@ -221,6 +228,14 @@ namespace Runtime.Managers
                 }
             }
             return emptySlotCount;
+        }
+        
+         
+        public int GetSlotIndex(Slot slot)
+        {
+            var index = slots.IndexOf(slot);
+            Debug.Log(index);
+            return index;
         }
         
     

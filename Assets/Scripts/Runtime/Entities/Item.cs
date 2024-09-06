@@ -157,26 +157,20 @@ namespace Runtime.Entities
             {
                 return;
             }
-
-            collider.enabled = false;
-
-
-            var itemRef = Instantiate(cubeRefPrefab, transform.position, Quaternion.identity);
-            itemRef.transform.SetLayerRecursive(LayerMask.NameToLayer("Item"));
+            
+          
+            var itemRef = Instantiate(cubeRefPrefab, transform.position, transform.rotation);
             var itemRefScript = itemRef.GetComponent<ItemRef>();
             itemRefScript.key = key;
+            itemRef.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
             itemRefScript.SetColor(itemRenderer.material);
-            itemRefScript.SetScale(transform.localScale);
             itemRefScript.cubeBlock = gameObject;
-            gameObject.transform.DOMove(itemRefScript.transform.position, 0.5f).OnComplete(() =>
-            {
-                itemRef.transform.SetParent(null);
-                itemRefScript.transform.SetLayerRecursive(LayerMask.NameToLayer("Slot"));
-                SlotManager.Instance.Place(itemRefScript);
-            });
+            collider.enabled = false;
+            gameObject.SetActive(false);
+            SlotManager.Instance.Place(itemRefScript);
+                   
            
-        
-            transform.localScale = Vector3.zero;
+               
 
             // audioManager.PlayAudio(audioManager.clickSound);
         }

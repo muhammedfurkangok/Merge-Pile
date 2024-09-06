@@ -19,28 +19,19 @@ namespace Runtime.Entities
           
           
       
-          public void Place(ItemRef cubeRef, bool scaleAnim = true)
+          public void Place(ItemRef cubeRef , bool scaleAnim = true)
           {
               active = cubeRef;
-      
               if (active == null)
                   return;
       
               isAnimating = true;
-              var t = active.transform;
-              t.SetParent(transform);
-      
-              var scale = t.localScale;
-              if (scaleAnim)
-              {
-                  t.localScale = cubeRef.scale;
-                  t.DOScale(scale, 0.4f).SetEase(Ease.InBack);
-              } 
-      
+              var fakeItem = active.transform;
+              fakeItem.SetParent(transform);
               active.LocalMoveTo(refTransform.localPosition);
-              t.DOLocalRotateQuaternion(refTransform.localRotation, 0.3f).SetEase(Ease.InBack);
+              fakeItem.DOLocalRotateQuaternion(refTransform.localRotation, 0.3f).SetEase(Ease.InBack);
               DOVirtual.DelayedCall(0.5f, () => {
-                  isAnimating = false;
+              isAnimating = false;
               });
           }
       
