@@ -12,6 +12,7 @@ namespace Runtime.Entities
     {
           public ItemRef active;
           public Transform refTransform;
+          public ParticleSystem particle;
           public bool Unlocked => unlocked;
           public bool isAvailable => active == null;
           [SerializeField] private bool unlocked = true;
@@ -84,6 +85,10 @@ namespace Runtime.Entities
                   //    
                   // })
           }
-       
+
+          public void Particle()
+          {
+              particle.Play();
+          }
     }
 }

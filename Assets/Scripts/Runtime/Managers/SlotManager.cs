@@ -148,8 +148,9 @@ namespace Runtime.Managers
                 
                
                 DOVirtual.DelayedCall(0.25f, () => {
-                    
+                    Sort();
                     var obj = ItemManager.Instance.InstantiateBlockByGivenKey(cube2.key, index - 1);
+                    slots[index - 1].Particle();
                     var objRb = obj.GetComponent<Rigidbody>();
                     objRb.isKinematic = true;
                     obj.transform.SetLayerRecursive(LayerMask.NameToLayer("Merge"));
