@@ -145,10 +145,13 @@ namespace Runtime.Managers
                 slots[index - 1].ScoreAnim(.25f,slots[index - 1].transform.position);
                 slots[index - 2].ScoreAnim(.0f,slots[index - 1].transform.position);
                 
+                ItemManager.Instance.glissandoCounterList.Clear();
+                SoundManager.Instance.StopGlissando();
+                
                 //destroy 3 of them
                 
                
-                    SoundManager.Instance.PlaySound(GameSoundType.Merge);
+                SoundManager.Instance.PlaySound(GameSoundType.Merge);
                 DOVirtual.DelayedCall(0.25f, () => {
                     Sort();
                     var obj = ItemManager.Instance.InstantiateBlockByGivenKey(cube2.key, index - 1);

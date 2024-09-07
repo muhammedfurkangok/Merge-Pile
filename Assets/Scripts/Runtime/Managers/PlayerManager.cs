@@ -81,7 +81,6 @@ namespace Runtime.Managers
             {
                 DOVirtual.DelayedCall(0.025f, () =>
                 {
-                    
                     item.OnClick();
                 });
                 InputManager.Instance.EnableInput();

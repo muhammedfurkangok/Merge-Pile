@@ -14,6 +14,7 @@ namespace Runtime.Managers
         #region Self Variables
 
         public List<Item> items = new List<Item>();
+        public List<Item> glissandoCounterList = new List<Item>();
         public CD_ItemData itemObjects;
         
         [SerializeField] private Transform[] slotTransform;

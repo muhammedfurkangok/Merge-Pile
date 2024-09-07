@@ -81,19 +81,20 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     
     private IEnumerator PlayGlissando(AudioClip clip)
     {
+        
         float elapsedTime = 0f;
         float initialPitch = glissandoAudioSource.pitch;
 
         glissandoAudioSource.PlayOneShot(clip);
-
+        glissandoAudioSource.pitch = initialPitch + glissandoPitchRange;
+        
         while (elapsedTime < glissandoDuration)
         {
             float t = elapsedTime / glissandoDuration;
-            glissandoAudioSource.pitch = Mathf.Lerp(initialPitch, initialPitch + glissandoPitchRange, t);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
+        
         glissandoAudioSource.pitch = glissandoDefaultPitch;
     }
     
@@ -102,6 +103,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         if (glissandoCoroutine != null)
         {
             StopCoroutine(glissandoCoroutine);
+            Debug.Log(" Glissando Stopped");
             glissandoAudioSource.pitch = glissandoDefaultPitch;
         }
     }

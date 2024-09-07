@@ -58,8 +58,7 @@ namespace Runtime.Entities
     void FixedUpdate()
     {
         bool canBeClicked = CheckClickable();
-        
-        
+       
         UpdateColorBasedOnClickable(canBeClicked);
     }
     
@@ -158,7 +157,15 @@ namespace Runtime.Entities
             {
                 return;
             }
-            
+            var previousItem = ItemManager.Instance.glissandoCounterList.Count > 0 ?  ItemManager.Instance.glissandoCounterList[^1] : null;
+            if (previousItem == null || previousItem.key != key)
+            {
+                ItemManager.Instance.glissandoCounterList.Clear();
+                SoundManager.Instance.StopGlissando();
+            }
+            Debug.Log("sound play");
+            ItemManager.Instance.glissandoCounterList.Add(this);
+            SoundManager.Instance.PlaySound(GameSoundType.Slot);
             
             var itemRef = Instantiate(cubeRefPrefab, transform.position, transform.rotation);
             var itemRefScript = itemRef.GetComponent<ItemRef>();
@@ -167,13 +174,10 @@ namespace Runtime.Entities
             itemRefScript.SetColor(ItemManager.Instance.GetColorByKey(key));
             itemRefScript.cubeBlock = gameObject;
             collider.enabled = false;
-            gameObject.SetActive(false);
             SlotManager.Instance.Place(itemRefScript);
+            gameObject.SetActive(false);
                    
-           
-               
-
-          SoundManager.Instance.PlaySound(GameSoundType.Slot);
+          
         }
 
         private void OnDrawGizmosSelected()
