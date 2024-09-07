@@ -10,5 +10,6 @@ namespace Runtime.Data.ValueObject
         public AudioClip audioClip;
         public bool hasRandomPitch;
         public bool hasGlissando;
+        public bool isBackgroundSound;
     }
 }

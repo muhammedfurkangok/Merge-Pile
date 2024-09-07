@@ -35,6 +35,10 @@ namespace Runtime.Entities
               isAnimating = false;
               });
           }
+          public void PlayParticle()
+          {
+              particle.Play();
+          }
       
           public bool IsAvailable()
           {
@@ -86,9 +90,6 @@ namespace Runtime.Entities
                   // })
           }
 
-          public void Particle()
-          {
-              particle.Play();
-          }
+         
     }
 }

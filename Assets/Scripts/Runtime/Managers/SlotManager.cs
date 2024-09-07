@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Runtime.Entities;
+using Runtime.Enums;
 using Runtime.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -147,10 +148,11 @@ namespace Runtime.Managers
                 //destroy 3 of them
                 
                
+                    SoundManager.Instance.PlaySound(GameSoundType.Merge);
                 DOVirtual.DelayedCall(0.25f, () => {
                     Sort();
                     var obj = ItemManager.Instance.InstantiateBlockByGivenKey(cube2.key, index - 1);
-                    slots[index - 1].Particle();
+                    slots[index - 1].PlayParticle();
                     var objRb = obj.GetComponent<Rigidbody>();
                     objRb.isKinematic = true;
                     obj.transform.SetLayerRecursive(LayerMask.NameToLayer("Merge"));
@@ -168,7 +170,7 @@ namespace Runtime.Managers
                 });
                
             
-                // audioManager.PlayAudio(audioManager.successSound);
+              
 
 
                 if(ItemManager.Instance.ActiveCubeCount() <= 0) 
