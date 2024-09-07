@@ -14,22 +14,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSoundData:
   - gameSoundType: 0
+    audioClip: {fileID: 8300000, guid: 75ca599c71c85cc498080785d1d46174, type: 3}
+    hasRandomPitch: 0
+    hasGlissando: 0
+    isBackgroundSound: 1
+  - gameSoundType: 1
     audioClip: {fileID: 8300000, guid: cc45ada01827c1640ae779fa33985cc6, type: 3}
     hasRandomPitch: 0
     hasGlissando: 0
-  - gameSoundType: 1
+    isBackgroundSound: 0
+  - gameSoundType: 2
     audioClip: {fileID: 8300000, guid: 4ce51a2cc599cd745abb09f1cd2d6a6f, type: 3}
     hasRandomPitch: 0
     hasGlissando: 0
-  - gameSoundType: 2
+    isBackgroundSound: 0
+  - gameSoundType: 3
     audioClip: {fileID: 8300000, guid: 267803e07da3cd74d917b30a378d53aa, type: 3}
     hasRandomPitch: 0
     hasGlissando: 0
-  - gameSoundType: 3
-    audioClip: {fileID: 0}
-    hasRandomPitch: 1
-    hasGlissando: 0
+    isBackgroundSound: 0
   - gameSoundType: 4
-    audioClip: {fileID: 8300000, guid: cb89bfb2be008e747a8048d763018e87, type: 3}
+    audioClip: {fileID: 8300000, guid: 53ed0369e1b8af649b4e396fe5971a47, type: 3}
     hasRandomPitch: 1
     hasGlissando: 0
+    isBackgroundSound: 0
+  - gameSoundType: 5
+    audioClip: {fileID: 8300000, guid: cb89bfb2be008e747a8048d763018e87, type: 3}
+    hasRandomPitch: 0
+    hasGlissando: 1
+    isBackgroundSound: 0
+  - gameSoundType: 6
+    audioClip: {fileID: 8300000, guid: 1e3d20e8f0f40d84ba7b8a0aaf3de0c2, type: 3}
+    hasRandomPitch: 0
+    hasGlissando: 0
+    isBackgroundSound: 0

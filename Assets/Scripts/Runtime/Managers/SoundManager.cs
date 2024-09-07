@@ -103,7 +103,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         if (glissandoCoroutine != null)
         {
             StopCoroutine(glissandoCoroutine);
-            Debug.Log(" Glissando Stopped");
             glissandoAudioSource.pitch = glissandoDefaultPitch;
         }
     }

@@ -163,7 +163,7 @@ namespace Runtime.Entities
                 ItemManager.Instance.glissandoCounterList.Clear();
                 SoundManager.Instance.StopGlissando();
             }
-            Debug.Log("sound play");
+            
             ItemManager.Instance.glissandoCounterList.Add(this);
             SoundManager.Instance.PlaySound(GameSoundType.Slot);
             
