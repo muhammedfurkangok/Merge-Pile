@@ -42,23 +42,28 @@ namespace Runtime.Managers
 
             float distance = Vector3.Distance(transform.position, position);
             
-            float moveDuration = Mathf.Clamp(distance * 0.05f, 0.3f, 0.8f); 
+            float moveDuration = Mathf.Clamp(distance * 0.05f, 0.2f,0.5f); 
 
-            sequence.AppendCallback(() =>
-            {
-                ToggleTail(true);
-            });
-
+           
             sequence.Append(transform.DOMoveX(position.x, moveDuration * 0.4f).SetEase(Ease));
             sequence.AppendCallback(() =>
             {
                 SoundManager.Instance.PlaySound(GameSoundType.Touch);
+                ToggleTail(true);
             });
             sequence.Append(transform.DOMove(position, moveDuration * 0.6f).SetEase(Ease));
-            sequence.AppendCallback(() => item.transform.SetParent(transform));
-            sequence.AppendCallback(() => item.transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), moveDuration * 0.6f).SetEase(Ease));
+            sequence.AppendCallback(() =>
+            {
+                item.transform.SetParent(transform);
+                //anim
+            });
+            
             sequence.Append(transform.DOMove(baseTransform, moveDuration * 0.8f).SetEase(Ease.Linear));
-
+            sequence.Append(item.transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), moveDuration * 0.6f).SetEase(Ease));
+            sequence.AppendCallback( () =>
+            {
+                item.transform.SetLayerRecursive( LayerMask.NameToLayer("Slot"));
+            });
             sequence.OnComplete(() =>
             {
                 DOVirtual.DelayedCall(0.015f, () =>

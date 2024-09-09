@@ -49,10 +49,9 @@ namespace Runtime.Entities
 
     private void Awake()
     {
-        startingPosition = transform.position;
-
-        originalColor = itemRenderer.sharedMaterial.color;
         collider = GetComponent<Collider>();
+        startingPosition = transform.position;
+        originalColor = itemRenderer.sharedMaterial.color;
     }
 
     void FixedUpdate()
@@ -171,7 +170,7 @@ namespace Runtime.Entities
             var itemRefScript = itemRef.GetComponent<ItemRef>();
             itemRefScript.key = key;
             itemRef.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-            itemRefScript.SetColor(ItemManager.Instance.GetColorByKey(key));
+            itemRefScript.SetColor(ItemManager.Instance.GetMaterialByKey(key));
             itemRefScript.cubeBlock = gameObject;
             collider.enabled = false;
             SlotManager.Instance.Place(itemRefScript);

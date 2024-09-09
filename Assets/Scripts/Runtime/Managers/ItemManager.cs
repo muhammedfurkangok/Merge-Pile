@@ -72,6 +72,34 @@ namespace Runtime.Managers
             items.Remove(item);
         }
 
+
+        
+        public GameObject InstantiateBlockByGivenKey(string key, int instantiatePositionIndex)
+        {
+            var item = GetItemByKey(key);
+            if (item == null)
+                return null;
+
+            float Rand = Random.Range(1, -1);
+            Vector3 ObjPosition =Rand > 0 ? new Vector3(0,0.08f,0.3f) : new Vector3(0,0.05f,-0.3f);
+            GameObject obj = Instantiate(item, slotTransform[instantiatePositionIndex].position + ObjPosition, Quaternion.identity);
+            
+            if (Rand > 0)
+                obj.transform.SetParent(backSideItemsParent.transform);
+            else
+                obj.transform.SetParent(frontSideItemsParent.transform);
+            
+            obj.transform.rotation = Quaternion.Euler(-15, -3, 0);
+            obj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+            
+            DOTween.Sequence()
+                .Append(obj.transform.DOScale(new Vector3(0.7f, 0.45f, 0.7f), 0.15f).SetEase(Ease.OutQuad))
+                .Append(obj.transform.DOScale(new Vector3(0.65f, 0.65f, 0.65f), 0.3f).SetEase(Ease.OutBack)); 
+               
+
+            return obj;
+        }
+        
         public GameObject GetItemByKey(string key)
         {
             for (int i = 0; i < itemObjects.itemData.Length; i++)
@@ -88,36 +116,23 @@ namespace Runtime.Managers
             return null;
         }
 
-        
-        public GameObject InstantiateBlockByGivenKey(string key, int instantiatePositionIndex)
+        public Material GetNextMaterialByKey(string key)
         {
-            var item = GetItemByKey(key);
-            if (item == null)
-                return null;
+            for (int i = 0; i < itemObjects.itemData.Length; i++)
+            {
+                var item = itemObjects.itemData[i];
+                if (item.key == key)
+                {
+                    int nextIndex = (i + 1) % itemObjects.itemData.Length;
+            
+                    return itemObjects.itemData[nextIndex].itemMaterial;
+                }
+            }
 
-            var Rand = Random.Range(1, -1);
-            var ObjPosition =Rand > 0 ? new Vector3(0,0.08f,0.3f) : new Vector3(0,0.05f,-0.3f);
-            
-            
-            var obj = Instantiate(item, slotTransform[instantiatePositionIndex].position + ObjPosition, Quaternion.identity);
-
-            if (Rand > 0)
-                obj.transform.SetParent(backSideItemsParent.transform);
-            else
-                obj.transform.SetParent(frontSideItemsParent.transform);
-            
-            obj.transform.rotation = Quaternion.Euler(-15, -3, 0);
-            obj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-            
-            DOTween.Sequence()
-                .Append(obj.transform.DOScale(new Vector3(0.7f, 0.45f, 0.7f), 0.15f).SetEase(Ease.OutQuad))
-                .Append(obj.transform.DOScale(new Vector3(0.65f, 0.65f, 0.65f), 0.3f).SetEase(Ease.OutBack)); 
-               
-
-            return obj;
+            return null;
         }
 
-        public Material GetColorByKey(string key)
+        public Material GetMaterialByKey(string key)
         {
             for (int i = 0; i < itemObjects.itemData.Length; i++)
             {

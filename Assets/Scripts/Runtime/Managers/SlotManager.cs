@@ -140,21 +140,19 @@ namespace Runtime.Managers
 
             if (cube1.key == cube2.key && cube2.key == cube3.key)
             {
-                
-                slots[index].ScoreAnim(.25f,slots[index - 1].transform.position,Sort);    
+                slots[index].ScoreAnim(.5f,slots[index - 1].transform.position,Sort);    
                 slots[index - 1].ScoreAnim(.25f,slots[index - 1].transform.position);
                 slots[index - 2].ScoreAnim(.0f,slots[index - 1].transform.position);
                 
                 ItemManager.Instance.glissandoCounterList.Clear();
                 SoundManager.Instance.StopGlissando();
-                
-                //destroy 3 of them
-                
-               
                 SoundManager.Instance.PlaySound(GameSoundType.Merge);
+                
                 DOVirtual.DelayedCall(0.25f, () => {
-                    Sort();
                     var obj = ItemManager.Instance.InstantiateBlockByGivenKey(cube2.key, index - 1);
+                    
+                    ChangeInstantiatedItemColor(obj, cube2);
+
                     slots[index - 1].PlayParticle();
                     var objRb = obj.GetComponent<Rigidbody>();
                     objRb.isKinematic = true;
@@ -162,7 +160,15 @@ namespace Runtime.Managers
                     DOVirtual.DelayedCall( 0.15f, () => {
                         objRb.isKinematic = false;
                         
-                        var randomTorque = new Vector3(Random.Range(-0.5f, 0.5f), 0, 0);
+                        Vector3[] torqueOptions = new Vector3[] {
+                            new Vector3(0.5f, 0, 0),    
+                            new Vector3(-0.5f, 0, 0),  
+                            new Vector3(0, 0.5f, 0),    
+                            new Vector3(0, -0.5f, 0),   
+                            new Vector3(0, 0, 0.5f),    
+                            new Vector3(0, 0, -0.5f)   
+                        };
+                        var randomTorque = torqueOptions[Random.Range(0, torqueOptions.Length)];
 
                         objRb.AddTorque(randomTorque, ForceMode.Impulse);
 
@@ -172,10 +178,6 @@ namespace Runtime.Managers
                     });
                 });
                
-            
-              
-
-
                 if(ItemManager.Instance.ActiveCubeCount() <= 0) 
                 {
                     DOVirtual.DelayedCall(.5f, () => {
@@ -187,6 +189,21 @@ namespace Runtime.Managers
             }
 
             return false;
+        }
+
+        private static void ChangeInstantiatedItemColor(GameObject obj, ItemRef cube2)
+        {
+            var objRenderer = obj.GetComponentInChildren<Renderer>();
+            var objItemScript = obj.GetComponent<Item>();
+            var objMaterial = ItemManager.Instance.GetMaterialByKey(objItemScript.key);
+            objItemScript.enabled = false;
+            objRenderer.material = ItemManager.Instance.GetMaterialByKey(cube2.key);
+                    
+            objRenderer.material.DOColor(objMaterial.color, 1f).OnComplete( () => 
+            {
+                objRenderer.material = objMaterial;
+                objItemScript.enabled = true;
+            });
         }
 
         public void Sort()

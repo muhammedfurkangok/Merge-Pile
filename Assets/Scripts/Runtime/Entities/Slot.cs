@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using Runtime.Enums;
+using Runtime.Extensions;
 using Runtime.Managers;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -32,6 +33,7 @@ namespace Runtime.Entities
               active.LocalMoveTo(refTransform.localPosition);
               fakeItem.DOLocalRotateQuaternion(refTransform.localRotation, 0.3f).SetEase(Ease.InBack);
               DOVirtual.DelayedCall(0.5f, () => {
+                
               isAnimating = false;
               });
           }
