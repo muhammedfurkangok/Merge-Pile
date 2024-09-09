@@ -11,16 +11,16 @@ namespace Runtime.Entities
 {
     public class Slot : MonoBehaviour
     {
+          [SerializeField] private bool unlocked = true;
+          
           public ItemRef active;
           public Transform refTransform;
           public ParticleSystem particle;
           public bool Unlocked => unlocked;
           public bool isAvailable => active == null;
-          [SerializeField] private bool unlocked = true;
+          
           private bool isAnimating = false;
           
-          
-      
           public void Place(ItemRef cubeRef , bool scaleAnim = true)
           {
               active = cubeRef;
@@ -33,8 +33,7 @@ namespace Runtime.Entities
               active.LocalMoveTo(refTransform.localPosition);
               fakeItem.DOLocalRotateQuaternion(refTransform.localRotation, 0.3f).SetEase(Ease.InBack);
               DOVirtual.DelayedCall(0.5f, () => {
-                
-              isAnimating = false;
+                 isAnimating = false;
               });
           }
           public void PlayParticle()

@@ -1,3 +1,4 @@
+using BoingKit;
 using DG.Tweening;
 using FIMSpace.FTail;
 using Runtime.Entities;
@@ -16,6 +17,7 @@ namespace Runtime.Managers
         #region Self Variables
         
         [SerializeField] private TailAnimator2[] playerTails;
+        [SerializeField] private BoingBones boingBones;
         
         public Ease Ease;
 
@@ -24,8 +26,13 @@ namespace Runtime.Managers
         private void Start()
         {
             ToggleTail(false);
+            ToggleBoing(false);
         }
 
+        private void ToggleBoing(bool enable)
+        {
+            boingBones.enabled = enable;
+        }
         private void ToggleTail(bool enable)
         {
             foreach (var tail in playerTails)
@@ -37,12 +44,14 @@ namespace Runtime.Managers
         public void MovePlayerByGivenPosition(Vector3 position, Item item)
         {
             moveTween?.Kill();
+            ToggleBoing(false);
+          
             InputManager.Instance.DisableInput();
             Sequence sequence = DOTween.Sequence();
 
             float distance = Vector3.Distance(transform.position, position);
             
-            float moveDuration = Mathf.Clamp(distance * 0.05f, 0.2f,0.5f); 
+            float moveDuration = Mathf.Clamp(distance * 0.05f, 0.5f,0.9f); 
 
            
             sequence.Append(transform.DOMoveX(position.x, moveDuration * 0.4f).SetEase(Ease));
@@ -55,6 +64,7 @@ namespace Runtime.Managers
             sequence.AppendCallback(() =>
             {
                 item.transform.SetParent(transform);
+                ToggleBoing(true);
                 //anim
             });
             
@@ -70,6 +80,7 @@ namespace Runtime.Managers
                 {
                     item.OnClick();
                 });
+               
                 InputManager.Instance.EnableInput();
                 ToggleTail(false);
             });
