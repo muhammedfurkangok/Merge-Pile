@@ -177,7 +177,6 @@ namespace Runtime.Entities
             SlotManager.Instance.Place(itemRefScript);
             gameObject.SetActive(false);
                    
-          
         }
 
         private void OnDrawGizmosSelected()

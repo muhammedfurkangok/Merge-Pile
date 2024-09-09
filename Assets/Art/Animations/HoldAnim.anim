@@ -428,7 +428,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Armature/Bone/Body/LeftArm/LeftElbow
+    path: Armature/Bone/Body/BackArm/BackElbow
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -440,7 +440,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Armature/Bone/Body/LeftArm/LeftElbow
+    path: Armature/Bone/Body/BackArm/BackElbow
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -452,7 +452,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Armature/Bone/Body/LeftArm/LeftElbow
+    path: Armature/Bone/Body/BackArm/BackElbow
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -464,7 +464,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Armature/Bone/Body/BackArm/BackElbow
+    path: Armature/Bone/Body/LeftArm/LeftElbow
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -476,7 +476,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Armature/Bone/Body/BackArm/BackElbow
+    path: Armature/Bone/Body/LeftArm/LeftElbow
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -488,7 +488,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Armature/Bone/Body/BackArm/BackElbow
+    path: Armature/Bone/Body/LeftArm/LeftElbow
     classID: 4
     script: {fileID: 0}
     flags: 0
