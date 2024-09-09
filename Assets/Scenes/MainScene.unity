@@ -2558,9 +2558,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 763926931}
-  - component: {fileID: 763926933}
   - component: {fileID: 763926934}
   - component: {fileID: 763926935}
+  - component: {fileID: 763926933}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -2577,7 +2577,7 @@ Transform:
   m_GameObject: {fileID: 763926930}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.13, y: 4, z: 0}
+  m_LocalPosition: {x: 0.254, y: 4.366, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2600,7 +2600,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -2616,7 +2616,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -2674,6 +2674,7 @@ MonoBehaviour:
   - {fileID: 7767223446983039004}
   - {fileID: 2854563698462866366}
   boingBones: {fileID: 763926935}
+  moveSpeedMultiplier: 1
   Ease: 1
 --- !u!114 &763926935
 MonoBehaviour:
@@ -2692,10 +2693,10 @@ MonoBehaviour:
   TwoDDistanceCheck: 0
   TwoDPositionInfluence: 0
   TwoDRotationInfluence: 0
-  EnablePositionEffect: 0
+  EnablePositionEffect: 1
   EnableRotationEffect: 1
   GlobalReactionUpVector: 0
-  TranslationLockSpace: 1
+  TranslationLockSpace: 0
   LockTranslationX: 0
   LockTranslationY: 1
   LockTranslationZ: 0
@@ -2719,7 +2720,7 @@ MonoBehaviour:
     RotationReactionMultiplier: 1
     AngularImpulseMultiplier: 1
     RotationReactionUp: {x: 0, y: 0, z: 0}
-  SharedParams: {fileID: 0}
+  SharedParams: {fileID: 11400000, guid: 839d94a591085d8459ddc2f6fcd27862, type: 2}
   BoneChains:
   - Root: {fileID: 6645823805223541022}
     Exclusion:
@@ -2804,7 +2805,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    MaxBendAngleCap: 180
+    MaxBendAngleCap: 7
     BendAngleCapCurveType: 0
     BendAngleCapCustomCurve:
       serializedVersion: 2
@@ -5405,7 +5406,7 @@ Transform:
   m_GameObject: {fileID: 1951837021}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.12, z: -0.20100006}
+  m_LocalPosition: {x: -0.12400001, y: 4.7539997, z: -0.20100006}
   m_LocalScale: {x: 0.1, y: -4.3001795, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5432,7 +5433,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8f504e69761480640a37ca1b493a1d62, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7736,7 +7737,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   DeflectOnlyCollisions: 1
-  _Editor_Category: 0
+  _Editor_Category: 1
   _Editor_FeaturesCategory: 0
   DrawGizmos: 1
   StartBone: {fileID: 2854563698462866365}
@@ -7774,7 +7775,7 @@ MonoBehaviour:
   StartAfterTPose: 1
   OptimizeWithMesh: {fileID: 0}
   OptimizeWithMeshes: []
-  TailAnimatorAmount: 1
+  TailAnimatorAmount: 0.5
   DetachChildren: 0
   Axis2D: 0
   Tangle: 0
@@ -7929,9 +7930,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4256155908318546834}
+  - {fileID: 2854563698462866365}
   - {fileID: 5249340073933045336}
   - {fileID: 7767223446983039003}
-  - {fileID: 2854563698462866365}
   m_Father: {fileID: 6583733712013989686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3567443307066999777
@@ -7987,6 +7988,7 @@ GameObject:
   - component: {fileID: 6645823805223541022}
   - component: {fileID: 5074512354282425993}
   - component: {fileID: 1813528347}
+  - component: {fileID: 6645823805223541023}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -8866,7 +8868,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8f504e69761480640a37ca1b493a1d62, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9569,7 +9571,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   DeflectOnlyCollisions: 1
-  _Editor_Category: 0
+  _Editor_Category: 1
   _Editor_FeaturesCategory: 0
   DrawGizmos: 1
   StartBone: {fileID: 5249340073933045336}
@@ -9607,7 +9609,7 @@ MonoBehaviour:
   StartAfterTPose: 1
   OptimizeWithMesh: {fileID: 0}
   OptimizeWithMeshes: []
-  TailAnimatorAmount: 1
+  TailAnimatorAmount: 0.5
   DetachChildren: 0
   Axis2D: 0
   Tangle: 0
@@ -10435,6 +10437,27 @@ Transform:
   - {fileID: 8879528567340184666}
   m_Father: {fileID: 1951837022}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &6645823805223541023
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3655000510179773743}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 621b80ad0b8c88e4a9dd874d87bbfc92, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6678990664405152207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11566,7 +11589,7 @@ MonoBehaviour:
   StartAfterTPose: 1
   OptimizeWithMesh: {fileID: 0}
   OptimizeWithMeshes: []
-  TailAnimatorAmount: 1
+  TailAnimatorAmount: 0.5
   DetachChildren: 0
   Axis2D: 0
   Tangle: 0

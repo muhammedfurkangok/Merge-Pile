@@ -29,6 +29,6 @@ MonoBehaviour:
     RotationOscillationHalfLife: 0.1
     RotationOscillationFrequency: 5
     RotationOscillationDampingRatio: 0.5
-    RotationReactionMultiplier: 1
-    AngularImpulseMultiplier: 1
+    RotationReactionMultiplier: 0.12
+    AngularImpulseMultiplier: 0.15
     RotationReactionUp: {x: 0, y: 0, z: 0}
