@@ -176,7 +176,6 @@ namespace Runtime.Entities
             var itemRef = Instantiate(cubeRefPrefab, transform.position, transform.rotation);
             var itemRefScript = itemRef.GetComponent<ItemRef>();
             itemRefScript.key = key;
-            itemRef.transform.localScale = transform.localScale;
             itemRefScript.SetColor(ItemManager.Instance.GetMaterialByKey(key));
             itemRefScript.cubeBlock = gameObject;
             collider.enabled = false;

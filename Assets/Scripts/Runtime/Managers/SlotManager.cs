@@ -52,7 +52,9 @@ namespace Runtime.Managers
                     return;
 
                 ShiftSlots(slotIndex + 1);
+                
                 slot.Place(itemRef);
+                
                 DOVirtual.DelayedCall(.45f, () => {
                     CheckBlocks();
                 });
@@ -261,6 +263,19 @@ namespace Runtime.Managers
             var index = slots.IndexOf(slot);
             Debug.Log(index);
             return index;
+        }
+        
+        public void IsAnySlotAnimating()
+        {
+            foreach (var slot in slots)
+            {
+                if (slot.IsAvailable())
+                {
+                    Debug.Log("Slot is animating");
+                    return;
+                }
+            }
+            Debug.Log("Slot is not animating");
         }
         
     

@@ -58,36 +58,36 @@ namespace Runtime.Managers
             var ItemNormalScale = item.transform.localScale;
             var GetAvailableSlot = SlotManager.Instance.GetAvailableSlot();
 
-            sequence.Append(transform.DOMoveX(position.x, 0.2f).SetEase(Ease));
+            sequence.Append(transform.DOMoveX(position.x, 0.15f).SetEase(Ease));
             sequence.AppendCallback(() =>
             {
                 SoundManager.Instance.PlaySound(GameSoundType.Touch);
                 ToggleTail(true);
             });
-            sequence.Append(transform.DOMoveY(position.y, 0.2f).SetEase(Ease));
+            sequence.Append(transform.DOMoveY(position.y, 0.15f).SetEase(Ease));
             sequence.AppendCallback(() =>
             {
                 item.transform.SetParent(transform);
+                item.transform.DOLocalRotateQuaternion(itemScript.cubeRefPrefab.transform.localRotation, 0.3f).SetEase(Ease.Linear);
                 item.SetCollider(false);
                 item.SetRigidBody(false);
                 // item.transform.SetLayerRecursive(LayerMask.NameToLayer("Slot"));
             });
-            sequence.Append(transform.DOMoveY(baseTransform.y ,0.15f).SetEase(Ease).OnComplete( () =>
+            sequence.Append(transform.DOMoveY(baseTransform.y ,0.25f).SetEase(Ease).OnComplete( () =>
             {
                 ToggleBoing(true);
             }));
-            sequence.Join( DOVirtual.DelayedCall(0.75f, () =>
+            sequence.Join( DOVirtual.DelayedCall(0.125f, () =>
             {
                 item.OnClick();
+                InputManager.Instance.EnableInput();
             }));
             sequence.Append(transform.DOMoveX(baseTransform.x, 0.15f).SetEase(Ease));
-            sequence.Append(item.transform.DOMove(GetAvailableSlot.transform.position, 0.45f).SetEase(Ease.Linear));
+           
             sequence.OnComplete(() =>
             {
-               
-                InputManager.Instance.EnableInput();
+                
                 ToggleTail(false);
-                item.transform.SetParent(null);
             });
 
             moveTween = sequence;
