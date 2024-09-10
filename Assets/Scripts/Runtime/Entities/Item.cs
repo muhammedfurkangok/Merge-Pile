@@ -158,11 +158,16 @@ namespace Runtime.Entities
         {
             if (isMoving) 
                 return;
-
             if (!SlotManager.Instance.HasAvailableSlot())
             {
                 return;
             }
+            DOVirtual.DelayedCall(0.1f, () =>
+            {
+              
+            });
+
+           
             var previousItem = ItemManager.Instance.glissandoCounterList.Count > 0 ?  ItemManager.Instance.glissandoCounterList[^1] : null;
             if (previousItem == null || previousItem.key != key)
             {
@@ -172,16 +177,13 @@ namespace Runtime.Entities
             
             ItemManager.Instance.glissandoCounterList.Add(this);
             SoundManager.Instance.PlaySound(GameSoundType.Slot);
-            
-            var itemRef = Instantiate(cubeRefPrefab, transform.position, transform.rotation);
-            var itemRefScript = itemRef.GetComponent<ItemRef>();
-            itemRefScript.key = key;
-            itemRefScript.SetColor(ItemManager.Instance.GetMaterialByKey(key));
-            itemRefScript.cubeBlock = gameObject;
-            collider.enabled = false;
-            SlotManager.Instance.Place(itemRefScript);
-            gameObject.SetActive(false);
-                   
+           
+                var itemRef = Instantiate(cubeRefPrefab, transform.position, transform.rotation);
+                var itemRefScript = itemRef.GetComponent<ItemRef>();
+                itemRefScript.key = key;
+                itemRefScript.SetColor(ItemManager.Instance.GetMaterialByKey(key));
+                itemRefScript.cubeBlock = gameObject;
+                SlotManager.Instance.Place(itemRefScript);
         }
 
         private void OnDrawGizmosSelected()

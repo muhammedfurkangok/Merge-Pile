@@ -79,6 +79,7 @@ namespace Runtime.Managers
             }));
             sequence.Join( DOVirtual.DelayedCall(0.125f, () =>
             {
+                item.gameObject.SetActive(false);
                 item.OnClick();
                 InputManager.Instance.EnableInput();
             }));
