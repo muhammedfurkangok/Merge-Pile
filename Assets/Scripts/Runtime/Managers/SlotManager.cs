@@ -33,6 +33,7 @@ namespace Runtime.Managers
 
             
             itemRef.transform.SetLayerRecursive(LayerMask.NameToLayer("Slot"));
+            
         
             if (slotIndex < 0)
             {

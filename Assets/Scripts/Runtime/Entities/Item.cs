@@ -36,6 +36,7 @@ namespace Runtime.Entities
 
         private Tween tween;
         private Collider collider;
+        private Rigidbody rigidbody;
         private Vector3 startingPosition;   
         private bool isMoving = false;
         private Color originalColor;
@@ -50,6 +51,7 @@ namespace Runtime.Entities
     private void Awake()
     {
         collider = GetComponent<Collider>();
+        rigidbody = GetComponent<Rigidbody>();
         startingPosition = transform.position;
         originalColor = itemRenderer.sharedMaterial.color;
     }
@@ -115,6 +117,11 @@ namespace Runtime.Entities
         collider.enabled = active;
     }
 
+    public void SetRigidBody(bool active)
+    {
+        rigidbody.isKinematic = !active;
+    }
+
     [Button]
     public void Tip()
     {
@@ -169,7 +176,7 @@ namespace Runtime.Entities
             var itemRef = Instantiate(cubeRefPrefab, transform.position, transform.rotation);
             var itemRefScript = itemRef.GetComponent<ItemRef>();
             itemRefScript.key = key;
-            itemRef.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            itemRef.transform.localScale = gameObject.transform.localScale;
             itemRefScript.SetColor(ItemManager.Instance.GetMaterialByKey(key));
             itemRefScript.cubeBlock = gameObject;
             collider.enabled = false;

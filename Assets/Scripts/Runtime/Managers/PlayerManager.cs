@@ -1,10 +1,12 @@
 using BoingKit;
 using DG.Tweening;
 using FIMSpace.FTail;
+using Runtime.Controllers;
 using Runtime.Entities;
 using Runtime.Enums;
 using Runtime.Extensions;
 using Sirenix.OdinInspector;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 namespace Runtime.Managers
@@ -19,7 +21,6 @@ namespace Runtime.Managers
         [SerializeField] private TailAnimator2[] playerTails;
         [SerializeField] private BoingBones boingBones;
 
-        [SerializeField, Range(0.1f, 2f)] private float moveSpeedMultiplier = 1f; 
         public Ease Ease;
 
         #endregion
@@ -52,7 +53,10 @@ namespace Runtime.Managers
             Sequence sequence = DOTween.Sequence();
 
             float distance = Vector3.Distance(baseTransform, position);
-            float moveDuration = Mathf.Clamp(distance * 0.05f, 0.3f, 0.5f) / moveSpeedMultiplier; 
+            float moveDuration = Mathf.Clamp(distance, 0.3f, 0.5f); 
+            var itemScript = item.GetComponent<Item>();
+            var ItemNormalScale = item.transform.localScale;
+            var GetAvailableSlot = SlotManager.Instance.GetAvailableSlot();
 
             sequence.Append(transform.DOMoveX(position.x, moveDuration * 0.4f).SetEase(Ease));
             sequence.AppendCallback(() =>
@@ -63,18 +67,24 @@ namespace Runtime.Managers
             sequence.Append(transform.DOMove(position, moveDuration * 0.5f).SetEase(Ease));
             sequence.AppendCallback(() =>
             {
-                item.transform.SetParent(transform);
-                DOVirtual.DelayedCall(moveDuration * 0.4f, () =>
+                DOVirtual.DelayedCall(moveDuration * 0.45f, () =>
                 {
                     ToggleBoing(true);
+                    
                 });
+                item.transform.SetLayerRecursive(LayerMask.NameToLayer("Slot"));
             });
-            sequence.Append(transform.DOMove(baseTransform, moveDuration * 0.5f).SetEase(Ease.Linear));
-            sequence.Append(item.transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), moveDuration * 0.6f).SetEase(Ease));
-            // sequence.AppendCallback(() =>
-            // {
-            //     item.transform.SetLayerRecursive(LayerMask.NameToLayer("Slot"));
-            // });
+            sequence.AppendCallback( () =>
+            {
+               item.SetCollider(false);
+               item.SetRigidBody(false);
+            });
+            sequence.Append( item.transform.DOScale(transform.localScale + new  Vector3(0.1f,0.1f,0.1f), 0.2f).SetEase(Ease.Linear));
+            sequence.Append(item.transform.DOScale(ItemNormalScale, 0.3f).SetEase(Ease.Linear));
+            sequence.Append(item.transform.DOMoveY( 0.5f, 0.3f).SetEase(Ease.Linear));
+            sequence.Append(item.transform.DOMove(GetAvailableSlot.transform.position, 0.2f).SetEase(Ease.Linear));
+            
+            sequence.Append(transform.DOMove(baseTransform, moveDuration * 0.5f).SetEase(Ease));
             sequence.OnComplete(() =>
             {
                 DOVirtual.DelayedCall(0.015f, () =>

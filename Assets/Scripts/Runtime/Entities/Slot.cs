@@ -31,7 +31,7 @@ namespace Runtime.Entities
               var fakeItem = active.transform;
               fakeItem.SetParent(transform);
               active.LocalMoveTo(refTransform.localPosition);
-              fakeItem.DOLocalRotateQuaternion(refTransform.localRotation, 0.3f).SetEase(Ease.InBack);
+              fakeItem.DOLocalRotateQuaternion(refTransform.localRotation, 0.3f).SetEase(Ease.Linear);
               DOVirtual.DelayedCall(0.5f, () => {
                  isAnimating = false;
               });
