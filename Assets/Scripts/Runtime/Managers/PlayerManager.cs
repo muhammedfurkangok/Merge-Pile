@@ -18,8 +18,7 @@ namespace Runtime.Managers
 
         #region Self Variables
 
-        [SerializeField] private TailAnimator2[] playerTails;
-        [SerializeField] private BoingBones boingBones;
+       
 
         public Ease Ease;
 
@@ -27,27 +26,28 @@ namespace Runtime.Managers
 
         private void Start()
         {
-            ToggleTail(false);
-            ToggleBoing(false);
+            this.transform.DOMove( baseTransform, 0.5f).SetEase(Ease.InBack);
+        //     ToggleTail(false);
+        //     ToggleBoing(false);
         }
 
-        private void ToggleBoing(bool enable)
-        {
-            boingBones.enabled = enable;
-        }
-
-        private void ToggleTail(bool enable)
-        {
-            foreach (var tail in playerTails)
-            {
-                tail.enabled = enable;
-            }
-        }
+        // private void ToggleBoing(bool enable)
+        // {
+        //     boingBones.enabled = enable;
+        // }
+        //
+        // private void ToggleTail(bool enable)
+        // {
+        //     foreach (var tail in playerTails)
+        //     {
+        //         tail.enabled = enable;
+        //     }
+        // }
 
         public void MovePlayerByGivenPosition(Vector3 position, Item item)
         {
             moveTween?.Kill();
-            ToggleBoing(false);
+            // ToggleBoing(false);
 
             InputManager.Instance.DisableInput();
             Sequence sequence = DOTween.Sequence();
@@ -62,7 +62,7 @@ namespace Runtime.Managers
             sequence.AppendCallback(() =>
             {
                 SoundManager.Instance.PlaySound(GameSoundType.Touch);
-                ToggleTail(true);
+                // ToggleTail(true);
             });
             sequence.Append(transform.DOMoveY(position.y, 0.15f).SetEase(Ease));
             sequence.AppendCallback(() =>
@@ -75,7 +75,7 @@ namespace Runtime.Managers
             });
             sequence.Append(transform.DOMoveY(baseTransform.y ,0.25f).SetEase(Ease).OnComplete( () =>
             {
-                ToggleBoing(true);
+                // ToggleBoing(true);
             }));
             sequence.Join( DOVirtual.DelayedCall(0.125f, () =>
             {
@@ -88,7 +88,7 @@ namespace Runtime.Managers
             sequence.OnComplete(() =>
             {
                 
-                ToggleTail(false);
+                // ToggleTail(false);
             });
 
             moveTween = sequence;
