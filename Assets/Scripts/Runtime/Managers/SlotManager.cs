@@ -143,6 +143,8 @@ namespace Runtime.Managers
 
             if (cube1.key == cube2.key && cube2.key == cube3.key)
             {
+                InputManager.Instance.DisableInput();
+                
                 slots[index].ScoreAnim(.5f,slots[index - 1].transform.position,Sort);    
                 slots[index - 1].ScoreAnim(.25f,slots[index - 1].transform.position);
                 slots[index - 2].ScoreAnim(.0f,slots[index - 1].transform.position);
@@ -152,6 +154,7 @@ namespace Runtime.Managers
                 SoundManager.Instance.PlaySound(GameSoundType.Merge);
                 
                 DOVirtual.DelayedCall(0.25f, () => {
+                    InputManager.Instance.EnableInput();
                     var obj = ItemManager.Instance.InstantiateBlockByGivenKey(cube2.key, index - 1);
                     
                     ChangeInstantiatedItemColor(obj, cube2);
