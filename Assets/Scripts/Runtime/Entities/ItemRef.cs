@@ -34,7 +34,7 @@ namespace Runtime.Entities
 
         public Tween LocalMoveTo(Vector3 pos)
         {
-            moveTween = transform.DOLocalMove(pos, 0.4f).SetEase(Ease.InBack);
+            moveTween = transform.DOLocalMove(pos, 0.4f).SetEase(Ease.Linear);
             return moveTween;
         }
     }

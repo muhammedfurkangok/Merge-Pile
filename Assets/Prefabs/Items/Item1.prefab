@@ -108,7 +108,6 @@ GameObject:
   - component: {fileID: 362510466270240952}
   - component: {fileID: 1818447620199585513}
   - component: {fileID: 8066208508684029636}
-  - component: {fileID: 7035153337526579314}
   m_Layer: 3
   m_Name: Item1
   m_TagString: Untagged
@@ -148,7 +147,7 @@ MonoBehaviour:
   cubeRefPrefab: {fileID: 2059050726400378962, guid: 880bc1784d49c4f66aa3692b29765044,
     type: 3}
   itemRenderer: {fileID: 1690167003446607332}
-  outlinable: {fileID: 7035153337526579314}
+  outlinable: {fileID: 0}
   success: 0
   raycastHeight: 5
   raycastCount: 6
@@ -204,60 +203,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 8
   m_CollisionDetection: 0
---- !u!114 &7035153337526579314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9032620973937327823}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fe91dc294731a9428c0941ea7579110, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  complexMaskingMode: 1
-  drawingMode: 1
-  outlineLayer: 0
-  outlineTargets:
-  - IsVisible: 0
-    CutoutMask: 8
-    edgeDilateAmount: 5
-    frontEdgeDilateAmount: 5
-    backEdgeDilateAmount: 5
-    renderer: {fileID: 1690167003446607332}
-    SubmeshIndex: 0
-    BoundsMode: 0
-    Bounds:
-      m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 0.5, y: 0.5, z: 0.5}
-    CutoutThreshold: 0.5
-    CullMode: 2
-    cutoutTextureName: 
-    DilateRenderingMode: 0
-    cutoutTextureIndex: 0
-  renderStyle: 1
-  outlineParameters:
-    enabled: 1
-    color: {r: 1, g: 0.04397481, b: 0, a: 1}
-    dilateShift: 1
-    blurShift: 1
-    fillPass:
-      shader: {fileID: 0}
-      serializedProperties: []
-  backParameters:
-    enabled: 1
-    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-    dilateShift: 1
-    blurShift: 1
-    fillPass:
-      shader: {fileID: 0}
-      serializedProperties: []
-  frontParameters:
-    enabled: 1
-    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-    dilateShift: 1
-    blurShift: 1
-    fillPass:
-      shader: {fileID: 0}
-      serializedProperties: []

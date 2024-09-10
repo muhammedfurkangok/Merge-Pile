@@ -52,48 +52,42 @@ namespace Runtime.Managers
             InputManager.Instance.DisableInput();
             Sequence sequence = DOTween.Sequence();
 
-            float distance = Vector3.Distance(baseTransform, position);
-            float moveDuration = Mathf.Clamp(distance, 0.3f, 0.5f); 
+          
+            
             var itemScript = item.GetComponent<Item>();
             var ItemNormalScale = item.transform.localScale;
             var GetAvailableSlot = SlotManager.Instance.GetAvailableSlot();
 
-            sequence.Append(transform.DOMoveX(position.x, moveDuration * 0.4f).SetEase(Ease));
+            sequence.Append(transform.DOMoveX(position.x, 0.2f).SetEase(Ease));
             sequence.AppendCallback(() =>
             {
                 SoundManager.Instance.PlaySound(GameSoundType.Touch);
                 ToggleTail(true);
             });
-            sequence.Append(transform.DOMove(position, moveDuration * 0.5f).SetEase(Ease));
+            sequence.Append(transform.DOMoveY(position.y, 0.2f).SetEase(Ease));
             sequence.AppendCallback(() =>
             {
-                DOVirtual.DelayedCall(moveDuration * 0.45f, () =>
-                {
-                    ToggleBoing(true);
-                    
-                });
-                item.transform.SetLayerRecursive(LayerMask.NameToLayer("Slot"));
+                item.transform.SetParent(transform);
+                item.SetCollider(false);
+                item.SetRigidBody(false);
+                // item.transform.SetLayerRecursive(LayerMask.NameToLayer("Slot"));
             });
-            sequence.AppendCallback( () =>
+            sequence.Append(transform.DOMoveY(baseTransform.y ,0.15f).SetEase(Ease).OnComplete( () =>
             {
-               item.SetCollider(false);
-               item.SetRigidBody(false);
-            });
-            sequence.Append( item.transform.DOScale(transform.localScale + new  Vector3(0.1f,0.1f,0.1f), 0.2f).SetEase(Ease.Linear));
-            sequence.Append(item.transform.DOScale(ItemNormalScale, 0.3f).SetEase(Ease.Linear));
-            sequence.Append(item.transform.DOMoveY( 0.5f, 0.3f).SetEase(Ease.Linear));
-            sequence.Append(item.transform.DOMove(GetAvailableSlot.transform.position, 0.2f).SetEase(Ease.Linear));
-            
-            sequence.Append(transform.DOMove(baseTransform, moveDuration * 0.5f).SetEase(Ease));
+                ToggleBoing(true);
+            }));
+            sequence.Join( DOVirtual.DelayedCall(0.75f, () =>
+            {
+                item.OnClick();
+            }));
+            sequence.Append(transform.DOMoveX(baseTransform.x, 0.15f).SetEase(Ease));
+            sequence.Append(item.transform.DOMove(GetAvailableSlot.transform.position, 0.45f).SetEase(Ease.Linear));
             sequence.OnComplete(() =>
             {
-                DOVirtual.DelayedCall(0.015f, () =>
-                {
-                    item.OnClick();
-                });
-
+               
                 InputManager.Instance.EnableInput();
                 ToggleTail(false);
+                item.transform.SetParent(null);
             });
 
             moveTween = sequence;
