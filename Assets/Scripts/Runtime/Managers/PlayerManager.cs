@@ -10,6 +10,7 @@ using Runtime.Helpers;
 using Sirenix.OdinInspector;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 namespace Runtime.Managers
 {
@@ -22,6 +23,7 @@ namespace Runtime.Managers
         private Tween moveTween;
         
         [SerializeField] private IKTargetRaycast[] ikTargetRaycasts;
+        [SerializeField] private Rig rig;
 
         public Transform rayPoint;
 
@@ -45,6 +47,8 @@ namespace Runtime.Managers
         public void MovePlayerByGivenPosition(Vector3 position, Item item)
         {
             moveTween?.Kill();
+            
+            DOVirtual.Float(rig.weight, 1, 0.15f, (value) => rig.weight = value);
 
             InputManager.Instance.DisableInput();
             Sequence sequence = DOTween.Sequence();
@@ -59,12 +63,12 @@ namespace Runtime.Managers
             sequence.AppendCallback(() =>
             {
                 item.transform.SetParent(transform);
+                item.SetCollider(false);
                 item.transform.DOMove(rayPoint.position + new Vector3(0,-.5f,0), 0.15f).SetEase(Ease.Linear);
                 item.transform.DOLocalRotateQuaternion(itemScript.cubeRefPrefab.transform.localRotation, 0.3f).SetEase(Ease.Linear);
             });
             sequence.Join( DOVirtual.DelayedCall(0.2f, () =>
             {
-                item.SetCollider(false);
                 item.SetRigidBody(false);
             }));
             sequence.Append(transform.DOMoveY(baseTransform.y, 0.15f).SetEase(Ease));
@@ -72,6 +76,7 @@ namespace Runtime.Managers
             sequence.Join(DOVirtual.DelayedCall(0.1f, () =>
             {
                 item.gameObject.SetActive(false);
+                DOVirtual.Float(rig.weight, 0, 0.15f, (value) => rig.weight = value);
                 SetIKPosition();
                 item.OnClick();
                 InputManager.Instance.EnableInput();

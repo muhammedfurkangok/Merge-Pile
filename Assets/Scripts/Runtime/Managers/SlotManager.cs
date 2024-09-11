@@ -62,7 +62,7 @@ namespace Runtime.Managers
 
             DOVirtual.DelayedCall(.75f, () => {
                 if(GetEmptySlotCount() <= 0) {
-                    // EventManager.TriggerEvent("OnOutOfSpace");
+                    GameManager.Instance.SetGameStateLevelFail();
                 }
             });
         }
@@ -154,6 +154,7 @@ namespace Runtime.Managers
                 
                 DOVirtual.DelayedCall(0.25f, () => {
                     var obj = ItemManager.Instance.InstantiateBlockByGivenKey(cube2.key, index - 1);
+                    ItemManager.Instance.AddItemToList(obj.GetComponent<Item>());
                     
                     ChangeInstantiatedItemColor(obj, cube2);
 
@@ -182,10 +183,10 @@ namespace Runtime.Managers
                     });
                 });
                
-                if(ItemManager.Instance.ActiveCubeCount() <= 0) 
+                if(ItemManager.Instance.ActiveCubeCount() <= 1 && GetEmptySlotCount() == 7 )
                 {
                     DOVirtual.DelayedCall(.5f, () => {
-                        // EventManager.TriggerEvent("OnGameFinished");
+                        GameManager.Instance.SetGameStateLevelComplete();
                     });
                 }
 

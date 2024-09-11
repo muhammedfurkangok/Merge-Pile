@@ -51,7 +51,7 @@ namespace Editor
 
             EditorGUILayout.LabelField("Grid", titleStyle);
 
-            if (levelCreatorScript.GetCurrentLevelData() != null && levelCreatorScript.GetCurrentLevelData().Grids != null && levelCreatorScript.LevelData != null)
+            if (levelCreatorScript.GetCurrentLevelData() != null && levelCreatorScript.GetCurrentLevelData().Grids != null && levelCreatorScript.levelData != null)
             {
                 DrawGrid(levelCreatorScript);
             }

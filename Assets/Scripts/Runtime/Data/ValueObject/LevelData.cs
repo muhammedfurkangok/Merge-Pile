@@ -15,13 +15,13 @@ namespace Runtime.Data.ValueObject
         public GridData GetGrid(int x, int y)
         {
            
-            return Grids[x * Width + y]; // Corrected grid indexing
+            return Grids[x * Height + y]; 
         }
 
         public void SetGrid(int x, int y, GridData gridData)
         {
            
-            Grids[x * Width + y] = gridData; // Corrected grid indexing
+            Grids[x * Height + y] = gridData; 
         }
     }
 }

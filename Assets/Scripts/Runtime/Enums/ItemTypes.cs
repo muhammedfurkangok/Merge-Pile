@@ -1,9 +1,8 @@
-using UnityEngine;
-
 namespace Runtime.Enums
 {
-    public enum ItemType 
+    public enum ItemTypes 
     {
+        None,
         Item1,
         Item2,
         Item3,

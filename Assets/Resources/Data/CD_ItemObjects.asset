@@ -14,50 +14,62 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemData:
   - key: 1
+    itemType: 1
     itemPrefab: {fileID: 9032620973937327823, guid: 49249d0f8210f478b92c5991361f4c3e,
       type: 3}
     itemMaterial: {fileID: 2100000, guid: 8cfb504a82ce6c34a982fac26c04967a, type: 2}
   - key: 2
+    itemType: 2
     itemPrefab: {fileID: 9032620973937327823, guid: 4f75f02d4e3853247b5bca818bb3d2b0,
       type: 3}
     itemMaterial: {fileID: 2100000, guid: dd6e4bec561a90d49bf64db2f737f000, type: 2}
   - key: 3
+    itemType: 3
     itemPrefab: {fileID: 9032620973937327823, guid: 13fe0e778b5d94641a0c20e9bbf463a7,
       type: 3}
     itemMaterial: {fileID: 2100000, guid: 2deb934bc81d3da43b90b976173ce77c, type: 2}
   - key: 4
+    itemType: 4
     itemPrefab: {fileID: 9032620973937327823, guid: 3cc4d0edb4b1c4c49890a43e5fb850e4,
       type: 3}
     itemMaterial: {fileID: 2100000, guid: ee6a4264fb3bf6946a3c0f5ba3c98e34, type: 2}
   - key: 5
+    itemType: 5
     itemPrefab: {fileID: 9032620973937327823, guid: 823629f0812d8a74da9e84c433eeec0f,
       type: 3}
     itemMaterial: {fileID: 2100000, guid: 7dbdf0d10955c594ba5f64dcd66e6f58, type: 2}
   - key: 6
+    itemType: 6
     itemPrefab: {fileID: 9032620973937327823, guid: 9750a7e9f9fdbf74f864131a00899b40,
       type: 3}
     itemMaterial: {fileID: 2100000, guid: a5989c1084cfd33498b759e933bdd49a, type: 2}
   - key: 7
+    itemType: 7
     itemPrefab: {fileID: 9032620973937327823, guid: e48aa834a50712f4ca28c2ba5aaed87f,
       type: 3}
     itemMaterial: {fileID: 2100000, guid: 8316699ee55d2e34c9eb9db6b1b1c507, type: 2}
   - key: 8
+    itemType: 8
     itemPrefab: {fileID: 9032620973937327823, guid: 30d2a3b42a64456499fabfba60dba92e,
       type: 3}
     itemMaterial: {fileID: 2100000, guid: 499944ae5bc4873478f9cb5a045d0cf8, type: 2}
   - key: 9
+    itemType: 9
     itemPrefab: {fileID: 9032620973937327823, guid: 282d8a6a8e412964d8fbf8268f72dbdb,
       type: 3}
     itemMaterial: {fileID: 2100000, guid: eb76dffe632158e42946fed61c8b7f96, type: 2}
   - key: 10
+    itemType: 10
     itemPrefab: {fileID: 9032620973937327823, guid: 33713a71adb94a748bba178bf4e0ec76,
       type: 3}
     itemMaterial: {fileID: 2100000, guid: ece1e8898e9bcab499f9d0a1f46feb17, type: 2}
   - key: 11
+    itemType: 11
     itemPrefab: {fileID: 9032620973937327823, guid: 1cecd197e8374d247824951f3c200fb2,
       type: 3}
     itemMaterial: {fileID: 2100000, guid: fb47e8d4ad38f7c4fb7807175b3163c1, type: 2}
   - key: 12
+    itemType: 12
     itemPrefab: {fileID: 9032620973937327823, guid: ff4d93996309daa45a4a54c5370eee2b,
       type: 3}
     itemMaterial: {fileID: 2100000, guid: d04268c484be5454aa55dd71355a59d3, type: 2}

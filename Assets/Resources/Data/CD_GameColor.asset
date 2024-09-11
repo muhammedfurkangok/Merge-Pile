@@ -13,27 +13,42 @@ MonoBehaviour:
   m_Name: CD_GameColor
   m_EditorClassIdentifier: 
   gameColorsData:
-  - gameColor: 0
+  - itemType: 0
     color: {r: 1, g: 1, b: 1, a: 1}
-    materialColor: {fileID: 2100000, guid: 4b56435af09005147866e541241d00cc, type: 2}
-  - gameColor: 1
-    color: {r: 0, g: 0.41164446, b: 1, a: 1}
-    materialColor: {fileID: 2100000, guid: bf8d6e8214b1bc440bb4ab9ec638819c, type: 2}
-  - gameColor: 2
-    color: {r: 0.5330782, g: 1, b: 0, a: 1}
-    materialColor: {fileID: 2100000, guid: 98a05c0fed86a6e4185bfb1c20f342aa, type: 2}
-  - gameColor: 3
-    color: {r: 1, g: 0.43259233, b: 0, a: 1}
-    materialColor: {fileID: 2100000, guid: a11925624f13a8545a9f28c9e221ff17, type: 2}
-  - gameColor: 4
-    color: {r: 1, g: 0, b: 0.7170844, a: 1}
-    materialColor: {fileID: 2100000, guid: 763fe74eebda98b45a0e169735ec25d9, type: 2}
-  - gameColor: 5
-    color: {r: 0.4950776, g: 0, b: 1, a: 1}
-    materialColor: {fileID: 2100000, guid: a077d8230a12fb44da354e47b038921b, type: 2}
-  - gameColor: 6
-    color: {r: 1, g: 0, b: 0, a: 1}
-    materialColor: {fileID: 2100000, guid: 95f78aaa0673dda4e944038dbec15795, type: 2}
-  - gameColor: 7
-    color: {r: 1, g: 0.9880785, b: 0, a: 1}
-    materialColor: {fileID: 2100000, guid: 40242c7deee154e44bec245103e83b82, type: 2}
+    materialColor: {fileID: 0}
+  - itemType: 1
+    color: {r: 0.7294118, g: 0.54509807, b: 0.18823531, a: 1}
+    materialColor: {fileID: 2100000, guid: 8cfb504a82ce6c34a982fac26c04967a, type: 2}
+  - itemType: 2
+    color: {r: 0.3372549, g: 0.63529414, b: 0.0627451, a: 1}
+    materialColor: {fileID: 2100000, guid: dd6e4bec561a90d49bf64db2f737f000, type: 2}
+  - itemType: 3
+    color: {r: 0.058823533, g: 0.58431375, b: 0.6666667, a: 1}
+    materialColor: {fileID: 2100000, guid: 2deb934bc81d3da43b90b976173ce77c, type: 2}
+  - itemType: 4
+    color: {r: 0.73333335, g: 0, b: 0, a: 1}
+    materialColor: {fileID: 2100000, guid: ee6a4264fb3bf6946a3c0f5ba3c98e34, type: 2}
+  - itemType: 5
+    color: {r: 0.46274513, g: 0.16470589, b: 0.050980397, a: 1}
+    materialColor: {fileID: 2100000, guid: 7dbdf0d10955c594ba5f64dcd66e6f58, type: 2}
+  - itemType: 6
+    color: {r: 0, g: 0.29411766, b: 0.6862745, a: 1}
+    materialColor: {fileID: 2100000, guid: a5989c1084cfd33498b759e933bdd49a, type: 2}
+  - itemType: 0
+    color: {r: 0.4039216, g: 0, b: 0.6901961, a: 1}
+    materialColor: {fileID: 2100000, guid: 8316699ee55d2e34c9eb9db6b1b1c507, type: 2}
+  - itemType: 7
+    color: {r: 0.627451, g: 0, b: 0.5058824, a: 1}
+    materialColor: {fileID: 2100000, guid: 499944ae5bc4873478f9cb5a045d0cf8, type: 2}
+  - itemType: 8
+    color: {r: 0.10196079, g: 0.60784316, b: 0.5137255, a: 1}
+    materialColor: {fileID: 2100000, guid: eb76dffe632158e42946fed61c8b7f96, type: 2}
+  - itemType: 9
+    color: {r: 0.61960787, g: 0.61960787, b: 0.61960787, a: 1}
+    materialColor: {fileID: 2100000, guid: ece1e8898e9bcab499f9d0a1f46feb17, type: 2}
+  - itemType: 10
+    color: {r: 0.40784317, g: 0.40784317, b: 0.40784317, a: 1}
+    materialColor: {fileID: 2100000, guid: fb47e8d4ad38f7c4fb7807175b3163c1, type: 2}
+  - itemType: 11
+    color: {r: 0.6745098, g: 0.36862746, b: 0.6901961, a: 1}
+    materialColor: {fileID: 2100000, guid: d04268c484be5454aa55dd71355a59d3, type: 2}

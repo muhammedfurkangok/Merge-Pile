@@ -132,6 +132,10 @@ namespace Runtime.Managers
             return null;
         }
 
+        public void AddItemToList(Item item)
+        {
+            items.Add(item);
+        }
         public Material GetMaterialByKey(string key)
         {
             for (int i = 0; i < itemObjects.itemData.Length; i++)

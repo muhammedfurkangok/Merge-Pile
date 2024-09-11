@@ -11,7 +11,7 @@ public static class RemoteConfigDummy
     public const int DefaultTimer = 60;
     public const int defaultMoveCounter = 30;
     
-    public static bool hasTimer = false;
+    public static bool hasTimer = true;
     public static bool hasMoveCounter = false;
     
 }
