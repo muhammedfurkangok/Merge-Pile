@@ -13,7 +13,7 @@ namespace FIMSpace.FEditor
         // Draw the property inside the given rect
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var e = Editor.CreateEditor(property.objectReferenceValue);
+            var e = UnityEditor.Editor.CreateEditor(property.objectReferenceValue);
             var indent = EditorGUI.indentLevel;
             Rect temp = new Rect(position.x, position.y, 20, 16);
 

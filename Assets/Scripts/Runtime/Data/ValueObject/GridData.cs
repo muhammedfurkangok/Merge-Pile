@@ -1,4 +1,5 @@
 using UnityEngine;
+using Runtime.Enums;
 
 namespace Runtime.Data.ValueObject
 {
@@ -6,7 +7,7 @@ namespace Runtime.Data.ValueObject
     public struct GridData
     {
         public bool isOccupied;
-        public Color gridColor;
+        public GameColors gameColor;
         public Vector2Int position;
     }
 }

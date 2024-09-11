@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace BoingKit
 {
-  public class BoingEditorBase : Editor
+  public class BoingEditorBase : UnityEditor.Editor
   {
     internal static void Header(string label)
     {

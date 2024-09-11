@@ -12,7 +12,7 @@ using UnityEditor;
 using System.Collections;
 
 [CustomEditor(typeof(CFX_InspectorHelp))]
-public class CFX_InspectorHelpEditor : Editor
+public class CFX_InspectorHelpEditor : UnityEditor.Editor
 {
 	private CFX_InspectorHelp inspHelp { get { return (this.target as CFX_InspectorHelp); } }
 	

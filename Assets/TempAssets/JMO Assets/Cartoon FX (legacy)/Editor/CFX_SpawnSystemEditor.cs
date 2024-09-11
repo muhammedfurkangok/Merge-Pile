@@ -7,7 +7,7 @@ using System.Collections;
 // CFX Spawn System Editor interface
 
 [CustomEditor(typeof(CFX_SpawnSystem))]
-public class CFX_SpawnSystemEditor : Editor
+public class CFX_SpawnSystemEditor : UnityEditor.Editor
 {
 	private SerializedProperty _hideObjectsInHierarchy;
 	private SerializedProperty p_hideObjectsInHierarchy

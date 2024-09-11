@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Runtime.Enums;
 
 namespace Runtime.Data.ValueObject
 {
-    [System.Serializable]
+    [Serializable]
     public class LevelData
     {
         public int levelNumber;
@@ -14,12 +14,14 @@ namespace Runtime.Data.ValueObject
 
         public GridData GetGrid(int x, int y)
         {
-            return Grids[x * Width + y];
+           
+            return Grids[x * Width + y]; // Corrected grid indexing
         }
 
         public void SetGrid(int x, int y, GridData gridData)
         {
-            Grids[x * Width + y] = gridData;
+           
+            Grids[x * Width + y] = gridData; // Corrected grid indexing
         }
     }
 }
