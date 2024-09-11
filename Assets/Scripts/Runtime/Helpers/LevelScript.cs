@@ -32,7 +32,9 @@ namespace Runtime.Helpers
                 DestroyImmediate(itemsParentObject);
             }
 
-            itemsParentObject = new GameObject("LevelParent");
+            itemsParentObject = new GameObject(this.gameObject.name + "_Items");
+            itemsParentObject.transform.SetParent(gameObject.transform);
+            itemsParentObject.transform.rotation = Quaternion.Euler(0, 0, 90);
 
             for (int x = 0; x < LevelData.levelData.Width; x++)
             {

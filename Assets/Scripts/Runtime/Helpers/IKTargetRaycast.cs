@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Runtime.Helpers
@@ -12,25 +13,26 @@ namespace Runtime.Helpers
         [SerializeField] private Transform centralPoint;  
         [SerializeField] private float raycastDistance = 0.4f; 
         [SerializeField] private LayerMask raycastLayerMask;   
-
         [SerializeField] private Transform startPosition;
         
 
+        
         private void FixedUpdate()
         {
           
             Vector3 rayDirection = (centralPoint.position - rayPoint.position).normalized;
             RaycastHit hit;
-            if (Physics.Raycast(rayPoint.position + offset, rayDirection, out hit, raycastDistance, raycastLayerMask))
+            if (Physics.Raycast(rayPoint.position + offset, rayDirection, out hit, raycastDistance, raycastLayerMask ))
             {
-                
                 handController.position = hit.point;
             }
-            else
-            {
-                handController.position = startPosition.position;
-            }
+            
         }
+        
+        public void SetControllerPosition()
+        {
+            handController.position = startPosition.position;
+        } 
 
         private void OnDrawGizmos()
         {
