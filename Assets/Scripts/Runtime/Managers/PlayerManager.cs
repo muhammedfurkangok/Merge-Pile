@@ -80,7 +80,6 @@ namespace Runtime.Managers
                 InputManager.Instance.EnableInput();
             }));
             sequence.Append(transform.DOMoveX(baseTransform.x, 0.15f).SetEase(Ease));
-           
             moveTween = sequence;
         }
 
