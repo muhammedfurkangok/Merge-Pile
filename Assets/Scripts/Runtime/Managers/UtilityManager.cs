@@ -22,25 +22,10 @@ namespace Runtime.Managers
 
 
         public void UseUtility(UtilityType utilityType)
-        {
-            if (utilityStatus[utilityType])
-            {
-                InputManager.Instance.SetUtilityActive(utilityType);
-                
-                DeactivateUtility(utilityType);
-               
-            }
-            else
-            {
-                Debug.Log($"{utilityType} utility is already used.");
-            }
+        { 
+            InputManager.Instance.SetUtilityActive(utilityType);
         }
-
-        private void DeactivateUtility(UtilityType utilityType)
-        {
-            utilityStatus[utilityType] = false;
-           
-        }
+        
 
         public void ApplyUtilityToObject(UtilityType utilityType, Item item)
         {

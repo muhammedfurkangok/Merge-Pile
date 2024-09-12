@@ -18,6 +18,7 @@ namespace Runtime.Managers
         void Update()
         {
             if(utilityActive) RayForUtilty();
+            
             if(!isInputDisable && !utilityActive) GetInput();
         }
 
