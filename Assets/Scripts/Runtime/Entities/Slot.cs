@@ -35,10 +35,7 @@ namespace Runtime.Entities
               active.transform.DOLocalMove(refTransform.localPosition, 0.2f).SetEase(Ease.InCirc);
               fakeItem.transform.DOScale(Vector3.one * 0.5f, 0.3f).SetEase(Ease.Linear);
               fakeItem.DOLocalRotateQuaternion(refTransform.localRotation, 0.3f).SetEase(Ease.Linear);
-              
-              DOVirtual.DelayedCall(0.5f, () => {
-                 isAnimating = false;
-              });
+              isAnimating = false;
           }
           public void PlayParticle()
           {
@@ -61,40 +58,21 @@ namespace Runtime.Entities
               });
           }
           
-          public void ScoreAnim(float interval, Vector3 transfrom, Action callback = null)
+          public void ScoreAnim(Vector3 transfrom, Action callback = null)
           {
               if (!active) return;
               
               var temp = active;
               active = null;
-              isAnimating = true;
-
-             
-              if(SlotManager.Instance.GetEmptySlotCount() <= 0 & ItemManager.Instance.ActiveCubeCount() <= 0)
-              {
-                  //levelDone;
-              }
-
+            
+              callback?.Invoke();
               DOTween.Sequence()
                   .Append(temp.transform.DOJump(transfrom, 1, 1, 0.5f))
                   .AppendCallback( () =>
                   {
-                      Destroy(temp.gameObject);
-                  })
-                  .AppendInterval(0.5f)
-                  
-                  .OnComplete(() => {
-                      isAnimating = false;
-                      callback?.Invoke();
+                      Destroy(temp.gameObject); 
                   });
-                  // .Append(temp.transform.DOMove(transfrom, 0.25f).SetEase(Ease.InBack))
-                  // .Append(temp.transform.DOScale(new Vector3(0,0,0), 0.005f).SetEase(Ease.OutBack))
-                  // .OnComplete(() => {
-                  //     
-                  //    
-                  // })
+                 
           }
-
-         
     }
 }

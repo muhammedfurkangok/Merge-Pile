@@ -46,8 +46,9 @@ namespace Runtime.Managers
 
         public void MovePlayerByGivenPosition(Vector3 position, Item item)
         {
-            DOVirtual.Float( rig.weight, 1, 0.01f, (x) => rig.weight = x);
             moveTween?.Kill();
+            
+            DOVirtual.Float( rig.weight, 1, 0.01f, (x) => rig.weight = x);
             InputManager.Instance.DisableInput();
             Sequence sequence = DOTween.Sequence();
             var itemScript = item.GetComponent<Item>();
@@ -71,15 +72,21 @@ namespace Runtime.Managers
                 item.SetRigidBody(false);
             }));
             sequence.Append(transform.DOMoveY(baseTransform.y, 0.15f).SetEase(Ease));
-            sequence.Join( DOVirtual.DelayedCall(0.075f, () =>
-            {
+            sequence.Join( 
+                
+                DOVirtual.DelayedCall(0.1f, () =>
+                {
                 item.gameObject.SetActive(false);
                 SetIKPosition();
                 item.OnClick();
                 DOVirtual.Float( rig.weight, 0, 0.01f, (x) => rig.weight = x);
-                InputManager.Instance.EnableInput();
             }));
+            sequence.AppendCallback( () =>
+            {
+                InputManager.Instance.EnableInput();
+            });
             sequence.Append(transform.DOMoveX(baseTransform.x, 0.15f).SetEase(Ease));
+           
             moveTween = sequence;
         }
 

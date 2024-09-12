@@ -40,12 +40,14 @@ namespace Runtime.Managers
         public void SetGameStateLevelComplete()
         {
             GameStates = GameStates.LevelComplete;
+            InputManager.Instance.isInGamePlayState = true;
             OnLevelSuccessful?.Invoke();
         }
         
         public void SetGameStateLevelFail()
         {
             GameStates = GameStates.LevelFail;
+            InputManager.Instance.isInGamePlayState = true;
             OnLevelFailed?.Invoke();
         }
 

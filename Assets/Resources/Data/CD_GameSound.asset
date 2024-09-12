@@ -48,3 +48,13 @@ MonoBehaviour:
     hasRandomPitch: 0
     hasGlissando: 0
     isBackgroundSound: 0
+  - gameSoundType: 7
+    audioClip: {fileID: 8300000, guid: 1b959156409930a4cb7eb5647300cc00, type: 3}
+    hasRandomPitch: 0
+    hasGlissando: 0
+    isBackgroundSound: 0
+  - gameSoundType: 8
+    audioClip: {fileID: 8300000, guid: 125a1be9616e11e438cb363f73b0fd43, type: 3}
+    hasRandomPitch: 1
+    hasGlissando: 0
+    isBackgroundSound: 0

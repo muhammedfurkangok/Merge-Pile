@@ -23,10 +23,11 @@ namespace Runtime.Managers
 
         public void UseUtility(UtilityType utilityType)
         { 
+           
+            
             InputManager.Instance.SetUtilityActive(utilityType);
         }
         
-
         public void ApplyUtilityToObject(UtilityType utilityType, Item item)
         {
             switch (utilityType)

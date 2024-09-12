@@ -1,3 +1,4 @@
+using System;
 using Runtime.Entities;
 using Runtime.Enums;
 using Runtime.Extensions;
@@ -14,12 +15,15 @@ namespace Runtime.Managers
         private bool utilityActive = false;
 
         private bool isInputDisable ;
-    
+        
+        public bool isInGamePlayState = false;
+        
+
         void Update()
         {
             if(utilityActive) RayForUtilty();
             
-            if(!isInputDisable && !utilityActive) GetInput();
+            if(!isInputDisable && !utilityActive && !isInGamePlayState) GetInput();
         }
 
         public void EnableInput()
@@ -72,12 +76,13 @@ namespace Runtime.Managers
                         var Item = hit.transform.GetComponent<Item>();
                         Renderer renderer = childRenderer;
                         Vector3 topPosition = renderer.bounds.center + new Vector3(0, renderer.bounds.extents.y, 0);
+                        
                         PlayerManager.Instance.MovePlayerByGivenPosition(topPosition,Item);
                     }
                 }
 
             }
         }
-    
+        
     }
 }

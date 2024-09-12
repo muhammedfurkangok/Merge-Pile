@@ -138,6 +138,8 @@ namespace Runtime.Managers
 
         private void OnUnlockButtonClicked()
         {
+            if(ItemManager.Instance.ActiveCubeCount() == 1) return;
+            
             if (UtilityManager.Instance.unlockCount <= 0)
             {
                 Debug.Log("No unlock left");
@@ -154,6 +156,8 @@ namespace Runtime.Managers
 
         private void OnBombButtonClicked()
         {
+            if(ItemManager.Instance.ActiveCubeCount() == 1) return;
+            
             if(UtilityManager.Instance.bombCount <= 0)
             {
                 Debug.Log("No bomb left");
@@ -241,13 +245,23 @@ namespace Runtime.Managers
         
         private void OnLevelFailed()
         {
+            //Disable All Buttons
+            DisableUtilityButtons(); 
+            
+            
             SoundManager.Instance.PlaySound(GameSoundType.LevelFail);
             levelFailPanel.SetActive(true);
             levelFailEmoji.transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0.1f), 3f, 5, 1).SetLoops(-1, LoopType.Yoyo);
             levelFailEmoji.transform.DORotate( new Vector3(0,0, 10), 1f).SetLoops(-1, LoopType.Yoyo);
             levelFailButton.transform.DOPunchPosition(new Vector3(0, 60f, 0), 4f, 5, 1);
         }
-        
+
+        private void DisableUtilityButtons()
+        {
+            bombButton.interactable = false;
+            unlockButton.interactable = false;
+        }
+
         private void UnSubscribeEvents()
         {
             GameManager.Instance.OnLevelSuccessful -= OnLevelSuccessful;
