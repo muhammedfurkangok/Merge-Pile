@@ -71,16 +71,16 @@ namespace Runtime.Managers
                 item.SetRigidBody(false);
             }));
             sequence.Append(transform.DOMoveY(baseTransform.y, 0.15f).SetEase(Ease));
-            sequence.Append(transform.DOMoveX(baseTransform.x, 0.15f).SetEase(Ease));
-            sequence.Join(DOVirtual.DelayedCall(0.1f, () =>
+            sequence.Join( DOVirtual.DelayedCall(0.075f, () =>
             {
                 item.gameObject.SetActive(false);
                 SetIKPosition();
                 item.OnClick();
+                DOVirtual.Float( rig.weight, 0, 0.01f, (x) => rig.weight = x);
                 InputManager.Instance.EnableInput();
             }));
-            
-            DOVirtual.Float( rig.weight, 0, 0.01f, (x) => rig.weight = x);
+            sequence.Append(transform.DOMoveX(baseTransform.x, 0.15f).SetEase(Ease));
+           
             moveTween = sequence;
         }
 
