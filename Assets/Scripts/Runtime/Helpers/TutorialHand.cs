@@ -34,7 +34,7 @@ public class TutorialHand : MonoBehaviour
             .SetLoops(-1);
     }
 
-    [Button]
+    
     public void DragAnimation(Vector3 from, Vector3 to)
     {
         transform.position = from;

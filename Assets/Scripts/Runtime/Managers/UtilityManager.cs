@@ -22,11 +22,11 @@ namespace Runtime.Managers
         {
             if (utilityStatus[utilityType])
             {
-                UtiltyTip.Instance.SetCursor(utilityType);
-
                 InputManager.Instance.SetUtilityActive(utilityType);
-
+                
                 DeactivateUtility(utilityType);
+               
+                
             }
             else
             {
@@ -37,7 +37,7 @@ namespace Runtime.Managers
         private void DeactivateUtility(UtilityType utilityType)
         {
             utilityStatus[utilityType] = false;
-           Debug.Log("done"); 
+           
         }
 
         public void ApplyUtilityToObject(UtilityType utilityType, Item item)
@@ -54,19 +54,18 @@ namespace Runtime.Managers
                 //     Shuffle();
                 //     break;
             }
-            UtiltyTip.Instance.ResetCursor();
         }
-
-
 
         public void Bomb(Item item )
         {
             item.transform.DOPunchScale(transform.localScale + Vector3.one * .25f, 0.25f).SetEase(Ease.Linear);
+            UIManager.Instance.utilityCanvas.gameObject.SetActive(false);
+            
         }
 
         public void Unlock(Item item)
         {
-                item.SetCollider(false);
+            item.SetCollider(false);
             item.transform.DOJump( item.transform.position + Vector3.up, 0.5f, 1, 0.25f).SetEase(Ease.Linear).OnComplete( () =>
             {
                 item.SetRigidBody(false);
@@ -74,6 +73,7 @@ namespace Runtime.Managers
                 item.OnClick();
                 
             });
+            UIManager.Instance.utilityCanvas.gameObject.SetActive(false);
         }
 
         // public void Shuffle()

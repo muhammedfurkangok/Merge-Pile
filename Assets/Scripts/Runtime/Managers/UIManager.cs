@@ -29,6 +29,7 @@ namespace Runtime.Managers
         [Header("Texts")]
         [SerializeField] private TextMeshProUGUI coinText;
         [SerializeField] private TextMeshProUGUI levelText;
+        [SerializeField] private TextMeshProUGUI utilityText;
         
         [SerializeField] public TextMeshProUGUI timerText;
         [SerializeField] public TextMeshProUGUI moverText;
@@ -38,6 +39,13 @@ namespace Runtime.Managers
         [SerializeField] private Image levelWinButton;
         [SerializeField] private Image levelFailEmoji;
         [SerializeField] private Image levelFailButton;
+        
+        
+        [Header("Canvases")]
+        [SerializeField]
+        public Canvas utilityCanvas;
+        
+        
         
         [Header("Private's")]
         private bool isSettingsClicked = false;
@@ -114,11 +122,15 @@ namespace Runtime.Managers
 
         private void OnUnlockButtonClicked()
         {
+            utilityText.text = "Select a Item to Unlock!";
+            utilityCanvas.gameObject.SetActive(true);
             UtilityManager.Instance.UseUtility(UtilityType.Unlock);
         }
 
         private void OnBombButtonClicked()
         {
+            utilityText.text = "Ready to Bomb!";
+            utilityCanvas.gameObject.SetActive(true);
             UtilityManager.Instance.UseUtility(UtilityType.Bomb);
         }
 
