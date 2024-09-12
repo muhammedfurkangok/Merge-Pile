@@ -22,18 +22,9 @@ namespace Runtime.Managers
         {
             if (utilityStatus[utilityType])
             {
-                switch (utilityType)
-                {
-                    case UtilityType.Bomb:
-                        Bomb();
-                        break;
-                    case UtilityType.Unlock:
-                        Unlock();
-                        break;
-                    case UtilityType.Shuffle:
-                        Shuffle();
-                        break;
-                }
+                CursorManager.Instance.SetCursor(utilityType);
+
+                InputManager.Instance.SetUtilityActive(utilityType);
 
                 DeactivateUtility(utilityType);
             }
@@ -43,11 +34,29 @@ namespace Runtime.Managers
             }
         }
 
-
         private void DeactivateUtility(UtilityType utilityType)
         {
             utilityStatus[utilityType] = false;
         }
+
+        public void ApplyUtilityToObject(UtilityType utilityType)
+        {
+            switch (utilityType)
+            {
+                case UtilityType.Bomb:
+                    Bomb();
+                    break;
+                case UtilityType.Unlock:
+                    Unlock();
+                    break;
+                case UtilityType.Shuffle:
+                    Shuffle();
+                    break;
+            }
+            CursorManager.Instance.ResetCursor();
+        }
+
+
 
         public void Bomb()
         {

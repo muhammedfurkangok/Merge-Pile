@@ -1,4 +1,5 @@
 using Runtime.Entities;
+using Runtime.Enums;
 using Runtime.Extensions;
 using UnityEngine;
 
@@ -8,15 +9,18 @@ namespace Runtime.Managers
     {
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private float sphereCastRadius;
+        
+        private UtilityType activeUtility;
+        private bool utilityActive = false;
 
         private bool isInputDisable ;
     
         void Update()
         {
+            if(utilityActive) RayForUtilty();
             if(!isInputDisable) GetInput();
         }
 
-    
         public void EnableInput()
         {
             isInputDisable = false;
@@ -27,6 +31,28 @@ namespace Runtime.Managers
             isInputDisable = true;
         }
         
+        public void SetUtilityActive(UtilityType utilityType)
+        {
+            activeUtility = utilityType;
+            utilityActive = true;
+        }
+
+        public void RayForUtilty()
+        {
+            if ( Input.GetMouseButtonDown(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    GameObject target = hit.collider.gameObject;
+
+                    UtilityManager.Instance.ApplyUtilityToObject(activeUtility);
+                
+                    utilityActive = false;
+                }
+            }
+        }   
 
         private void GetInput()
         {
