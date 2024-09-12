@@ -9,6 +9,8 @@ namespace Runtime.Enums
         Touch,
         Slot,
         Merge,
+        Unlock,
+        Bomb,
         GetCoin,
     }
 }

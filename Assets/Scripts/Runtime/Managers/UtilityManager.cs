@@ -58,14 +58,15 @@ namespace Runtime.Managers
 
         public void Bomb(Item item )
         {
-            item.transform.DOPunchScale(transform.localScale + Vector3.one * .25f, 0.25f).SetEase(Ease.Linear);
+            SoundManager.Instance.PlaySound(GameSoundType.Bomb);
+            item.transform.DOPunchScale(transform.localScale + Vector3.one * .5f, 0.25f).SetEase(Ease.Linear);
             UIManager.Instance.utilityCanvas.gameObject.SetActive(false);
-            
         }
 
         public void Unlock(Item item)
         {
             item.SetCollider(false);
+            SoundManager.Instance.PlaySound(GameSoundType.Unlock);
             item.transform.DOJump( item.transform.position + Vector3.up, 0.5f, 1, 0.25f).SetEase(Ease.Linear).OnComplete( () =>
             {
                 item.SetRigidBody(false);

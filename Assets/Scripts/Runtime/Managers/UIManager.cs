@@ -122,6 +122,7 @@ namespace Runtime.Managers
 
         private void OnUnlockButtonClicked()
         {
+            SoundManager.Instance.PlaySound(GameSoundType.ButtonClick);
             utilityText.text = "Select a Item to Unlock!";
             utilityCanvas.gameObject.SetActive(true);
             UtilityManager.Instance.UseUtility(UtilityType.Unlock);
@@ -129,6 +130,7 @@ namespace Runtime.Managers
 
         private void OnBombButtonClicked()
         {
+            SoundManager.Instance.PlaySound(GameSoundType.ButtonClick);
             utilityText.text = "Ready to Bomb!";
             utilityCanvas.gameObject.SetActive(true);
             UtilityManager.Instance.UseUtility(UtilityType.Bomb);
