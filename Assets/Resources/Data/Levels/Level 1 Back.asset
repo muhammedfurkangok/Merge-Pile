@@ -14,66 +14,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelData:
     levelNumber: 1
-    Width: 5
-    Height: 4
+    Width: 4
+    Height: 5
     Grids:
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}
     - isOccupied: 0
-      gameColor: 0
+      "\u0131temType": 0
       position: {x: 0, y: 0}

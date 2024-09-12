@@ -48,7 +48,7 @@ namespace Runtime.Managers
         {
             moveTween?.Kill();
             
-            DOVirtual.Float(rig.weight, 1, 0.15f, (value) => rig.weight = value);
+          
 
             InputManager.Instance.DisableInput();
             Sequence sequence = DOTween.Sequence();
@@ -76,7 +76,7 @@ namespace Runtime.Managers
             sequence.Join(DOVirtual.DelayedCall(0.1f, () =>
             {
                 item.gameObject.SetActive(false);
-                DOVirtual.Float(rig.weight, 0, 0.15f, (value) => rig.weight = value);
+              
                 SetIKPosition();
                 item.OnClick();
                 InputManager.Instance.EnableInput();
