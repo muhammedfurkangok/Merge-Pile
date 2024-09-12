@@ -28,6 +28,8 @@ namespace Runtime.Entities
         
         public LayerMask itemLayer;
         public bool canClickable;
+        
+        public bool UtiltyUsed = false;
             
         
         #endregion

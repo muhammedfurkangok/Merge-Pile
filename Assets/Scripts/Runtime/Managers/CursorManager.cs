@@ -18,9 +18,9 @@ public class CursorManager : SingletonMonoBehaviour<CursorManager>
             case UtilityType.Unlock:
                 Cursor.SetCursor(unlockCursor, Vector2.zero, CursorMode.Auto);
                 break;
-            case UtilityType.Shuffle:
-                Cursor.SetCursor(shuffleCursor, Vector2.zero, CursorMode.Auto);
-                break;
+            // case UtilityType.Shuffle:
+            //     Cursor.SetCursor(shuffleCursor, Vector2.zero, CursorMode.Auto);
+            //     break;
         }
     }
 

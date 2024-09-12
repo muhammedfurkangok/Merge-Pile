@@ -4,6 +4,6 @@ namespace Runtime.Enums
     {
         Bomb,
         Unlock,
-        Shuffle
+        // Shuffle
     }
 }

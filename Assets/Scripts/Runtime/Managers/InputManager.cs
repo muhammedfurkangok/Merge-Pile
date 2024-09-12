@@ -37,21 +37,22 @@ namespace Runtime.Managers
             utilityActive = true;
         }
 
-        public void RayForUtilty()
+        public  void RayForUtilty()
         {
             if ( Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 
-                if (Physics.Raycast(ray, out RaycastHit hit))
+                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, LayerMask.GetMask("Item")))
                 {
                     GameObject target = hit.collider.gameObject;
 
-                    UtilityManager.Instance.ApplyUtilityToObject(activeUtility);
+                    UtilityManager.Instance.ApplyUtilityToObject(activeUtility, target.GetComponent<Item>());
                 
                     utilityActive = false;
                 }
             }
+            
         }   
 
         private void GetInput()
