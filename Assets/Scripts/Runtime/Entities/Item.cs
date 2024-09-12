@@ -118,6 +118,10 @@ namespace Runtime.Entities
     {
         collider.enabled = active;
     }
+    public void ColliderTrigger(bool active)
+    {
+        collider.isTrigger = active;
+    }
 
     public void SetRigidBody(bool active)
     {

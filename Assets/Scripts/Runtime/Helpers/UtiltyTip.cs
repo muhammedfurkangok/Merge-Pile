@@ -2,7 +2,7 @@ using Runtime.Enums;
 using Runtime.Extensions;
 using UnityEngine;
 
-public class CursorManager : SingletonMonoBehaviour<CursorManager>
+public class UtiltyTip : SingletonMonoBehaviour<UtiltyTip>
 {
     public Texture2D bombCursor;
     public Texture2D unlockCursor;

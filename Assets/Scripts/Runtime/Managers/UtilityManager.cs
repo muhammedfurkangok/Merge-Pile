@@ -22,7 +22,7 @@ namespace Runtime.Managers
         {
             if (utilityStatus[utilityType])
             {
-                CursorManager.Instance.SetCursor(utilityType);
+                UtiltyTip.Instance.SetCursor(utilityType);
 
                 InputManager.Instance.SetUtilityActive(utilityType);
 
@@ -54,7 +54,7 @@ namespace Runtime.Managers
                 //     Shuffle();
                 //     break;
             }
-            CursorManager.Instance.ResetCursor();
+            UtiltyTip.Instance.ResetCursor();
         }
 
 

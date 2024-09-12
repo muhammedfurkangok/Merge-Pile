@@ -22,7 +22,6 @@ namespace Runtime.Managers
         [SerializeField] private Button settingsButton;
         [SerializeField] private Button nextLevelButton;
         [SerializeField] private Button retryLevelButton;
-        [SerializeField] private Button restartLevelButton;
         [SerializeField] private Button coinButton;
         [SerializeField] private Button bombButton;
         [SerializeField] private Button unlockButton;
@@ -56,7 +55,7 @@ namespace Runtime.Managers
             moverTextScale = moverText.transform.localScale;
             moverTextColor = moverText.color;
            
-            levelText.text = $"Level {PlayerPrefs.GetInt(PlayerPrefsKeys.FakeLevelIndexInt).ToString()}";
+            levelText.text = $"LVL {PlayerPrefs.GetInt(PlayerPrefsKeys.FakeLevelIndexInt).ToString()}";
         }
 
         private void CheckRemoteConfig()
@@ -108,7 +107,6 @@ namespace Runtime.Managers
             settingsButton.onClick.AddListener(OnSettingsButtonClicked);
             coinButton.onClick.AddListener(OnCoinButtonClicked);
             nextLevelButton.onClick.AddListener(OnNextLevelButtonClicked);
-            restartLevelButton.onClick.AddListener(OnRestartLevelButtonClicked);
             retryLevelButton.onClick.AddListener(OnRestartLevelButtonClicked);
             bombButton.onClick.AddListener(OnBombButtonClicked);
             unlockButton.onClick.AddListener(OnUnlockButtonClicked);
@@ -173,7 +171,6 @@ namespace Runtime.Managers
             settingsButton.onClick.RemoveListener(OnSettingsButtonClicked);
             coinButton.onClick.RemoveListener(OnCoinButtonClicked);
             nextLevelButton.onClick.RemoveListener(OnNextLevelButtonClicked);
-            restartLevelButton.onClick.RemoveListener(OnRestartLevelButtonClicked);
             retryLevelButton.onClick.RemoveListener(OnRestartLevelButtonClicked);
             bombButton.onClick.RemoveListener(OnBombButtonClicked);
             unlockButton.onClick.RemoveListener(OnUnlockButtonClicked);

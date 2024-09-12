@@ -46,10 +46,8 @@ namespace Runtime.Managers
 
         public void MovePlayerByGivenPosition(Vector3 position, Item item)
         {
+            DOVirtual.Float( rig.weight, 1, 0.01f, (x) => rig.weight = x);
             moveTween?.Kill();
-            
-          
-
             InputManager.Instance.DisableInput();
             Sequence sequence = DOTween.Sequence();
             var itemScript = item.GetComponent<Item>();
@@ -59,16 +57,17 @@ namespace Runtime.Managers
             {
                 SoundManager.Instance.PlaySound(GameSoundType.Touch);
             });
-            sequence.Append(transform.DOMoveY(position.y, 0.15f).SetEase(Ease));
+            sequence.Append(transform.DOMove(position, 0.15f).SetEase(Ease));
             sequence.AppendCallback(() =>
             {
                 item.transform.SetParent(transform);
-                item.SetCollider(false);
+                item.ColliderTrigger(false);
                 item.transform.DOMove(rayPoint.position + new Vector3(0,-.5f,0), 0.15f).SetEase(Ease.Linear);
                 item.transform.DOLocalRotateQuaternion(itemScript.cubeRefPrefab.transform.localRotation, 0.3f).SetEase(Ease.Linear);
             });
             sequence.Join( DOVirtual.DelayedCall(0.2f, () =>
             {
+                item.SetCollider(false);
                 item.SetRigidBody(false);
             }));
             sequence.Append(transform.DOMoveY(baseTransform.y, 0.15f).SetEase(Ease));
@@ -76,12 +75,12 @@ namespace Runtime.Managers
             sequence.Join(DOVirtual.DelayedCall(0.1f, () =>
             {
                 item.gameObject.SetActive(false);
-              
                 SetIKPosition();
                 item.OnClick();
                 InputManager.Instance.EnableInput();
             }));
             
+            DOVirtual.Float( rig.weight, 0, 0.01f, (x) => rig.weight = x);
             moveTween = sequence;
         }
 
