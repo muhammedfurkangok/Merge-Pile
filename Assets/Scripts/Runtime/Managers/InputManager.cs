@@ -21,9 +21,10 @@ namespace Runtime.Managers
 
         void Update()
         {
+            if(!isInputDisable && !utilityActive && !isInGamePlayState) GetInput();
+            
             if(utilityActive) RayForUtilty();
             
-            if(!isInputDisable && !utilityActive && !isInGamePlayState) GetInput();
         }
 
         public void EnableInput()

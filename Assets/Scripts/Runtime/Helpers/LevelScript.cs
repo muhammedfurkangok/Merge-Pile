@@ -1,17 +1,18 @@
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
-using Runtime.Entities;
 using Runtime.Enums;
-using Runtime.Managers;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Runtime.Helpers
 {
     [ExecuteInEditMode]
     public class LevelCreatorScript : MonoBehaviour
     {
+        
         [Header("Grid Settings")]
         [Range(0f, 100f)]
         public float _XspaceModifier = 0.75f;
@@ -48,12 +49,15 @@ namespace Runtime.Helpers
                 {
                     if (levelData.levelData.GetGrid(x, y).isOccupied && levelData.levelData.GetGrid(x, y).ıtemType != ItemTypes.None)
                     {
+                        
                         var randomQuaternion = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
                         var GetItemPrefab = itemData.itemData[(int)levelData.levelData.GetGrid(x, y).ıtemType - 1].itemPrefab;
+                        #if UNITY_EDITOR
                         GameObject item = PrefabUtility.InstantiatePrefab(GetItemPrefab) as GameObject;
                         item.transform.position = GridSpaceToWorldSpace(x, y) + itemPosition;
                         item.transform.rotation = randomQuaternion;
                         item.transform.SetParent(itemsParentObject.transform);
+                        #endif
                     }
                 }
             }

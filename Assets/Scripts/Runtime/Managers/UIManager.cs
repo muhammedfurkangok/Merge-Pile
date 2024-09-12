@@ -45,7 +45,7 @@ namespace Runtime.Managers
         
         [Header("Canvases")]
         [SerializeField]
-        public Canvas utilityCanvas;
+        public GameObject utilityCanvas;
         
         
         
