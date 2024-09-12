@@ -24,6 +24,8 @@ namespace Runtime.Managers
         [SerializeField] private Button retryLevelButton;
         [SerializeField] private Button restartLevelButton;
         [SerializeField] private Button coinButton;
+        [SerializeField] private Button bombButton;
+        [SerializeField] private Button unlockButton;
         
         [Header("Texts")]
         [SerializeField] private TextMeshProUGUI coinText;
@@ -108,6 +110,18 @@ namespace Runtime.Managers
             nextLevelButton.onClick.AddListener(OnNextLevelButtonClicked);
             restartLevelButton.onClick.AddListener(OnRestartLevelButtonClicked);
             retryLevelButton.onClick.AddListener(OnRestartLevelButtonClicked);
+            bombButton.onClick.AddListener(OnBombButtonClicked);
+            unlockButton.onClick.AddListener(OnUnlockButtonClicked);
+        }
+
+        private void OnUnlockButtonClicked()
+        {
+            UtilityManager.Instance.UseUtility(UtilityType.Unlock);
+        }
+
+        private void OnBombButtonClicked()
+        {
+            UtilityManager.Instance.UseUtility(UtilityType.Bomb);
         }
 
         private void OnCoinButtonClicked()
@@ -161,6 +175,8 @@ namespace Runtime.Managers
             nextLevelButton.onClick.RemoveListener(OnNextLevelButtonClicked);
             restartLevelButton.onClick.RemoveListener(OnRestartLevelButtonClicked);
             retryLevelButton.onClick.RemoveListener(OnRestartLevelButtonClicked);
+            bombButton.onClick.RemoveListener(OnBombButtonClicked);
+            unlockButton.onClick.RemoveListener(OnUnlockButtonClicked);
         }
         #endregion
         #region Events

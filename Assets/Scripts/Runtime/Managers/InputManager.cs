@@ -26,6 +26,7 @@ namespace Runtime.Managers
         {
             isInputDisable = true;
         }
+        
 
         private void GetInput()
         {
