@@ -16,6 +16,9 @@ namespace Runtime.Managers
             { UtilityType.Unlock, true },
             // { UtilityType.Shuffle, true }
         };
+        
+        public int bombCount = 3;
+        public int unlockCount = 3;
 
 
         public void UseUtility(UtilityType utilityType)
@@ -26,7 +29,6 @@ namespace Runtime.Managers
                 
                 DeactivateUtility(utilityType);
                
-                
             }
             else
             {
@@ -65,16 +67,15 @@ namespace Runtime.Managers
 
         public void Unlock(Item item)
         {
-            item.SetCollider(false);
-            SoundManager.Instance.PlaySound(GameSoundType.Unlock);
-            item.transform.DOJump( item.transform.position + Vector3.up, 0.5f, 1, 0.25f).SetEase(Ease.Linear).OnComplete( () =>
-            {
-                item.SetRigidBody(false);
-                item.gameObject.SetActive(false);
-                item.OnClick();
-                
-            });
-            UIManager.Instance.utilityCanvas.gameObject.SetActive(false);
+          item.SetCollider(false);
+          SoundManager.Instance.PlaySound(GameSoundType.Unlock);
+          item.transform.DOJump( item.transform.position + Vector3.up, 0.5f, 1, 0.25f).SetEase(Ease.Linear).OnComplete( () =>
+          {
+              item.SetRigidBody(false);
+              item.gameObject.SetActive(false);
+              item.OnClick();
+          });
+          UIManager.Instance.utilityCanvas.gameObject.SetActive(false);
         }
 
         // public void Shuffle()

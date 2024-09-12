@@ -18,7 +18,7 @@ namespace Runtime.Managers
         void Update()
         {
             if(utilityActive) RayForUtilty();
-            if(!isInputDisable) GetInput();
+            if(!isInputDisable && !utilityActive) GetInput();
         }
 
         public void EnableInput()
@@ -45,11 +45,12 @@ namespace Runtime.Managers
                 
                 if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, LayerMask.GetMask("Item")))
                 {
-                    GameObject target = hit.collider.gameObject;
-
-                    UtilityManager.Instance.ApplyUtilityToObject(activeUtility, target.GetComponent<Item>());
-                
-                    utilityActive = false;
+                  if (!hit.collider.gameObject.GetComponent<Item>().canClickable)
+                  {
+                      GameObject target = hit.collider.gameObject;
+                      UtilityManager.Instance.ApplyUtilityToObject(activeUtility, target.GetComponent<Item>());
+                      utilityActive = false;
+                  }
                 }
             }
             

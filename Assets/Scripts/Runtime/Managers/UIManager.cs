@@ -30,6 +30,8 @@ namespace Runtime.Managers
         [SerializeField] private TextMeshProUGUI coinText;
         [SerializeField] private TextMeshProUGUI levelText;
         [SerializeField] private TextMeshProUGUI utilityText;
+        [SerializeField] private TextMeshProUGUI bombCountText;
+        [SerializeField] private TextMeshProUGUI unlockCountText;
         
         [SerializeField] public TextMeshProUGUI timerText;
         [SerializeField] public TextMeshProUGUI moverText;
@@ -60,11 +62,15 @@ namespace Runtime.Managers
             AddListeners();
             SubscribeEvents();
             UpdateCoinText();
+            UpdateBombCountText();
+            UpdateUnlockCountText();
             moverTextScale = moverText.transform.localScale;
             moverTextColor = moverText.color;
            
             levelText.text = $"LVL {PlayerPrefs.GetInt(PlayerPrefsKeys.FakeLevelIndexInt).ToString()}";
         }
+
+      
 
         private void CheckRemoteConfig()
         {
@@ -89,6 +95,16 @@ namespace Runtime.Managers
         private void UpdateCoinText()
         {
             coinText.text = CurrencyManager.Instance.GetCoinAmount().ToString(); 
+        }
+        
+        private void UpdateUnlockCountText()
+        {
+            unlockCountText.text = UtilityManager.Instance.unlockCount.ToString();
+        }
+
+        private void UpdateBombCountText()
+        {
+            bombCountText.text = UtilityManager.Instance.bombCount.ToString();
         }
 
         public void UpdateMoverText()
@@ -122,6 +138,14 @@ namespace Runtime.Managers
 
         private void OnUnlockButtonClicked()
         {
+            if (UtilityManager.Instance.unlockCount <= 0)
+            {
+                Debug.Log("No unlock left");
+                return;
+            }
+            
+            UtilityManager.Instance.unlockCount--;
+            UpdateUnlockCountText();
             SoundManager.Instance.PlaySound(GameSoundType.ButtonClick);
             utilityText.text = "Select a Item to Unlock!";
             utilityCanvas.gameObject.SetActive(true);
@@ -130,6 +154,14 @@ namespace Runtime.Managers
 
         private void OnBombButtonClicked()
         {
+            if(UtilityManager.Instance.bombCount <= 0)
+            {
+                Debug.Log("No bomb left");
+                return;
+            }
+            
+            UtilityManager.Instance.bombCount--;
+            UpdateBombCountText();
             SoundManager.Instance.PlaySound(GameSoundType.ButtonClick);
             utilityText.text = "Ready to Bomb!";
             utilityCanvas.gameObject.SetActive(true);
