@@ -141,8 +141,8 @@ namespace Runtime.Managers
         private void OnCancelUtilityButtonClicked()
         {
             SoundManager.Instance.PlaySound(GameSoundType.ButtonClick);
+            InputManager.Instance.SetUtilityInactive();
             UtilityManager.Instance.isAnyUtilityActive = false;
-            UtilityManager.Instance.utilityType = UtilityType.None;
             utilityCanvas.gameObject.SetActive(false);
         }
 

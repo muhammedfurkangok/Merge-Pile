@@ -42,6 +42,11 @@ namespace Runtime.Managers
             activeUtility = utilityType;
             utilityActive = true;
         }
+        
+        public void SetUtilityInactive()
+        {
+            utilityActive = false;
+        }
 
         public  void RayForUtilty()
         {
