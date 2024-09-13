@@ -77,6 +77,7 @@ namespace Runtime.Managers
                 DOVirtual.DelayedCall(0.1f, () =>
                 {
                 item.gameObject.SetActive(false);
+                ItemManager.Instance.DeleteCubeInTheList(itemScript);
                 SetIKPosition();
                 item.OnClick();
                 DOVirtual.Float( rig.weight, 0, 0.01f, (x) => rig.weight = x);

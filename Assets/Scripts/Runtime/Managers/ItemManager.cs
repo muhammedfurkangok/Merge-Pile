@@ -142,6 +142,20 @@ public GameObject InstantiateBlockByGivenKey(string key, int instantiatePosition
         {
             items.Add(item);
         }
+        
+        public bool CheckAllItemsClickable()
+        {
+            foreach (var item in items)
+            {
+                
+                if (!item.GetClickableStatus())
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
         public Material GetMaterialByKey(string key)
         {
             for (int i = 0; i < itemObjects.itemData.Length; i++)

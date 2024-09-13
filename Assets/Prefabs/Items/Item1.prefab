@@ -154,7 +154,8 @@ MonoBehaviour:
   itemLayer:
     serializedVersion: 2
     m_Bits: 8
-  canClickable: 0
+  canClickable: 1
+  UtiltyUsed: 0
 --- !u!65 &1818447620199585513
 BoxCollider:
   m_ObjectHideFlags: 0

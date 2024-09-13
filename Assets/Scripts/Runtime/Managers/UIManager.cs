@@ -23,6 +23,7 @@ namespace Runtime.Managers
         [SerializeField] private Button nextLevelButton;
         [SerializeField] private Button retryLevelButton;
         [SerializeField] private Button coinButton;
+        [SerializeField] private Button cancelUtilityButton;
         [SerializeField] private Button bombButton;
         [SerializeField] private Button unlockButton;
         
@@ -96,13 +97,13 @@ namespace Runtime.Managers
         {
             coinText.text = CurrencyManager.Instance.GetCoinAmount().ToString(); 
         }
-        
-        private void UpdateUnlockCountText()
+
+        public void UpdateUnlockCountText()
         {
             unlockCountText.text = UtilityManager.Instance.unlockCount.ToString();
         }
 
-        private void UpdateBombCountText()
+        public void UpdateBombCountText()
         {
             bombCountText.text = UtilityManager.Instance.bombCount.ToString();
         }
@@ -134,6 +135,15 @@ namespace Runtime.Managers
             retryLevelButton.onClick.AddListener(OnRestartLevelButtonClicked);
             bombButton.onClick.AddListener(OnBombButtonClicked);
             unlockButton.onClick.AddListener(OnUnlockButtonClicked);
+            cancelUtilityButton.onClick.AddListener(OnCancelUtilityButtonClicked);
+        }
+
+        private void OnCancelUtilityButtonClicked()
+        {
+            SoundManager.Instance.PlaySound(GameSoundType.ButtonClick);
+            UtilityManager.Instance.isAnyUtilityActive = false;
+            UtilityManager.Instance.utilityType = UtilityType.None;
+            utilityCanvas.gameObject.SetActive(false);
         }
 
         private void OnUnlockButtonClicked()
@@ -146,8 +156,15 @@ namespace Runtime.Managers
                 return;
             }
             
-            UtilityManager.Instance.unlockCount--;
-            UpdateUnlockCountText();
+            if(UtilityManager.Instance.isAnyUtilityActive) return;
+            
+            if(ItemManager.Instance.CheckAllItemsClickable())
+            {
+                Debug.Log("No item to unlock");
+                return;
+            }
+            
+         
             SoundManager.Instance.PlaySound(GameSoundType.ButtonClick);
             utilityText.text = "Select a Item to Unlock!";
             utilityCanvas.gameObject.SetActive(true);
@@ -163,9 +180,15 @@ namespace Runtime.Managers
                 Debug.Log("No bomb left");
                 return;
             }
+            if(UtilityManager.Instance.isAnyUtilityActive) return;
             
-            UtilityManager.Instance.bombCount--;
-            UpdateBombCountText();
+            if(ItemManager.Instance.CheckAllItemsClickable())
+            {
+                Debug.Log("No item to bomb");
+                return;
+            }
+            
+           
             SoundManager.Instance.PlaySound(GameSoundType.ButtonClick);
             utilityText.text = "Ready to Bomb!";
             utilityCanvas.gameObject.SetActive(true);
@@ -224,6 +247,7 @@ namespace Runtime.Managers
             retryLevelButton.onClick.RemoveListener(OnRestartLevelButtonClicked);
             bombButton.onClick.RemoveListener(OnBombButtonClicked);
             unlockButton.onClick.RemoveListener(OnUnlockButtonClicked);
+            cancelUtilityButton.onClick.RemoveListener(OnCancelUtilityButtonClicked);
         }
         #endregion
         #region Events

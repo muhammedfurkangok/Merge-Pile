@@ -103,6 +103,11 @@ namespace Runtime.Entities
         return isCurrentlyClickable;
     }
     
+    public bool GetClickableStatus()
+    {
+        return canClickable;
+    }
+    
     public void Activate(float delay = 0)
     {
         isMoving = true;
