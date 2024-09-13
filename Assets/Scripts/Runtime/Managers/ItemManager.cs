@@ -74,31 +74,37 @@ namespace Runtime.Managers
 
 
         
-        public GameObject InstantiateBlockByGivenKey(string key, int instantiatePositionIndex)
-        {
-            var item = GetItemByKey(key);
-            if (item == null)
-                return null;
+public GameObject InstantiateBlockByGivenKey(string key, int instantiatePositionIndex)
+{
+    var item = GetItemByKey(key);
+    if (item == null)
+        return null;
 
-            float Rand = Random.Range(1, -1);
-            Vector3 ObjPosition =Rand > 0 ? new Vector3(0,0.08f,0.3f) : new Vector3(0,0.05f,-0.3f);
-            GameObject obj = Instantiate(item, slotTransform[instantiatePositionIndex].position + ObjPosition, Quaternion.identity);
-            
-            if (Rand > 0)
-                obj.transform.SetParent(backSideItemsParent.transform);
-            else
-                obj.transform.SetParent(frontSideItemsParent.transform);
-            
-            obj.transform.rotation = Quaternion.Euler(-15, -3, 0);
-            obj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-            
-            DOTween.Sequence()
-                .Append(obj.transform.DOScale(new Vector3(0.7f, 0.45f, 0.7f), 0.15f).SetEase(Ease.OutQuad))
-                .Append(obj.transform.DOScale(new Vector3(0.65f, 0.65f, 0.65f), 0.3f).SetEase(Ease.OutBack)); 
-               
+    //backsides items = 0.5f frontsides items = -0.5f
+    
+    float zOffset = Random.Range(0, 2) == 0 ? 0.5f : -0.5f;
+    Vector3 ObjPosition = new Vector3(0, 0.05f, zOffset);
+    GameObject obj = Instantiate(item, slotTransform[instantiatePositionIndex].position + ObjPosition, Quaternion.identity);
 
-            return obj;
-        }
+    var vector3 = obj.transform.position;
+    vector3.z = zOffset;
+    obj.transform.position = vector3;
+    
+    if (zOffset < 0)
+        obj.transform.SetParent(frontSideItemsParent.transform);
+    else
+        obj.transform.SetParent(backSideItemsParent.transform);
+
+    obj.transform.rotation = Quaternion.Euler(-15, -3, 0);
+    obj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+
+    DOTween.Sequence()
+        .Append(obj.transform.DOScale(new Vector3(0.7f, 0.45f, 0.7f), 0.15f).SetEase(Ease.OutQuad))
+        .Append(obj.transform.DOScale(new Vector3(0.65f, 0.65f, 0.65f), 0.3f).SetEase(Ease.OutBack));
+
+    return obj;
+}
+
         
         public GameObject GetItemByKey(string key)
         {
