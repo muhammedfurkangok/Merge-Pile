@@ -4105,7 +4105,7 @@ MonoBehaviour:
   itemTypes: {fileID: 11400000, guid: 0ed01d3a63612a84b8304aab8a64ba7a, type: 2}
   itemData: {fileID: 11400000, guid: ee295cbee555d144ba3733f7869b9da9, type: 2}
   itemsParentObject: {fileID: 1634122284}
-  itemDataColor: 0
+  itemDataColor: 1
   itemPosition: {x: -1, y: 0, z: -0.5}
 --- !u!1 &1011564415
 GameObject:
@@ -15265,7 +15265,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00:08
+  m_text: 00:21
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7760cc32e6706694694ca693bfdc1440, type: 2}
   m_sharedMaterial: {fileID: -4058213353849727128, guid: 7760cc32e6706694694ca693bfdc1440,
@@ -16379,7 +16379,7 @@ RectTransform:
   m_GameObject: {fileID: 5722354719253868293}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4102751850564570714}
