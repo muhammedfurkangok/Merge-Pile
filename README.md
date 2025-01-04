@@ -2,7 +2,7 @@
   <img src="https://github.com/user-attachments/assets/16f8c79f-2677-478f-adcc-7a2a62d7f3ef" width="300" height="300" />
 </p>
 
-Merge Pile furtle game is a puzzle game I made during my internship, I used the Mobile Game Template I made before in this project
+Merge Pile is a puzzle game I made during my internship in furtle game, I used the Mobile Game Template I made before in this project
 the assets in the game are ready-made assets and are not commercially produced. 
 
 
