@@ -6,7 +6,7 @@ Merge Pile furtle game staj sırasında gerçekleştirdiğim bir puzzle oyunudur
 
 
 
-<video src ="https://github.com/user-attachments/assets/568e6e97-d385-430b-8e0f-5d1743782110" type="video/mp4" width="1080" height="1920" controls> 
+<video src ="https://github.com/user-attachments/assets/568e6e97-d385-430b-8e0f-5d1743782110" type="video/mp4"> width="1080" height="1920" controls> 
 
 
 Oyunu geliştirirken Custom Leveller İçin Geliştirdiğim Level Editor
